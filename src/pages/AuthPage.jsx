@@ -27,7 +27,7 @@ const AuthPage = () => {
           return;
         }
         await signIn(email, password, captchaToken);
-        alert('로그인 성공!');
+        alert('로그인되었습니다. 데이와이즈에 오신 것을 환영합니다!');
       } else {
         if (password !== passwordConfirm) {
           setError('비밀번호가 일치하지 않습니다.');
@@ -40,7 +40,7 @@ const AuthPage = () => {
           return;
         }
         await signUp(email, password, captchaToken);
-        alert('회원가입 성공! 메일함을 확인해주세요 (또는 즉시 로그인됨).');
+        alert('회원가입이 완료되었습니다. 데이와이즈에 오신 것을 환영합니다!');
       }
       navigate('/dashboard');
     } catch (err) {
@@ -194,6 +194,13 @@ const AuthPage = () => {
               ref={turnstileRef}
               siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
               onSuccess={(token) => setCaptchaToken(token)}
+              onExpire={() => {
+                setCaptchaToken(null);
+                turnstileRef.current?.reset();
+              }}
+              onError={() => {
+                setError('로봇 방지 인증 서버와 통신할 수 없습니다. 잠시 후 다시 시도해주세요.');
+              }}
             />
           </div>
           
