@@ -21,34 +21,44 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
         window.Kakao.init('0dd90f0dea818aac4e6a7ae924cc5306'); 
       }
       try {
-        let rawImageUrl = shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`);
+        // 강제로 Vercel 도메인을 사용하도록 고정 (localhost 테스트 시 빈 파일 에러 방지)
+        const PRODUCTION_DOMAIN = 'https://daywise-web-six.vercel.app';
+        
+        let rawImageUrl = shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${PRODUCTION_DOMAIN}/images/default_og_image.jpg`);
         
         // Kakao SDK cannot handle base64 or blob URLs. Fallback to default image.
         if (rawImageUrl && (rawImageUrl.startsWith('data:') || rawImageUrl.startsWith('blob:'))) {
-          rawImageUrl = `${window.location.origin}/images/default_og_image.jpg`;
+          rawImageUrl = `${PRODUCTION_DOMAIN}/images/default_og_image.jpg`;
         }
 
         const absoluteImageUrl = (rawImageUrl && rawImageUrl.startsWith('/')) 
-          ? `${window.location.origin}${rawImageUrl}` 
+          ? `${PRODUCTION_DOMAIN}${rawImageUrl}` 
           : rawImageUrl;
+
+        // shareUrl도 localhost일 경우 Vercel 도메인으로 강제 치환
+        const safeShareUrl = shareUrl.replace(/http:\/\/localhost:\d+/, PRODUCTION_DOMAIN);
+
+        // 빈 텍스트 방지용 기본값
+        const safeTitle = shareInfo.title || '저희 결혼합니다';
+        const safeDescription = shareInfo.description || '소중한 분들을 초대합니다';
 
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
-            title: shareInfo.title,
-            description: shareInfo.description,
+            title: safeTitle,
+            description: safeDescription,
             imageUrl: absoluteImageUrl,
             link: {
-              mobileWebUrl: shareUrl,
-              webUrl: shareUrl,
+              mobileWebUrl: safeShareUrl,
+              webUrl: safeShareUrl,
             },
           },
           buttons: [
             {
               title: '모바일 청첩장 보기',
               link: {
-                mobileWebUrl: shareUrl,
-                webUrl: shareUrl,
+                mobileWebUrl: safeShareUrl,
+                webUrl: safeShareUrl,
               },
             },
           ],
