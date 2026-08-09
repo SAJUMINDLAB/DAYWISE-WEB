@@ -1,0 +1,30 @@
+const fs = require('fs');
+const path = 'src/components/preview/InvitationPreview.jsx';
+let lines = fs.readFileSync(path, 'utf8').split('\n');
+
+lines[72] = "      alert('계좌번호가 복사되었습니다.\\n' + text);";
+lines[180] = "        {/* 어느 측 하객이신가요? */}";
+lines[182] = "          <div style={labelStyle}>어느 측 하객이신가요? <span style={{color: 'rgba(0,0,0,0.4)'}}>*</span></div>";
+lines[189] = "        {/* 참석하실 수 있나요? */}";
+lines[191] = "          <div style={labelStyle}>참석하실 수 있나요? <span style={{color: 'rgba(0,0,0,0.4)'}}>*</span></div>";
+lines[244] = "        <button onClick={() => { alert('참석 의사가 전달되었습니다.\\n(미리보기 환경에서는 실제로 전송되지 않습니다.)'); onClose(); }} style={{ width: '100%', padding: '18px', backgroundColor: theme.text, color: theme.bg, border: 'none', borderRadius: '4px', fontSize: 'calc(1.1rem * var(--font-ratio))', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)' }}>";
+lines[272] = "  // BGM 상태 및 오디오 제어";
+lines[454] = "      {/* 프리미엄 메인 이미지 (Parallax) */}";
+lines[652] = "                네이버 지도";
+lines[740] = "                축하 메시지 남기기";
+lines[743] = "            {/* 방명록 리스트 (최대 3개까지만 노출) */}";
+lines[770] = "                  첫 번째 축하 메시지를 남겨주세요!";
+lines[812] = "      {/* 12. 공유하기 (Share) Area */}";
+lines[817] = "              onClick={() => alert(`[카카오톡 공유 썸네일 확인]\\n\\n제목: ${shareInfo.title}\\n설명: ${shareInfo.description}\\n\\n(실제 환경에서는 카카오톡 앱이 열립니다.)`)}";
+lines[821] = "              카카오톡으로 공유하기";
+lines[826] = "                alert('초대장 링크가 복사되었습니다.\\n원하시는 곳에 붙여넣기(Ctrl+V) 하세요.');";
+lines[831] = "              초대장 링크 복사하기";
+lines[855] = "            <div style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', fontWeight: 'bold', color: theme.text }}>방명록 작성</div>";
+lines[895] = "                if (!guestName || !guestPassword || !guestMessage) return alert('모든 항목을 입력해주세요.');";
+lines[896] = "                if (guestPassword.length < 4) return alert('비밀번호는 숫자 4자리로 입력해주세요.');";
+lines[900] = "                alert('방명록이 등록되었습니다.');";
+lines[904] = "              등록하기";
+lines[910] = "      {/* Guestbook List Modal (전체보기 팝업) */}";
+
+fs.writeFileSync(path, lines.join('\n'), 'utf8');
+console.log('Fixed exactly by line index.');

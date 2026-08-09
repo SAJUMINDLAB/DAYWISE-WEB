@@ -1,0 +1,207 @@
+import React from 'react';
+import { useBuilderStore } from '../../../store/useBuilderStore';
+import { Activity, Film, Type, Layers, Maximize, Sparkles, MoveVertical, MousePointerClick } from 'lucide-react';
+
+const OptionRow = ({ icon: Icon, title, desc, children }) => (
+  <div style={{ display: 'flex', alignItems: 'center', padding: '16px 0', borderBottom: '1px solid #F0F0F0' }}>
+    <div style={{ color: '#888', marginRight: '16px' }}>
+      <Icon size={22} strokeWidth={1.5} />
+    </div>
+    <div style={{ flex: 1 }}>
+      <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#333', marginBottom: '4px' }}>{title}</div>
+      <div style={{ fontSize: '0.8rem', color: '#888' }}>{desc}</div>
+    </div>
+    <div>
+      {children}
+    </div>
+  </div>
+);
+
+const Toggle = ({ checked, onChange }) => (
+  <label className="toggle-switch">
+    <input type="checkbox" checked={checked} onChange={onChange} />
+    <span className="toggle-slider"></span>
+  </label>
+);
+
+const Step3Option = () => {
+  const optionInfo = useBuilderStore(state => state.optionInfo);
+  const setOptionInfo = useBuilderStore(state => state.setOptionInfo);
+  const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
+
+  const sizes = ['S', 'M', 'L', 'XL'];
+
+  return (
+    <div style={{ padding: '0 10px' }}>
+      
+      <OptionRow 
+        icon={Activity} 
+        title="모션 효과 (MOTION EFFECT)" 
+        desc="스크롤 시 부드러운 등장 효과와 시차(Parallax)를 적용합니다."
+      >
+        <Toggle checked={optionInfo.motionEffect} onChange={(e) => setOptionInfo('motionEffect', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
+        icon={Film} 
+        title="시네마틱 인트로" 
+        desc="미리보기: 토글을 껐다가 다시 켜주세요"
+      >
+        <Toggle checked={optionInfo.cinematicIntro} onChange={(e) => setOptionInfo('cinematicIntro', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
+        icon={Type} 
+        title="글자 크기" 
+        desc="본문의 글자 크기를 조정합니다."
+      >
+        <div className="size-selector">
+          {sizes.map(s => (
+            <button 
+              key={s} 
+              className={`size-btn ${optionInfo.fontSize === s ? 'active' : ''}`}
+              onClick={() => setOptionInfo('fontSize', s)}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </OptionRow>
+
+      <OptionRow 
+        icon={Layers} 
+        title="종이 질감(TEXTURE) 추가" 
+        desc="화면에 실제 종이 같은 질감과 입체감을 더합니다."
+      >
+        <Toggle checked={optionInfo.texture} onChange={(e) => setOptionInfo('texture', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
+        icon={Maximize} 
+        title="페이지 확대(PAGE ZOOM) 허용" 
+        desc="청첩장 전체를 두 손가락으로 확대할 수 있습니다."
+      >
+        <Toggle checked={optionInfo.pageZoom} onChange={(e) => setOptionInfo('pageZoom', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
+        icon={Sparkles} 
+        title="계절 파티클 (PARTICLES)" 
+        desc="화면 위로 은은하게 떨어지는 효과를 켭니다."
+      >
+        <Toggle checked={optionInfo.particlesEffect} onChange={(e) => setOptionInfo('particlesEffect', e.target.checked)} />
+      </OptionRow>
+
+      {optionInfo.particlesEffect && (
+        <div style={{ padding: '10px 16px 20px 16px', borderBottom: '1px solid #F0F0F0', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
+            <select
+              value={optionInfo.particleType || 'snow'}
+              onChange={(e) => setOptionInfo('particleType', e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                appearance: 'none',
+                backgroundColor: '#F9F9F9',
+                border: '1px solid #EAEAEA',
+                borderRadius: '6px',
+                fontSize: '0.85rem',
+                color: '#444',
+                fontFamily: 'var(--font-kr-sans)',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="snow">❄️ 눈꽃 (Snow)</option>
+              <option value="blossom">🌸 벚꽃 (Blossom)</option>
+              <option value="rain">🌧️ 비 (Rain)</option>
+              <option value="leaves">🍂 가을 낙엽 (Leaves)</option>
+              <option value="fireflies">✨ 반딧불이 (Fireflies)</option>
+              <option value="starlight">🌟 별빛 (Starlight)</option>
+              <option value="confetti">🎉 팡파르 (Confetti)</option>
+            </select>
+            <div style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <OptionRow 
+        icon={MoveVertical} 
+        title="입체 스크롤 (PARALLAX)" 
+        desc="스크롤 시 배경과 글자가 다른 속도로 움직여 입체감을 줍니다."
+      >
+        <Toggle checked={optionInfo.parallaxEffect} onChange={(e) => setOptionInfo('parallaxEffect', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
+        icon={MousePointerClick} 
+        title="버튼 빛번짐 (SHINE EFFECT)" 
+        desc="중요한 버튼의 테두리에 시선을 끄는 빛번짐 모션을 추가합니다."
+      >
+        <Toggle checked={optionInfo.shineEffect} onChange={(e) => setOptionInfo('shineEffect', e.target.checked)} />
+      </OptionRow>
+
+      {selectedTemplate === 'magazine' && (
+        <OptionRow 
+          icon={Type} 
+          title="매거진 목차 언어 (CONTENTS LANGUAGE)" 
+          desc="매거진 템플릿의 목차(CONTENTS)를 영문/한글 중 선택합니다."
+        >
+          <div style={{ display: 'flex', gap: '8px', backgroundColor: '#F5F5F5', padding: '4px', borderRadius: '8px' }}>
+            <button
+              onClick={() => setOptionInfo('magazineTocLanguage', 'en')}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: optionInfo.magazineTocLanguage !== 'kr' ? '#fff' : 'transparent',
+                boxShadow: optionInfo.magazineTocLanguage !== 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                color: optionInfo.magazineTocLanguage !== 'kr' ? '#222' : '#888',
+                fontWeight: optionInfo.magazineTocLanguage !== 'kr' ? 'bold' : 'normal',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              영문 (English)
+            </button>
+            <button
+              onClick={() => setOptionInfo('magazineTocLanguage', 'kr')}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: optionInfo.magazineTocLanguage === 'kr' ? '#fff' : 'transparent',
+                boxShadow: optionInfo.magazineTocLanguage === 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                color: optionInfo.magazineTocLanguage === 'kr' ? '#222' : '#888',
+                fontWeight: optionInfo.magazineTocLanguage === 'kr' ? 'bold' : 'normal',
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              한글 (Korean)
+            </button>
+          </div>
+        </OptionRow>
+      )}
+
+      {selectedTemplate === 'cinematic' && (
+        <OptionRow 
+          icon={Film} 
+          title="엔딩 크레딧 (ENDING CREDITS)" 
+          desc="시네마틱 테마의 마지막에 영화처럼 올라가는 엔딩 크레딧을 표시합니다."
+        >
+          <Toggle checked={optionInfo.cinematicCredits !== false} onChange={(e) => setOptionInfo('cinematicCredits', e.target.checked)} />
+        </OptionRow>
+      )}
+
+    </div>
+  );
+};
+
+export default Step3Option;

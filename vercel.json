@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/v/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(KakaoTalk|facebookexternalhit|Twitterbot|Slackbot|MacOutlook|Applebot|WhatsApp|Line|kakaotalk-scrap|kakaostory).*"
+        }
+      ],
+      "destination": "/api/og?id=:id"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
