@@ -54,6 +54,7 @@ function App() {
           
           {/* Viewer Route */}
           <Route path="/v/:id" element={<ViewerPage />} />
+          <Route path="/view/:id" element={<ViewerPage />} />
 
           {/* Admin Dashboard Route */}
           <Route path="/admin" element={<AdminDashboard />} />
