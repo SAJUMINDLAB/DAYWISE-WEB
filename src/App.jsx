@@ -57,6 +57,16 @@ function App() {
 
           {/* Admin Dashboard Route */}
           <Route path="/admin" element={<AdminDashboard />} />
+
+          {/* Fallback Catch-All Route for debugging */}
+          <Route path="*" element={
+            <div style={{ padding: '40px', backgroundColor: '#e8f5e9', minHeight: '100vh', color: '#1b5e20', fontSize: '18px', fontWeight: 'bold', wordBreak: 'break-all' }}>
+              <h2>Route Not Found (404)</h2>
+              <p>Current Path: {window.location.pathname}</p>
+              <p>Current Search: {window.location.search}</p>
+              <p>Current Hash: {window.location.hash}</p>
+            </div>
+          } />
         </Routes>
       </div>
     </Router>

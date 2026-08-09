@@ -16,8 +16,8 @@
     <meta property="og:title" content="저희 결혼합니다" />
     <meta property="og:description" content="소중한 분들을 초대합니다." />
     <meta property="og:image" content="https://daywise-web-six.vercel.app/images/default_og_image.jpg?v=2" />
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0dd90f0dea818aac4e6a7ae924cc5306&libraries=services"></script>
+
+    <!-- ★ 에러 핸들러를 가장 먼저 등록 (SDK보다 먼저!) -->
     <script>
       window.onerror = function(msg, url, line, col, error) {
         var errDiv = document.createElement('div');
@@ -32,12 +32,12 @@
         document.body.appendChild(errDiv);
       });
     </script>
+
+    <!-- ★ 카카오 SDK를 async로 변경: 페이지 렌더링을 절대 차단하지 않음 -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous" async></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0dd90f0dea818aac4e6a7ae924cc5306&libraries=services" async></script>
   </head>
   <body>
-    <div id="debug-text" style="padding: 50px; text-align: center; font-size: 16px; color: #333;">
-      앱을 초기화하는 중입니다...<br>
-      (이 화면에서 넘어가지 않으면 브라우저 호환성 문제입니다)
-    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
