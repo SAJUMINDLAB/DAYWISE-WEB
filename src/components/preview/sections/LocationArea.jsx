@@ -10,35 +10,58 @@ const LocationArea = ({ theme }) => {
   React.useEffect(() => {
     if (locationInfo.mapType === 'image') return;
     
-    // 카카오맵 스크립트가 로드되었는지 확인
-    if (window.kakao && window.kakao.maps) {
+    /**
+     * 카카오맵 SDK가 async로 로드되므로, SDK가 완전히 준비될 때까지
+     * 폴링(polling)으로 기다린 후 지도를 초기화합니다.
+     * 최대 10초간 대기하며, 그 안에 로드되지 않으면 조용히 포기합니다.
+     */
+    let attempts = 0;
+    const maxAttempts = 50; // 200ms * 50 = 10초
+    
+    const tryInitMap = () => {
+      // SDK가 아직 로드되지 않았으면 재시도
+      if (!window.kakao || !window.kakao.maps) {
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(tryInitMap, 200);
+        }
+        return;
+      }
+      
       window.kakao.maps.load(() => {
         if (!mapContainer.current) return;
-        const geocoder = new window.kakao.maps.services.Geocoder();
         
-        geocoder.addressSearch(locationInfo.address, (result, status) => {
-          if (status === window.kakao.maps.services.Status.OK) {
-            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-            
-            const options = {
-              center: coords,
-              level: 4 // 지도의 확대 레벨
-            };
-            
-            const map = new window.kakao.maps.Map(mapContainer.current, options);
-            
-            new window.kakao.maps.Marker({
-              map: map,
-              position: coords
-            });
+        try {
+          const geocoder = new window.kakao.maps.services.Geocoder();
+          
+          geocoder.addressSearch(locationInfo.address, (result, status) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+              const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+              
+              const options = {
+                center: coords,
+                level: 4 // 지도의 확대 레벨
+              };
+              
+              const map = new window.kakao.maps.Map(mapContainer.current, options);
+              
+              new window.kakao.maps.Marker({
+                map: map,
+                position: coords
+              });
 
-            // 지도 드래그(이동) 및 줌 막기 - 모바일 스크롤 중 지도 오작동 방지
-            map.setDraggable(false);
-            map.setZoomable(false);
-          }
-        });
+              // 지도 드래그(이동) 및 줌 막기 - 모바일 스크롤 중 지도 오작동 방지
+              map.setDraggable(false);
+              map.setZoomable(false);
+            }
+          });
+        } catch (e) {
+          console.warn('카카오맵 초기화 실패 (무시 가능):', e);
+        }
       });
-    }
+    };
+    
+    tryInitMap();
   }, [locationInfo.address, locationInfo.mapType]);
 
   return (
