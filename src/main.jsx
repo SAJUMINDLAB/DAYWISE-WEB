@@ -12,3 +12,6 @@ createRoot(document.getElementById('root')).render(
     </ErrorBoundary>
   </StrictMode>,
 )
+
+// React가 성공적으로 마운트되었음을 알림 (fallback loader가 이 플래그를 확인)
+window.__REACT_MOUNTED__ = true;
