@@ -174,7 +174,7 @@ const DashboardPage = () => {
                         '통계/관리'
                       )}
                     </button>
-                    <a href={`/v/${inv.id}`} target="_blank" rel="noreferrer" style={{ 
+                    <a href={`/view/${inv.id}`} target="_blank" rel="noreferrer" style={{ 
                       flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#FDFBF7', 
                       color: '#D4AF37', border: '1px solid #D4AF37', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
                     }}>미리보기</a>

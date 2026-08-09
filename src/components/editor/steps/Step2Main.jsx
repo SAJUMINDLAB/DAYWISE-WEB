@@ -115,49 +115,35 @@ const Step2Main = () => {
       <div style={sectionTitleStyle}>나만의 청첩장 주소 설정 (Custom URL)</div>
       <div style={{ marginBottom: '24px', backgroundColor: '#FDFBF7', padding: '16px', borderRadius: '12px', border: '1px solid #EBEBEB' }}>
         <label style={labelStyle}>고유 주소 (영문 소문자, 숫자, 하이픈만 4자 이상 가능)</label>
-        
-        {currentInvitationId ? (
-          <div style={{ padding: '12px', backgroundColor: '#f5f5f5', borderRadius: '6px', color: '#888', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <LinkIcon size={16} /> daywise.com/v/{currentInvitationId} (저장된 주소는 변경할 수 없습니다)
-          </div>
-        ) : (
-          <div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
-                <span style={{ position: 'absolute', left: '12px', color: '#aaa', fontSize: '0.95rem' }}>daywise.com/v/</span>
-                <input
-                  type="text"
-                  value={customUrl}
-                  onChange={handleUrlChange}
-                  placeholder="yumin-wedding"
-                  maxLength={30}
-                  style={{ ...inputStyle, marginBottom: 0, paddingLeft: '115px' }}
-                />
-              </div>
-              <button 
-                onClick={handleUrlCheck}
-                disabled={urlStatus === 'checking' || !customUrl}
-                style={{ 
-                  padding: '0 16px', backgroundColor: '#333', color: '#fff', border: 'none', borderRadius: '6px',
-                  fontWeight: 'bold', cursor: (urlStatus === 'checking' || !customUrl) ? 'not-allowed' : 'pointer',
-                  opacity: (urlStatus === 'checking' || !customUrl) ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap'
-                }}
-              >
-                {urlStatus === 'checking' ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : '중복 확인'}
-              </button>
+        <div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <span style={{ position: 'absolute', left: '12px', color: '#aaa', fontSize: '0.95rem' }}>daywise.com/view/</span>
+              <input
+                type="text"
+                value={customUrl}
+                onChange={handleUrlChange}
+                placeholder="yumin-wedding"
+                maxLength={30}
+                style={{ ...inputStyle, marginBottom: 0, paddingLeft: '135px' }}
+              />
             </div>
-            {urlMessage && (
-              <div style={{ 
-                marginTop: '8px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px',
-                color: urlStatus === 'available' ? '#22c55e' : '#ef4444' 
-              }}>
-                {urlStatus === 'available' ? <CheckCircle2 size={14} /> : <AlertCircle size={14} />}
-                {urlMessage}
-              </div>
-            )}
-            <p style={{ margin: '8px 0 0 0', fontSize: '0.8rem', color: '#888' }}>* 미입력 시 랜덤 주소가 발급되며, 최초 저장 이후에는 주소를 변경할 수 없습니다.</p>
+            <button 
+              onClick={handleUrlCheck}
+              disabled={urlStatus === 'checking' || !customUrl}
+              style={{ 
+                padding: '0 16px', backgroundColor: '#333', color: '#fff', border: 'none', borderRadius: '6px',
+                fontWeight: 'bold', cursor: (urlStatus === 'checking' || !customUrl) ? 'not-allowed' : 'pointer',
+                opacity: (urlStatus === 'checking' || !customUrl) ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap'
+              }}
+            >
+              {urlStatus === 'checking' ? <div style={{width: 14, height: 14, border: '2px solid #ccc', borderTop: '2px solid #fff', borderRadius: '50%', animation: 'spin 1s linear infinite'}} /> : '중복확인'}
+            </button>
           </div>
-        )}
+          {urlStatus === 'available' && <div style={{ color: '#2e7d32', fontSize: '0.85rem', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}><CheckCircle2 size={14} /> 사용 가능한 주소입니다.</div>}
+          {urlStatus === 'duplicate' && <div style={{ color: '#d32f2f', fontSize: '0.85rem', marginTop: '8px' }}>이미 사용 중인 주소입니다.</div>}
+          <p style={{ margin: '8px 0 0 0', fontSize: '0.8rem', color: '#888' }}>* 주소 변경 시 기존 주소는 더 이상 사용할 수 없습니다.</p>
+        </div>
       </div>
 
       <div style={sectionTitleStyle}>메인 사진 (Cover Photo)</div>

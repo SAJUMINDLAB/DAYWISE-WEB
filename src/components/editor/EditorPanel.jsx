@@ -90,7 +90,7 @@ const EditorPanel = () => {
       useBuilderStore.setState({ currentInvitationId: newId });
       
       // 카카오톡 캐시(이전의 썸네일 기억)를 회피하기 위해 타임스탬프 쿼리파라미터 추가
-      const url = `${window.location.origin}/v/${newId}?t=${new Date().getTime()}`;
+      const url = `${window.location.origin}/view/${newId}?t=${new Date().getTime()}`;
       setSaveModalUrl(url);
     } catch (err) {
       alert(err.message || '저장 중 오류가 발생했습니다.');
