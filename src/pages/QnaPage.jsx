@@ -28,11 +28,8 @@ const QnaPage = () => {
   return (
     <PageLayout>
       <div style={{ fontFamily: 'var(--font-kr-sans)' }}>
-        <div style={{ marginBottom: '40px' }}>
-          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontWeight: 'bold' }}>&larr; 홈으로 돌아가기</Link>
-        </div>
         
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '60px', marginTop: '20px' }}>
           <h1 style={{ fontFamily: 'var(--font-kr-serif)', fontSize: '3rem', color: '#2C2C2C', fontWeight: '500', marginBottom: '16px' }}>
             자주 묻는 질문
           </h1>

@@ -20,9 +20,7 @@ const FooterSection = () => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <strong style={{ color: '#fff', fontSize: '1rem', marginBottom: '8px' }}>Support</strong>
-              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} onMouseOver={e=>e.currentTarget.style.color='#fff'} onMouseOut={e=>e.currentTarget.style.color='#888'}>공지사항</span>
-              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} onMouseOver={e=>e.currentTarget.style.color='#fff'} onMouseOut={e=>e.currentTarget.style.color='#888'}>자주 묻는 질문 (FAQ)</span>
-              <span style={{ cursor: 'pointer', transition: 'color 0.2s' }} onMouseOver={e=>e.currentTarget.style.color='#fff'} onMouseOut={e=>e.currentTarget.style.color='#888'}>제휴 및 문의 (support@daywise.com)</span>
+              <Link to="/qna" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e=>e.currentTarget.style.color='#fff'} onMouseOut={e=>e.currentTarget.style.color='#888'}>자주 묻는 질문</Link>
             </div>
           </div>
         </div>

@@ -19,14 +19,19 @@ const Step5Gallery = () => {
       return;
     }
 
-    const newImages = await Promise.all(files.map(async (file) => {
-      const compressedBase64 = await compressImage(file, 1080);
-      return {
-        id: Math.random().toString(36).substring(7),
-        url: compressedBase64,
-        name: file.name
-      };
-    }));
+    const newImages = [];
+    for (const file of files) {
+      try {
+        const compressedBase64 = await compressImage(file, 1080);
+        newImages.push({
+          id: Math.random().toString(36).substring(7),
+          url: compressedBase64,
+          name: file.name
+        });
+      } catch (err) {
+        console.warn('Skipped image:', file.name, err);
+      }
+    }
 
     setGalleryInfo('images', [...galleryInfo.images, ...newImages]);
   };

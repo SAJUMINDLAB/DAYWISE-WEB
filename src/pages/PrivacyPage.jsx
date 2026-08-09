@@ -10,10 +10,7 @@ const PrivacyPage = () => {
   return (
     <PageLayout>
       <div style={{ fontFamily: 'var(--font-kr-sans)', lineHeight: '1.8', color: '#333' }}>
-        <div style={{ marginBottom: '40px' }}>
-          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontWeight: 'bold' }}>&larr; 홈으로 돌아가기</Link>
-        </div>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'var(--font-kr-serif)' }}>개인정보처리방침</h1>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'var(--font-kr-serif)', marginTop: '40px' }}>개인정보처리방침</h1>
       
       <section style={{ marginBottom: '30px' }}>
         <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>1. 개인정보의 수집 및 이용 목적</h2>
@@ -37,8 +34,8 @@ const PrivacyPage = () => {
         <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>3. 개인정보의 보유 및 이용 기간</h2>
         <p>회사는 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.</p>
         <ul style={{ paddingLeft: '20px', marginTop: '10px' }}>
-          <li>회원 가입 및 관리: 회원 탈퇴 시까지</li>
-          <li>청첩장 및 부가 데이터: 사용자가 삭제를 요청하기 전까지 평생 보관</li>
+          <li>회원 가입 및 관리: 회원 탈퇴 시까지 보관 후 즉시 파기</li>
+          <li>청첩장 및 부가 데이터: 예식일 기준 1년 경과 후 자동 파기 (단, 사용자가 그 전에 삭제 요청 시 즉시 파기)</li>
         </ul>
       </section>
 
@@ -54,6 +51,18 @@ const PrivacyPage = () => {
         <p>① 정보주체는 언제든지 자신의 개인정보를 조회, 수정, 삭제(회원탈퇴)할 수 있습니다.</p>
         <p>② 회원이 자신의 개인정보(이메일, 비밀번호 등)를 소홀히 관리하거나 타인에게 양도·대여하여 발생한 데이터 유출 및 손해에 대해서 회사는 일절 책임을 지지 않습니다.</p>
         <p>③ 회원이 청첩장 내에 기재하는 개인정보(계좌번호, 전화번호, 예식 정보 등)는 누구나 접근 가능한 웹페이지(URL)의 특성상 불특정 다수에게 노출될 수 있음을 회원은 인지하고 동의한 것으로 간주하며, 이로 인한 문제 발생 시 회사는 법적 책임을 지지 않습니다.</p>
+      </section>
+
+      <section style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>6. 결제 정보의 수집 및 처리</h2>
+        <p>① 유료 서비스(프리미엄 템플릿, 주소 생성 등) 결제 시, 안전한 결제 처리를 위해 결제 대행사(PG사)를 통해 신용카드 정보, 계좌 정보 등이 수집될 수 있습니다.</p>
+        <p>② 회사는 회원의 결제 관련 민감한 금융 정보(카드 번호 전체, 비밀번호 등)를 당사 서버에 직접 저장하지 않으며, 결제 대행사의 보안 시스템에 위탁하여 안전하게 처리합니다.</p>
+      </section>
+
+      <section style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>7. 하객(제3자) 정보 수집에 대한 고지</h2>
+        <p>① 회원이 생성한 청첩장을 통해 하객이 자발적으로 입력하는 정보(방명록 이름, 참석 여부, 식사 여부 등)의 실질적인 수집 주체는 '회원(신랑/신부)' 본인입니다.</p>
+        <p>② 회사는 회원의 편의를 위해 해당 하객 데이터를 안전하게 보관 및 시스템적으로 제공하는 위탁자의 역할만 수행하며, 이를 다른 마케팅 용도로 절대 활용하지 않습니다.</p>
       </section>
 
         <p style={{ marginTop: '60px', color: '#888', fontSize: '0.9rem' }}>부칙: 본 방침은 2026년 8월 8일부터 적용됩니다.</p>

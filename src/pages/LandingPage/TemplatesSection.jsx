@@ -117,7 +117,7 @@ const TemplateIcon = ({ templateId }) => {
 
 const TemplatesSection = () => {
   return (
-    <section id="templates-section" style={{ padding: '80px 20px', backgroundColor: '#fff', textAlign: 'center' }}>
+    <section id="templates-section" style={{ padding: '80px 20px', backgroundColor: '#fff', textAlign: 'center', contentVisibility: 'auto' }}>
       <h2 style={{ fontFamily: 'var(--font-kr-sans)', fontSize: '1.2rem', color: '#666', marginBottom: '8px', letterSpacing: '2px' }}>
         The Collection
       </h2>

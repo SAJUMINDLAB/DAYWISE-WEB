@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { SHOWCASE_ITEMS, THEMES_MAP } from './showcaseData';
 
@@ -142,8 +142,24 @@ const MiniCard = ({ item }) => {
 };
 
 const ShowcaseSection = () => {
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: '200px' } // Start animating slightly before it comes into view
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section style={{ padding: '120px 0', backgroundColor: '#F9F8F6', position: 'relative' }}>
+    <section ref={sectionRef} style={{ padding: '120px 0', backgroundColor: '#F9F8F6', position: 'relative', contentVisibility: 'auto' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', marginBottom: '60px', position: 'relative', zIndex: 10 }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', backgroundColor: '#F0EBE1', borderRadius: '30px', color: '#8C7B65', fontSize: '0.85rem', fontWeight: '600', marginBottom: '24px' }}>
           <Sparkles size={16} />
@@ -179,7 +195,7 @@ const ShowcaseSection = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '20px 0' }}>
           {/* Top Row - Scrolls Left */}
           <div style={{ width: '100%', overflow: 'hidden' }}>
-            <div className="marquee-track-left">
+            <div className="marquee-track-left" style={{ animationPlayState: isVisible ? 'running' : 'paused' }}>
               {[...row1, ...row1, ...row1].map((item, idx) => (
                 <MiniCard key={`row1-${item.id}-${idx}`} item={item} />
               ))}
@@ -188,7 +204,7 @@ const ShowcaseSection = () => {
 
           {/* Bottom Row - Scrolls Right */}
           <div style={{ width: '100%', overflow: 'hidden' }}>
-            <div className="marquee-track-right">
+            <div className="marquee-track-right" style={{ animationPlayState: isVisible ? 'running' : 'paused' }}>
               {[...row2, ...row2, ...row2].map((item, idx) => (
                 <MiniCard key={`row2-${item.id}-${idx}`} item={item} />
               ))}

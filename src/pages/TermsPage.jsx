@@ -10,10 +10,7 @@ const TermsPage = () => {
   return (
     <PageLayout>
       <div style={{ fontFamily: 'var(--font-kr-sans)', lineHeight: '1.8', color: '#333' }}>
-        <div style={{ marginBottom: '40px' }}>
-          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontWeight: 'bold' }}>&larr; 홈으로 돌아가기</Link>
-        </div>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'var(--font-kr-serif)' }}>이용약관</h1>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '40px', fontFamily: 'var(--font-kr-serif)', marginTop: '40px' }}>이용약관</h1>
       
       <section style={{ marginBottom: '30px' }}>
         <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>제 1 조 (목적)</h2>
@@ -55,6 +52,20 @@ const TermsPage = () => {
       <section style={{ marginBottom: '30px' }}>
         <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>제 6 조 (서비스의 종료 및 제한)</h2>
         <p>회사는 회사의 사정으로 인해 언제든지 서비스의 전부 또는 일부를 수정, 중단, 또는 종료할 수 있으며, 무료로 제공되는 서비스에 대해서는 회원에게 사전 통지할 의무나 별도의 보상 책임을 지지 않습니다.</p>
+      </section>
+
+      <section style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>제 7 조 (결제 및 환불 규정)</h2>
+        <p>① 회사가 제공하는 모바일 청첩장 서비스는 결제 완료 즉시 디지털 콘텐츠(청첩장 URL 및 템플릿)가 회원의 계정으로 발급 및 제공되는 서비스입니다.</p>
+        <p>② 관련 법령(전자상거래 등에서의 소비자보호에 관한 법률 제17조 제2항 제5호)에 따라, 결제가 완료되고 청첩장 주소(URL)가 생성된 이후에는 디지털 콘텐츠의 특성상 상품의 가치가 소모된 것으로 간주되어 <strong>단순 변심에 의한 결제 취소 및 환불이 절대 불가</strong>합니다.</p>
+        <p>③ 단, 회사의 서버 오류 등 명백한 귀책사유로 인하여 서비스를 전혀 이용하지 못한 경우에는 전액 환불 조치합니다.</p>
+      </section>
+
+      <section style={{ marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.3rem', marginBottom: '16px', color: '#000' }}>제 8 조 (저작권의 귀속 및 이용제한)</h2>
+        <p>① 회사가 제공하는 모든 서비스(템플릿 디자인, UI/UX, 로고, 소스코드 등)에 대한 저작권 및 지적재산권은 회사에 귀속됩니다.</p>
+        <p>② 회원은 서비스를 이용함으로써 얻은 정보나 디자인을 회사의 사전 승낙 없이 영리 목적으로 복제, 송신, 출판, 배포, 방송 기타 방법에 의하여 이용하거나 제3자에게 이용하게 하여서는 안 됩니다.</p>
+        <p>③ 회원은 결제를 통해 템플릿의 '사용권'을 부여받는 것이며, 소유권을 취득하는 것이 아닙니다.</p>
       </section>
 
         <p style={{ marginTop: '60px', color: '#888', fontSize: '0.9rem' }}>부칙: 본 약관은 2026년 8월 8일부터 적용됩니다.</p>

@@ -37,8 +37,12 @@ const Step2Main = () => {
   const handleMainImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const compressedBase64 = await compressImage(file, 1080);
-      setMainInfo('mainImage', compressedBase64);
+      try {
+        const compressedBase64 = await compressImage(file, 1080);
+        setMainInfo('mainImage', compressedBase64);
+      } catch (err) {
+        console.warn('Main image upload failed:', err);
+      }
     }
   };
 

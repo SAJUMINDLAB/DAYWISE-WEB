@@ -29,14 +29,53 @@ const EditorPanel = () => {
     setIsSaving(true);
     try {
       const fullState = useBuilderStore.getState();
-      
-      // 커스텀 URL 중복 및 유효성 강제 검사 (새로 만들 때만)
+
+      // 1. 회원가입/로그인 강제 (상용화 요건)
+      if (!fullState.user) {
+        alert('청첩장을 저장하고 배포하려면 먼저 로그인(또는 회원가입)이 필요합니다.');
+        setIsSaving(false);
+        // 향후 로그인 모달 팝업 등을 띄우는 로직을 여기에 추가할 수 있습니다.
+        // 현재는 DashboardPage(로그인/관리 페이지)로 이동하도록 안내
+        if(window.confirm('로그인 페이지로 이동하시겠습니까? (작업 중인 내용은 브라우저에 임시 유지됩니다)')) {
+          window.location.href = '/dashboard';
+        }
+        return;
+      }
+
+      // 2. 필수 입력값 검증 (이름, 날짜, 장소)
+      const { groomNameKo, brideNameKo, date, location } = fullState.mainInfo;
+      if (!groomNameKo?.trim() || !brideNameKo?.trim()) {
+        alert('신랑, 신부님의 이름을 입력해주세요.');
+        setIsSaving(false);
+        return;
+      }
+      if (!date?.trim()) {
+        alert('예식일을 설정해주세요.');
+        setIsSaving(false);
+        return;
+      }
+      if (!location?.trim()) {
+        alert('예식장(장소)을 입력해주세요.');
+        setIsSaving(false);
+        return;
+      }
+
+      // 3. 커스텀 URL 중복 및 예약어 검사 (새로 만들 때만)
       if (!fullState.currentInvitationId && fullState.customUrl) {
         if (fullState.customUrl.length < 4) {
           alert('청첩장 주소는 4글자 이상이어야 합니다.');
           setIsSaving(false);
           return;
         }
+        
+        // 예약어(Reserved Words) 차단
+        const reservedWords = ['admin', 'api', 'dashboard', 'qna', 'privacy', 'terms', 'login', 'signup', 'auth', 'test', 'master', 'system'];
+        if (reservedWords.includes(fullState.customUrl.toLowerCase())) {
+          alert('입력하신 주소는 시스템 예약어로 사용할 수 없습니다. 다른 주소를 입력해주세요.');
+          setIsSaving(false);
+          return;
+        }
+
         const isAvailable = await checkIdAvailable(fullState.customUrl);
         if (!isAvailable) {
           alert('입력하신 청첩장 주소는 이미 사용 중이거나 유효하지 않습니다. 다른 주소로 변경해 주세요.');

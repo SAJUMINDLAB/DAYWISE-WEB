@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useBuilderStore } from '../store/useBuilderStore';
-import Header from './LandingPage/Header';
+import GlobalHeader from '../components/layout/GlobalHeader';
 import HeroSection from './LandingPage/HeroSection';
 import PillarsSection from './LandingPage/PillarsSection';
 import MockupSection from './LandingPage/MockupSection';
@@ -26,7 +26,7 @@ const LandingPage = () => {
 
   return (
     <div style={{ flex: 1, width: '100%', backgroundColor: '#FDFBF7', fontFamily: 'var(--font-kr-sans)' }}>
-      <Header scrolled={scrolled} user={user} />
+      <GlobalHeader scrolled={scrolled} />
       <HeroSection user={user} />
       <TemplatesSection />
       <ShowcaseSection />

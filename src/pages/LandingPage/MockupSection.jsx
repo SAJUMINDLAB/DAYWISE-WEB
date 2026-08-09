@@ -59,7 +59,7 @@ const AnimatedMockupScreen = () => {
 
 const MockupSection = () => {
   return (
-    <section style={{ padding: '80px 20px', backgroundColor: '#FDFBF7' }}>
+    <section style={{ padding: '80px 20px', backgroundColor: '#FDFBF7', contentVisibility: 'auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
         <h3 style={{ fontFamily: 'var(--font-kr-serif)', fontSize: '2.5rem', color: '#2C2C2C', marginBottom: '16px', fontWeight: '500' }}>
           더 쉬운 제작, 더 높은 완성도

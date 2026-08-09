@@ -12,6 +12,7 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [managingInvitation, setManagingInvitation] = useState(null);
   const [loadingManagerId, setLoadingManagerId] = useState(null);
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
   const navigate = useNavigate();
 
   const fetchInvitations = async () => {
@@ -45,12 +46,16 @@ const DashboardPage = () => {
 
   const handleWithdrawal = async () => {
     if (!window.confirm('정말 회원 탈퇴를 진행하시겠습니까?\n생성된 모든 청첩장 데이터가 즉시 삭제되며 복구할 수 없습니다.')) return;
+    setIsWithdrawing(true);
     try {
       await deleteUserAccount(user.id);
       setUser(null);
+      alert('회원 탈퇴 및 데이터 삭제가 안전하게 완료되었습니다.');
       navigate('/');
     } catch (e) {
       alert('회원 탈퇴 처리 중 오류가 발생했습니다: ' + e.message);
+    } finally {
+      setIsWithdrawing(false);
     }
   };
 
@@ -84,7 +89,12 @@ const DashboardPage = () => {
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <span style={{ fontSize: '0.95rem', color: '#555' }}>{user.email ? `${user.email}님` : '카카오 회원님'}</span>
           <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', textDecoration: 'underline' }}>로그아웃</button>
-          <button onClick={handleWithdrawal} style={{ background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.85rem' }}>회원탈퇴</button>
+          <button onClick={handleWithdrawal} disabled={isWithdrawing} style={{ 
+            background: 'none', border: 'none', color: isWithdrawing ? '#ccc' : '#ff6b6b', 
+            cursor: isWithdrawing ? 'not-allowed' : 'pointer', textDecoration: 'underline', fontSize: '0.85rem' 
+          }}>
+            {isWithdrawing ? '탈퇴 처리중...' : '회원탈퇴'}
+          </button>
         </div>
       </header>
 

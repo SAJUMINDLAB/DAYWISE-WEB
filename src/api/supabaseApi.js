@@ -246,10 +246,13 @@ export const deleteRsvpEntry = async (id) => {
 
 // --- Auth API ---
 
-export const signUp = async (email, password) => {
+export const signUp = async (email, password, captchaToken) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      captchaToken,
+    }
   });
   
   if (error) {
@@ -303,7 +306,7 @@ export const signOut = async () => {
 };
 
 export const deleteUserAccount = async (userId) => {
-  // ������� ��� ûø�� ����
+  // 1. 해당 유저가 생성한 모든 청첩장 데이터 삭제
   const { data: invs, error: fetchError } = await supabase.from('invitations').select('id, data');
   if (fetchError) throw fetchError;
   if (invs) {
@@ -312,8 +315,12 @@ export const deleteUserAccount = async (userId) => {
       await supabase.from('invitations').delete().eq('id', inv.id);
     }
   }
-  // �α׾ƿ� ó��
+  
+  // 2. Supabase Auth 계정 완전 삭제 (RPC 호출)
+  // (이 기능은 Supabase SQL Editor에서 delete_user 함수가 생성되어 있어야 완벽히 동작합니다)
+  await supabase.rpc('delete_user');
+
+  // 3. 클라이언트 세션 로그아웃
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 };
-

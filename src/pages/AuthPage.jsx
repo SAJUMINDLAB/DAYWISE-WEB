@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { signIn, signUp, signInWithKakao } from '../api/supabaseApi';
 
 const AuthPage = () => {
@@ -7,6 +8,7 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -25,7 +27,12 @@ const AuthPage = () => {
           setLoading(false);
           return;
         }
-        await signUp(email, password);
+        if (!captchaToken) {
+          setError('로봇 방지 캡챠(Captcha) 인증을 완료해주세요.');
+          setLoading(false);
+          return;
+        }
+        await signUp(email, password, captchaToken);
         alert('회원가입 성공! 메일함을 확인해주세요 (또는 즉시 로그인됨).');
       }
       navigate('/dashboard');
@@ -150,20 +157,28 @@ const AuthPage = () => {
           />
 
           {!isLogin && (
-            <input 
-              type="password" 
-              placeholder="비밀번호 확인" 
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-              required
-              style={{
-                width: '100%', padding: '16px', borderRadius: '12px', border: '1px solid #ddd',
-                fontSize: '1rem', outline: 'none', transition: 'border-color 0.2s', backgroundColor: '#fafafa'
-              }}
-            />
+            <>
+              <input 
+                type="password" 
+                placeholder="비밀번호 확인" 
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+                required
+                style={{
+                  width: '100%', padding: '16px', borderRadius: '12px', border: '1px solid #ddd',
+                  fontSize: '1rem', outline: 'none', transition: 'border-color 0.2s', backgroundColor: '#fafafa'
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                <Turnstile 
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
+                  onSuccess={(token) => setCaptchaToken(token)}
+                />
+              </div>
+            </>
           )}
           
-          {error && <div style={{ color: '#d32f2f', fontSize: '0.9rem', marginTop: '4px' }}>{error}</div>}
+          {error && <div style={{ color: '#ff6b6b', fontSize: '0.9rem', marginTop: '4px', textAlign: 'center' }}>{error}</div>}
 
           <button 
             type="submit" 

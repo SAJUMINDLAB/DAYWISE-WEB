@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import EditorPage from './pages/EditorPage';
 import ViewerPage from './pages/ViewerPage';
@@ -17,6 +17,7 @@ import { supabase } from './api/supabaseClient';
 import { useBuilderStore } from './store/useBuilderStore';
 
 function App() {
+  const user = useBuilderStore(state => state.user);
   const setUser = useBuilderStore(state => state.setUser);
 
   useEffect(() => {
@@ -46,8 +47,10 @@ function App() {
           <Route path="/sample/:theme" element={<SamplePage />} />
           <Route path="/qna" element={<QnaPage />} />
 
-          {/* Main Editor Route */}
-          <Route path="/editor/:id?" element={<EditorPage />} />
+          {/* Main Editor Route (Protected) */}
+          <Route path="/editor/:id?" element={
+            user ? <EditorPage /> : <Navigate to="/auth" replace />
+          } />
           
           {/* Viewer Route */}
           <Route path="/v/:id" element={<ViewerPage />} />
