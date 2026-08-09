@@ -62,9 +62,11 @@ const ViewerPage = () => {
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#e5e5e5', display: 'flex', justifyContent: 'center' }}>
-      <div style={{ width: '100%', maxWidth: '480px', backgroundColor: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.1)', minHeight: '100vh', overflow: 'hidden', position: 'relative' }}>
+      <div style={{ width: '100%', maxWidth: '480px', backgroundColor: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.1)', minHeight: '100vh', overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column' }}>
         <ErrorBoundary>
-          <InvitationPreview isPublicView={true} />
+          <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+            <InvitationPreview isPublicView={true} />
+          </div>
         </ErrorBoundary>
 
         {/* Host Admin Floating Button */}
