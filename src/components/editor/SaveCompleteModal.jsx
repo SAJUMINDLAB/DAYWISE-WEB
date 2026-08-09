@@ -5,6 +5,7 @@ import { useKakaoShare } from '../../hooks/useKakaoShare';
 
 const SaveCompleteModal = ({ shareUrl, onClose }) => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
+  const mainInfo = useBuilderStore(state => state.mainInfo);
 
   const { share } = useKakaoShare();
 
@@ -12,25 +13,18 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       alert('청첩장 링크가 복사되었습니다.');
-    } catch (err) {
+    } catch {
       alert('복사에 실패했습니다. 직접 선택해서 복사해주세요.');
     }
   };
 
   const handleKakaoShare = () => {
-    try {
-      share(shareUrl);
-    } catch (err) {
-      if (navigator.share) {
-        navigator.share({
-          title: shareInfo.title,
-          text: shareInfo.description,
-          url: shareUrl,
-        }).catch(console.error);
-      } else {
-        alert('카카오톡 공유 기능은 카카오 SDK가 필요합니다.\n(현재는 링크 복사를 이용해주세요!)');
-      }
-    }
+    // 카카오 공유 카드에 표시될 제목/설명/이미지를 동적으로 구성
+    const title = shareInfo.title || `${mainInfo.groomNameKo} ♥ ${mainInfo.brideNameKo} 결혼합니다`;
+    const description = shareInfo.description || `소중한 분들을 초대합니다`;
+    const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
+
+    share({ url: shareUrl, title, description, imageUrl });
   };
 
   return (

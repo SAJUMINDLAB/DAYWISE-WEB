@@ -7,6 +7,7 @@ import { MessageCircle, Link as LinkIcon } from 'lucide-react';
 const ShareArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const shareInfo = useBuilderStore(state => state.shareInfo);
+  const mainInfo = useBuilderStore(state => state.mainInfo);
   const { share } = useKakaoShare();
 
   return (
@@ -15,24 +16,11 @@ const ShareArea = ({ theme }) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <button 
             onClick={() => {
-              try {
-                share(window.location.href);
-              } catch (e) {
-                // 카카오 SDK 실패 시 스마트폰 기본 공유 기능으로 대체
-                if (navigator.share) {
-                  try {
-                    navigator.share({
-                      title: shareInfo.title,
-                      text: shareInfo.description,
-                      url: window.location.href,
-                    });
-                  } catch (error) {
-                    console.log('공유 취소 또는 오류:', error);
-                  }
-                } else {
-                  alert('카카오톡 공유를 지원하지 않는 브라우저입니다.');
-                }
-              }
+              const title = shareInfo.title || `${mainInfo.groomNameKo} ♥ ${mainInfo.brideNameKo} 결혼합니다`;
+              const description = shareInfo.description || '소중한 분들을 초대합니다';
+              const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
+
+              share({ url: window.location.href, title, description, imageUrl });
             }}
             style={{ width: '100%', padding: '16px', backgroundColor: '#FAE100', color: '#371D1E', border: 'none', borderRadius: '12px', fontSize: 'calc(1rem * var(--font-ratio))', fontWeight: 'bold', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-kr-sans)' }}
           >
