@@ -115,7 +115,12 @@ const AuthPage = () => {
         <div style={{ display: 'flex', backgroundColor: '#f5f5f5', borderRadius: '12px', padding: '4px', marginBottom: '20px' }}>
           <button 
             type="button"
-            onClick={() => { setIsLogin(false); setError(''); }}
+            onClick={() => { 
+              setIsLogin(false); 
+              setError(''); 
+              setCaptchaToken(null);
+              turnstileRef.current?.reset();
+            }}
             style={{
               flex: 1, padding: '10px 0', fontSize: '0.95rem', fontWeight: 'bold', border: 'none', borderRadius: '8px', cursor: 'pointer',
               backgroundColor: !isLogin ? '#fff' : 'transparent',
@@ -128,7 +133,12 @@ const AuthPage = () => {
           </button>
           <button 
             type="button"
-            onClick={() => { setIsLogin(true); setError(''); }}
+            onClick={() => { 
+              setIsLogin(true); 
+              setError(''); 
+              setCaptchaToken(null);
+              turnstileRef.current?.reset();
+            }}
             style={{
               flex: 1, padding: '10px 0', fontSize: '0.95rem', fontWeight: 'bold', border: 'none', borderRadius: '8px', cursor: 'pointer',
               backgroundColor: isLogin ? '#fff' : 'transparent',
