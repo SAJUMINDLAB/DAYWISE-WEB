@@ -35,6 +35,28 @@ export default defineConfig({
   ],
   build: {
     target: 'es2015',
-    cssTarget: 'chrome61'
+    cssTarget: 'chrome61',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('zustand') || id.includes('react-router')) {
+              return 'vendor';
+            }
+            if (id.includes('@supabase')) {
+              return 'supabase';
+            }
+            if (id.includes('lucide-react')) {
+              return 'lucide';
+            }
+            if (id.includes('@hello-pangea/dnd')) {
+              return 'dnd';
+            }
+            return 'modules';
+          }
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   }
 })
