@@ -41,6 +41,9 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
         // 빈 텍스트 방지용 기본값
         const safeTitle = shareInfo.title || '저희 결혼합니다';
         const safeDescription = shareInfo.description || '소중한 분들을 초대합니다';
+        
+        // Debugging Alert for the user to confirm the exact URL
+        alert('Kakao will use this exact link:\n' + safeShareUrl);
 
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
