@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, AlignCenter, AlignLeft, Type, Languages, Calendar, Link as LinkIcon, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
-import { compressImage } from '../../../utils/imageUtils';
+import { useImageUpload } from '../../../hooks/useImageUpload';
 import { checkIdAvailable } from '../../../api/supabaseApi';
 
 /* 템플릿별 호환 가능한 커버 레이아웃 정의 */
@@ -21,6 +21,7 @@ const Step2Main = () => {
   const setCustomUrl = useBuilderStore(state => state.setCustomUrl);
   const currentInvitationId = useBuilderStore(state => state.currentInvitationId);
   const fileInputRef = useRef(null);
+  const { uploadImage, isUploading } = useImageUpload();
 
   const [urlStatus, setUrlStatus] = React.useState(''); // '', 'checking', 'available', 'taken', 'invalid'
   const [urlMessage, setUrlMessage] = React.useState('');
@@ -37,11 +38,9 @@ const Step2Main = () => {
   const handleMainImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      try {
-        const compressedBase64 = await compressImage(file, 1080);
-        setMainInfo('mainImage', compressedBase64);
-      } catch (err) {
-        console.warn('Main image upload failed:', err);
+      const base64 = await uploadImage(file, 1080);
+      if (base64) {
+        setMainInfo('mainImage', base64);
       }
     }
   };

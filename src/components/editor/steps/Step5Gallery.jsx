@@ -3,12 +3,13 @@ import { useBuilderStore } from '../../../store/useBuilderStore';
 import { ImagePlus, Trash2, GripVertical } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 
-import { compressImage } from '../../../utils/imageUtils';
+import { useImageUpload } from '../../../hooks/useImageUpload';
 
 const Step5Gallery = () => {
   const galleryInfo = useBuilderStore(state => state.galleryInfo);
   const setGalleryInfo = useBuilderStore(state => state.setGalleryInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
+  const { uploadImage } = useImageUpload();
 
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -21,15 +22,13 @@ const Step5Gallery = () => {
 
     const newImages = [];
     for (const file of files) {
-      try {
-        const compressedBase64 = await compressImage(file, 1080);
+      const base64 = await uploadImage(file, 1080);
+      if (base64) {
         newImages.push({
           id: Math.random().toString(36).substring(7),
-          url: compressedBase64,
+          url: base64,
           name: file.name
         });
-      } catch (err) {
-        console.warn('Skipped image:', file.name, err);
       }
     }
 

@@ -16,7 +16,6 @@ const QuickSetupModal = ({ onClose }) => {
   const setMainInfo = useBuilderStore(state => state.setMainInfo);
   const setGreetingInfo = useBuilderStore(state => state.setGreetingInfo);
   const setLocationInfo = useBuilderStore(state => state.setLocationInfo);
-  const updateTransportation = useBuilderStore(state => state.updateTransportation);
   const setGalleryInfo = useBuilderStore(state => state.setGalleryInfo);
   const updateAccountInfo = useBuilderStore(state => state.updateAccountInfo);
   const updateStoryInfo = useBuilderStore(state => state.updateStoryInfo);
@@ -42,10 +41,6 @@ const QuickSetupModal = ({ onClose }) => {
   });
 
   useEffect(() => {
-    const tSubway = locationInfo.transportation.find(t => t.id === 't1')?.content || '';
-    const tBus = locationInfo.transportation.find(t => t.id === 't2')?.content || '';
-    const tParking = locationInfo.transportation.find(t => t.id === 't3')?.content || '';
-
     setForm({
       groomName: mainInfo.groomNameKo || '', groomNameEn: mainInfo.groomNameEn || '', groomFather: mainInfo.groomFather || '', groomMother: mainInfo.groomMother || '', groomRelation: mainInfo.groomRelation || '',
       brideName: mainInfo.brideNameKo || '', brideNameEn: mainInfo.brideNameEn || '', brideFather: mainInfo.brideFather || '', brideMother: mainInfo.brideMother || '', brideRelation: mainInfo.brideRelation || '',

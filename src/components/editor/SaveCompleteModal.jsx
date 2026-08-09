@@ -1,10 +1,12 @@
 import React from 'react';
 import { Check, Copy, ExternalLink, X } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
+import { useKakaoShare } from '../../hooks/useKakaoShare';
 
 const SaveCompleteModal = ({ shareUrl, onClose }) => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
-  const mainInfo = useBuilderStore(state => state.mainInfo);
+
+  const { share } = useKakaoShare();
 
   const handleCopy = async () => {
     try {
@@ -16,54 +18,18 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
   };
 
   const handleKakaoShare = () => {
-    if (window.Kakao) {
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init('0dd90f0dea818aac4e6a7ae924cc5306'); 
+    try {
+      share(shareUrl);
+    } catch (err) {
+      if (navigator.share) {
+        navigator.share({
+          title: shareInfo.title,
+          text: shareInfo.description,
+          url: shareUrl,
+        }).catch(console.error);
+      } else {
+        alert('카카오톡 공유 기능은 카카오 SDK가 필요합니다.\n(현재는 링크 복사를 이용해주세요!)');
       }
-      try {
-        // 강제로 Vercel 도메인을 사용하도록 고정 (localhost 테스트 시 빈 파일 에러 방지)
-        const PRODUCTION_DOMAIN = 'https://daywise-web-six.vercel.app';
-        
-        let rawImageUrl = shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${PRODUCTION_DOMAIN}/images/default_og_image.jpg`);
-        
-        // Kakao SDK cannot handle base64 or blob URLs. Fallback to default image.
-        if (rawImageUrl && (rawImageUrl.startsWith('data:') || rawImageUrl.startsWith('blob:'))) {
-          rawImageUrl = `${PRODUCTION_DOMAIN}/images/default_og_image.jpg`;
-        }
-
-        const absoluteImageUrl = (rawImageUrl && rawImageUrl.startsWith('/')) 
-          ? `${PRODUCTION_DOMAIN}${rawImageUrl}` 
-          : rawImageUrl;
-
-        // shareUrl도 localhost일 경우 Vercel 도메인으로 강제 치환
-        const safeShareUrl = shareUrl.replace(/http:\/\/localhost:\d+/, PRODUCTION_DOMAIN);
-
-        // 빈 텍스트 방지용 기본값
-        const safeTitle = shareInfo.title || '저희 결혼합니다';
-        const safeDescription = shareInfo.description || '소중한 분들을 초대합니다';
-        
-        // Debugging Alert removed because it causes Chrome to block the popup!
-
-        window.Kakao.Share.sendScrap({
-          requestUrl: safeShareUrl
-        });
-        return;
-      } catch (e) {
-        alert('Kakao Error: ' + e.message);
-        console.error('카카오 공유 실패, 기본 공유로 대체합니다.', e);
-      }
-    } else {
-      alert('window.Kakao is undefined! Check if adblocker is active.');
-    }
-
-    if (navigator.share) {
-      navigator.share({
-        title: shareInfo.title,
-        text: shareInfo.description,
-        url: shareUrl,
-      }).catch(console.error);
-    } else {
-      alert('카카오톡 공유 기능은 카카오 SDK가 필요합니다.\n(현재는 링크 복사를 이용해주세요!)');
     }
   };
 
