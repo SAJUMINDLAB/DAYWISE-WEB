@@ -1,13 +1,62 @@
 import React from 'react';
 import { Check, Copy, ExternalLink, X } from 'lucide-react';
+import { useBuilderStore } from '../../store/useBuilderStore';
 
 const SaveCompleteModal = ({ shareUrl, onClose }) => {
+  const shareInfo = useBuilderStore(state => state.shareInfo);
+  const mainInfo = useBuilderStore(state => state.mainInfo);
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert('청첩장 링크가 복사되었습니다!');
+      alert('청첩장 링크가 복사되었습니다.');
     } catch (err) {
       alert('복사에 실패했습니다. 직접 선택해서 복사해주세요.');
+    }
+  };
+
+  const handleKakaoShare = () => {
+    if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init('0dd90f0dea818aac4e6a7ae924cc5306'); 
+      }
+      
+      try {
+        window.Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: shareInfo.title,
+            description: shareInfo.description,
+            imageUrl: shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`),
+            link: {
+              mobileWebUrl: shareUrl,
+              webUrl: shareUrl,
+            },
+          },
+          buttons: [
+            {
+              title: '모바일 청첩장 보기',
+              link: {
+                mobileWebUrl: shareUrl,
+                webUrl: shareUrl,
+              },
+            },
+          ],
+        });
+        return;
+      } catch (e) {
+        console.error('카카오 공유 실패, 기본 공유로 대체합니다.', e);
+      }
+    }
+
+    if (navigator.share) {
+      navigator.share({
+        title: shareInfo.title,
+        text: shareInfo.description,
+        url: shareUrl,
+      }).catch(console.error);
+    } else {
+      alert('카카오톡 공유 기능은 카카오 SDK가 필요합니다.\n(현재는 링크 복사를 이용해주세요!)');
     }
   };
 
@@ -38,10 +87,10 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
           <Check size={32} />
         </div>
 
-        <h2 style={{ fontSize: '1.4rem', color: '#222', marginBottom: '8px' }}>청첩장 완성! 🎉</h2>
+        <h2 style={{ fontSize: '1.4rem', color: '#222', marginBottom: '8px' }}>청첩장 생성 완료! 🎉</h2>
         <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '24px', lineHeight: '1.5' }}>
           작성하신 내용이 안전하게 저장되었습니다.<br/>
-          아래 링크를 하객들에게 전달해보세요.
+          아래 링크를 하객분들에게 전달해보세요.
         </p>
 
         <div style={{ 
@@ -65,17 +114,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <button 
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: '신랑 ❤️ 신부 결혼합니다',
-                  text: '저희 두 사람의 아름다운 출발을 축하해 주세요.',
-                  url: shareUrl,
-                }).catch(console.error);
-              } else {
-                alert('카카오톡 공유 기능은 실제 모바일 기기 또는 지원되는 브라우저에서 작동합니다.\n(현재는 링크 복사를 이용해주세요!)');
-              }
-            }}
+            onClick={handleKakaoShare}
             style={{ 
               width: '100%', padding: '14px', backgroundColor: '#FEE500', color: '#191919', 
               border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold',
