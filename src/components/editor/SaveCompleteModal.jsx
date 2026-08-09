@@ -20,14 +20,24 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init('0dd90f0dea818aac4e6a7ae924cc5306'); 
       }
-      
       try {
+        let rawImageUrl = shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`);
+        
+        // Kakao SDK cannot handle base64 or blob URLs. Fallback to default image.
+        if (rawImageUrl && (rawImageUrl.startsWith('data:') || rawImageUrl.startsWith('blob:'))) {
+          rawImageUrl = `${window.location.origin}/images/default_og_image.jpg`;
+        }
+
+        const absoluteImageUrl = (rawImageUrl && rawImageUrl.startsWith('/')) 
+          ? `${window.location.origin}${rawImageUrl}` 
+          : rawImageUrl;
+
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
             title: shareInfo.title,
             description: shareInfo.description,
-            imageUrl: shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`),
+            imageUrl: absoluteImageUrl,
             link: {
               mobileWebUrl: shareUrl,
               webUrl: shareUrl,
@@ -45,8 +55,11 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
         });
         return;
       } catch (e) {
+        alert('Kakao Error: ' + e.message);
         console.error('카카오 공유 실패, 기본 공유로 대체합니다.', e);
       }
+    } else {
+      alert('window.Kakao is undefined! Check if adblocker is active.');
     }
 
     if (navigator.share) {

@@ -19,14 +19,24 @@ const ShareArea = ({ theme }) => {
                 if (!window.Kakao.isInitialized()) {
                   window.Kakao.init('0dd90f0dea818aac4e6a7ae924cc5306'); 
                 }
-                
                 try {
+                  let rawImageUrl = shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`);
+                  
+                  // Kakao SDK cannot handle base64 or blob URLs. Fallback to default image.
+                  if (rawImageUrl && (rawImageUrl.startsWith('data:') || rawImageUrl.startsWith('blob:'))) {
+                    rawImageUrl = `${window.location.origin}/images/default_og_image.jpg`;
+                  }
+
+                  const absoluteImageUrl = (rawImageUrl && rawImageUrl.startsWith('/')) 
+                    ? `${window.location.origin}${rawImageUrl}` 
+                    : rawImageUrl;
+
                   window.Kakao.Share.sendDefault({
                     objectType: 'feed',
                     content: {
                       title: shareInfo.title,
                       description: shareInfo.description,
-                      imageUrl: shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`),
+                      imageUrl: absoluteImageUrl,
                       link: {
                         mobileWebUrl: window.location.href,
                         webUrl: window.location.href,
