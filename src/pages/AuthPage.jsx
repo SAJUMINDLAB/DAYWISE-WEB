@@ -44,7 +44,11 @@ const AuthPage = () => {
       }
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || '인증에 실패했습니다.');
+      if (err.message && err.message.includes('captcha')) {
+        setError('보안 인증(캡챠)이 만료되었습니다. 버튼을 한 번 더 눌러주세요.');
+      } else {
+        setError(err.message || '인증에 실패했습니다.');
+      }
       setCaptchaToken(null);
       turnstileRef.current?.reset();
     } finally {
