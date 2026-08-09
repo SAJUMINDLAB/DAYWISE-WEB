@@ -97,27 +97,27 @@ const ViewerPage = () => {
 
   if (loading) {
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#ffffff', zIndex: 99999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px', padding: '40px' }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#FFF9C4', zIndex: 99999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px', padding: '40px' }}>
         {/* 로딩 스피너 */}
         <div style={{ width: '36px', height: '36px', border: '3px solid #e5e5e5', borderTop: '3px solid #333', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-        <div style={{ color: '#999', fontSize: '14px', textAlign: 'center' }}>청첩장을 불러오는 중입니다...</div>
+        <div style={{ color: '#333', fontSize: '16px', fontWeight: 'bold', textAlign: 'center' }}>청첩장을 불러오는 중입니다...</div>
         
         {/* 5초 이상 걸리면 외부 브라우저 안내 표시 */}
         {loadingTimeout && (
           <div style={{ marginTop: '20px', textAlign: 'center', animation: 'fadeIn 0.3s ease' }}>
-            <p style={{ color: '#888', fontSize: '13px', marginBottom: '12px', lineHeight: '1.6' }}>
-              로딩이 오래 걸리고 있습니다.<br />
-              카카오톡 내부 브라우저에서는 느릴 수 있습니다.
+            <p style={{ color: '#555', fontSize: '14px', marginBottom: '12px', lineHeight: '1.6', fontWeight: 'bold' }}>
+              카카오톡 내부 브라우저 로딩 지연 중입니다.<br />
+              아래 버튼을 눌러주세요.
             </p>
             <button
               onClick={openInExternalBrowser}
               style={{
-                padding: '12px 24px', backgroundColor: '#333', color: '#fff',
-                border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 'bold',
+                padding: '14px 28px', backgroundColor: '#000', color: '#fff',
+                border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold',
                 cursor: 'pointer'
               }}
             >
-              외부 브라우저에서 열기
+              🚀 외부 브라우저에서 열기
             </button>
           </div>
         )}
