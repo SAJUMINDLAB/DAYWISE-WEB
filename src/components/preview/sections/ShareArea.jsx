@@ -26,7 +26,7 @@ const ShareArea = ({ theme }) => {
                     content: {
                       title: shareInfo.title,
                       description: shareInfo.description,
-                      imageUrl: shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80'),
+                      imageUrl: shareInfo.thumbnailUrl || (mainInfo.mainImageShape === 'full' ? mainInfo.mainImage : `${window.location.origin}/images/default_og_image.jpg`),
                       link: {
                         mobileWebUrl: window.location.href,
                         webUrl: window.location.href,

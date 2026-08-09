@@ -24,9 +24,21 @@ const Step12Share = () => {
       <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '24px', lineHeight: '1.5', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         청첩장을 전달할 때 카카오톡 말풍선에 노출될 미리보기 화면을 설정합니다.<br/>
         받는 분이 처음 보게 될 모습이니 정성스럽게 작성해 보세요.
-        <div style={{ marginTop: '12px', padding: '12px', backgroundColor: '#fff', borderRadius: '6px', borderLeft: '3px solid #ff4d4f', fontSize: '0.8rem', color: '#555' }}>
-          <strong>※ 주의사항:</strong> 여기서 설정한 문구와 사진은 청첩장 내 <strong>[카카오톡으로 공유하기]</strong> 버튼을 통해 전달할 때만 적용됩니다.<br/>
-          (주소를 직접 복사해서 붙여넣기 하시면 카카오톡 로봇의 한계로 인해 기본 문구인 '모바일 청첩장'으로 나타나니 꼭 전용 버튼을 이용해 주세요!)
+        <div style={{ marginTop: '12px', padding: '16px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #ff4d4f', fontSize: '0.85rem', color: '#333' }}>
+          <div style={{ fontWeight: 'bold', color: '#ff4d4f', marginBottom: '8px' }}>※ 카카오톡 공유 관련 주의사항</div>
+          <div style={{ marginBottom: '12px', lineHeight: '1.5' }}>
+            여기서 설정한 문구와 사진은 청첩장 내 <strong>[카카오톡으로 공유하기]</strong> 버튼을 통해 전달할 때만 적용됩니다.<br/>
+            주소를 <strong>직접 복사해서 붙여넣기</strong> 하시면 카카오톡 보안 정책상 아래와 같은 <strong>'기본 이미지와 기본 문구'</strong>로 노출되니 꼭 전용 버튼을 이용해 주세요.
+          </div>
+          
+          <div style={{ backgroundColor: '#f9f9f9', padding: '12px', borderRadius: '8px', border: '1px solid #eaeaea', display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '6px', backgroundImage: 'url(/images/default_og_image.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0 }}></div>
+            <div>
+              <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '2px' }}>모바일 청첩장</div>
+              <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '2px' }}>저희 결혼합니다</div>
+              <div style={{ fontSize: '0.8rem', color: '#666' }}>소중한 분들을 초대합니다.</div>
+            </div>
+          </div>
         </div>
       </div>
 
