@@ -42,8 +42,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
         const safeTitle = shareInfo.title || '저희 결혼합니다';
         const safeDescription = shareInfo.description || '소중한 분들을 초대합니다';
         
-        // Debugging Alert for the user to confirm the exact URL
-        alert('Kakao will use this exact link:\n' + safeShareUrl);
+        // Debugging Alert removed because it causes Chrome to block the popup!
 
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
