@@ -38,26 +38,8 @@ const ShareArea = ({ theme }) => {
                   const safeTitle = shareInfo.title || '저희 결혼합니다';
                   const safeDescription = shareInfo.description || '소중한 분들을 초대합니다';
 
-                  window.Kakao.Share.sendDefault({
-                    objectType: 'feed',
-                    content: {
-                      title: safeTitle,
-                      description: safeDescription,
-                      imageUrl: absoluteImageUrl,
-                      link: {
-                        mobileWebUrl: safeShareUrl,
-                        webUrl: safeShareUrl,
-                      },
-                    },
-                    buttons: [
-                      {
-                        title: '모바일 청첩장 보기',
-                        link: {
-                          mobileWebUrl: safeShareUrl,
-                          webUrl: safeShareUrl,
-                        },
-                      },
-                    ],
+                  window.Kakao.Share.sendScrap({
+                    requestUrl: safeShareUrl
                   });
                   return;
                 } catch (e) {

@@ -44,26 +44,8 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
         
         // Debugging Alert removed because it causes Chrome to block the popup!
 
-        window.Kakao.Share.sendDefault({
-          objectType: 'feed',
-          content: {
-            title: safeTitle,
-            description: safeDescription,
-            imageUrl: absoluteImageUrl,
-            link: {
-              mobileWebUrl: safeShareUrl,
-              webUrl: safeShareUrl,
-            },
-          },
-          buttons: [
-            {
-              title: '모바일 청첩장 보기',
-              link: {
-                mobileWebUrl: safeShareUrl,
-                webUrl: safeShareUrl,
-              },
-            },
-          ],
+        window.Kakao.Share.sendScrap({
+          requestUrl: safeShareUrl
         });
         return;
       } catch (e) {
