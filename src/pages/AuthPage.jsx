@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { signIn, signUp, signInWithKakao } from '../api/supabaseApi';
@@ -9,6 +9,7 @@ const AuthPage = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [captchaToken, setCaptchaToken] = useState(null);
+  const turnstileRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -44,6 +45,8 @@ const AuthPage = () => {
       navigate('/dashboard');
     } catch (err) {
       setError(err.message || '인증에 실패했습니다.');
+      setCaptchaToken(null);
+      turnstileRef.current?.reset();
     } finally {
       setLoading(false);
     }
@@ -178,6 +181,7 @@ const AuthPage = () => {
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
             <Turnstile 
+              ref={turnstileRef}
               siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
               onSuccess={(token) => setCaptchaToken(token)}
             />
