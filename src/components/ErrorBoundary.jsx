@@ -13,6 +13,8 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({ error, errorInfo });
     console.error("ErrorBoundary caught an error", error, errorInfo);
+    // 모바일에서 화면이 하얗게 나오는 경우를 대비해 에러 내용을 alert로 띄웁니다.
+    window.alert("Runtime Error: " + error.toString() + "\n\n" + (errorInfo.componentStack ? errorInfo.componentStack.substring(0, 500) : ''));
   }
 
   render() {

@@ -36,6 +36,9 @@ const ViewerPage = () => {
       const data = await Promise.race([dataPromise, timeoutPromise]);
 
       if (data) {
+        // 모바일 디버깅용 alert
+        window.alert("Data fetched! sectionOrder length: " + (data.sectionOrder ? data.sectionOrder.length : 0));
+        
         useBuilderStore.setState({ ...data, currentInvitationId: id });
         setInvitationData(data);
         setLoading(false);
