@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+/* Google Fonts는 index.html에서 비동기로 로드합니다 (카카오톡 인앱 브라우저 호환성) */
 
 :root {
   /* TNC Premium Color Palette */

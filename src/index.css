@@ -1,22 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Marcellus&family=Noto+Serif+KR:wght@300;400;500;600&family=Jost:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&family=Gowun+Dodum&family=Nanum+Myeongjo&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Pinyon+Script&family=Italiana&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+/* Google Fonts는 index.html에서 비동기로 로드합니다 (카카오톡 인앱 브라우저 호환성) */
 
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Pretendard';
   src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'KyoboHandwriting';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHandwriting2019.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
