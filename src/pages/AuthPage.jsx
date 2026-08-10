@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { signIn, signUp, signInWithKakao } from '../api/supabaseApi';
 
 const AuthPage = () => {
@@ -7,6 +8,8 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const turnstileRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -18,7 +21,12 @@ const AuthPage = () => {
     
     try {
       if (isLogin) {
-        await signIn(email, password);
+        if (!captchaToken) {
+          setError('로봇 방지 인증(Captcha)을 완료해주세요.');
+          setLoading(false);
+          return;
+        }
+        await signIn(email, password, captchaToken);
         alert('로그인되었습니다. 데이와이즈에 오신 것을 환영합니다!');
       } else {
         if (password !== passwordConfirm) {
@@ -26,12 +34,23 @@ const AuthPage = () => {
           setLoading(false);
           return;
         }
-        await signUp(email, password);
+        if (!captchaToken) {
+          setError('로봇 방지 인증(Captcha)을 완료해주세요.');
+          setLoading(false);
+          return;
+        }
+        await signUp(email, password, captchaToken);
         alert('회원가입이 완료되었습니다. 데이와이즈에 오신 것을 환영합니다!');
       }
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || '인증에 실패했습니다.');
+      if (err.message && err.message.includes('captcha')) {
+        setError('보안 인증(캡챠)이 만료되었습니다. 다시 시도해주세요.');
+      } else {
+        setError(err.message || '인증에 실패했습니다.');
+      }
+      setCaptchaToken(null);
+      turnstileRef.current?.reset();
     } finally {
       setLoading(false);
     }
@@ -103,6 +122,8 @@ const AuthPage = () => {
             onClick={() => { 
               setIsLogin(false); 
               setError(''); 
+              setCaptchaToken(null);
+              turnstileRef.current?.reset();
             }}
             style={{
               flex: 1, padding: '10px 0', fontSize: '0.95rem', fontWeight: 'bold', border: 'none', borderRadius: '8px', cursor: 'pointer',
@@ -171,6 +192,21 @@ const AuthPage = () => {
               }}
             />
           )}
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+            <Turnstile 
+              ref={turnstileRef}
+              siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'} 
+              onSuccess={(token) => setCaptchaToken(token)}
+              onExpire={() => {
+                setCaptchaToken(null);
+                turnstileRef.current?.reset();
+              }}
+              onError={() => {
+                setError('로봇 방지 인증 서버와 통신할 수 없습니다. 키 설정과 도메인을 확인해주세요.');
+              }}
+            />
+          </div>
 
           {error && <div style={{ color: '#ff6b6b', fontSize: '0.9rem', marginTop: '4px', textAlign: 'center' }}>{error}</div>}
 
