@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 const KAKAO_KEY = '0dd90f0dea818aac4e6a7ae924cc5306';
-const PRODUCTION_DOMAIN = 'https://daywise-web-six.vercel.app';
+const PRODUCTION_DOMAIN = 'https://www.daywise.kr';
 const DEFAULT_IMAGE = `${PRODUCTION_DOMAIN}/images/default_og_image.jpg`;
 
 /**
@@ -22,7 +22,7 @@ export const useKakaoShare = () => {
     try {
       // 어떤 환경(테스트 도메인 등)에서 테스트하더라도 카카오에 등록된 정식 도메인으로 강제 고정
       const urlObj = new URL(url, PRODUCTION_DOMAIN);
-      urlObj.hostname = 'daywise-web-six.vercel.app';
+      urlObj.hostname = 'www.daywise.kr';
       urlObj.protocol = 'https:';
       const safeShareUrl = urlObj.toString();
 
