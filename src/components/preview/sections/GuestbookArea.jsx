@@ -11,7 +11,7 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
   
   const [hearts, setHearts] = React.useState([]);
 
-  const handleButtonClick = (e) => {
+  const handleButtonClick = () => {
     if (selectedTemplate === 'bento') {
       const newHearts = Array.from({ length: 8 }).map((_, i) => ({
         id: Date.now() + i,

@@ -23,7 +23,7 @@ const StoryArea = ({ theme }) => {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '0 10px' }}>
-          {storyInfo.qnaList.map((qna, idx) => (
+          {storyInfo.qnaList.map((qna) => (
             <div key={qna.id} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
               <div style={{ 
                 color: theme.accent, fontWeight: 'bold', fontSize: 'calc(1.4rem * var(--font-ratio))', fontFamily: 'var(--font-en-serif)', fontStyle: 'italic',

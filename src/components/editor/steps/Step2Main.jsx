@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, AlignCenter, AlignLeft, Type, Languages, Calendar, Link as LinkIcon, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, CheckCircle2 } from 'lucide-react';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
 import { checkIdAvailable } from '../../../api/supabaseApi';
@@ -19,7 +19,6 @@ const Step2Main = () => {
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
   const customUrl = useBuilderStore(state => state.customUrl);
   const setCustomUrl = useBuilderStore(state => state.setCustomUrl);
-  const currentInvitationId = useBuilderStore(state => state.currentInvitationId);
   const fileInputRef = useRef(null);
   const { uploadImage, isUploading } = useImageUpload();
 
@@ -33,7 +32,7 @@ const Step2Main = () => {
     if (!compatList.includes(currentLayout)) {
       setMainInfo('coverLayout', 'layout1');
     }
-  }, [selectedTemplate]);
+  }, [selectedTemplate, compatList, currentLayout, setMainInfo]);
 
   const handleMainImageUpload = async (e) => {
     const file = e.target.files[0];

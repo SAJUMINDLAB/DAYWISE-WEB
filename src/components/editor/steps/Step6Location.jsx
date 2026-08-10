@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { MapPin, Phone, ImagePlus, CheckCircle2, Trash2, Plus, X } from 'lucide-react';
+import { MapPin, Phone, ImagePlus, Trash2, Plus, X } from 'lucide-react';
 import DaumPostcode from 'react-daum-postcode';
 
 const InputRow = ({ icon: Icon, label, value, onChange, placeholder, isTextarea = false, rightElement }) => (

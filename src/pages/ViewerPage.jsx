@@ -166,6 +166,27 @@ const ViewerPage = () => {
   return (
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#e5e5e5', display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '480px', backgroundColor: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.1)', minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+        
+        {/* 미결제/미리보기 상태 배너 */}
+        {invitationData && invitationData.payment_status !== 'paid' && (
+          <div style={{
+            backgroundColor: '#fff3e0',
+            color: '#e65100',
+            padding: '12px 16px',
+            textAlign: 'center',
+            fontSize: '0.85rem',
+            fontWeight: 'bold',
+            borderBottom: '1px solid #ffe0b2',
+            zIndex: 1000,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px'
+          }}>
+            <span>⚠️ 본 청첩장은 미리보기 화면입니다.</span>
+            <span style={{ fontSize: '0.75rem', fontWeight: 'normal' }}>결제 완료 후 하객에게 공유할 수 있습니다.</span>
+          </div>
+        )}
+
         <ErrorBoundary>
           <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
             <InvitationPreview isPublicView={true} />

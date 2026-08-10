@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { Power, Utensils, Users, MessageSquare, Phone } from 'lucide-react';
+import { Utensils, Users, MessageSquare, Phone } from 'lucide-react';
 
 const Step9Rsvp = () => {
   const rsvpInfo = useBuilderStore(state => state.rsvpInfo);

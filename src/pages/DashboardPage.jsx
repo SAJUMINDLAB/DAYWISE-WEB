@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useBuilderStore } from '../store/useBuilderStore';
-import { getUserInvitations, getInvitation, deleteInvitation, signOut, deleteUserAccount } from '../api/supabaseApi';
+import { getUserInvitations, getInvitation, deleteInvitation, signOut } from '../api/supabaseApi';
 import InvitationManager from '../components/manager/InvitationManager';
 import { Loader2, Trash2 } from 'lucide-react';
+import AccountSettingsModal from '../components/dashboard/AccountSettingsModal';
 
 const DashboardPage = () => {
   const user = useBuilderStore(state => state.user);
@@ -12,14 +13,15 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [managingInvitation, setManagingInvitation] = useState(null);
   const [loadingManagerId, setLoadingManagerId] = useState(null);
-  const [isWithdrawing, setIsWithdrawing] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const navigate = useNavigate();
 
-  const fetchInvitations = async () => {
+  const fetchInvitations = useCallback(async () => {
+    if (!user) return;
     const data = await getUserInvitations(user.id);
     setInvitations(data);
     setLoading(false);
-  };
+  }, [user]);
 
   useEffect(() => {
     if (!user) {
@@ -27,7 +29,7 @@ const DashboardPage = () => {
       return;
     }
     fetchInvitations();
-  }, [user, navigate]);
+  }, [user, navigate, fetchInvitations]);
 
   const handleDelete = async (id) => {
     if (!window.confirm('정말 이 청첩장을 삭제하시겠습니까? (방명록과 참석 여부 데이터도 모두 삭제되며 복구할 수 없습니다)')) return;
@@ -42,21 +44,6 @@ const DashboardPage = () => {
   const handleLogout = async () => {
     await signOut();
     navigate('/');
-  };
-
-  const handleWithdrawal = async () => {
-    if (!window.confirm('정말 회원 탈퇴를 진행하시겠습니까?\n생성된 모든 청첩장 데이터가 즉시 삭제되며 복구할 수 없습니다.')) return;
-    setIsWithdrawing(true);
-    try {
-      await deleteUserAccount(user.id);
-      setUser(null);
-      alert('회원 탈퇴 및 데이터 삭제가 안전하게 완료되었습니다.');
-      navigate('/');
-    } catch (e) {
-      alert('회원 탈퇴 처리 중 오류가 발생했습니다: ' + e.message);
-    } finally {
-      setIsWithdrawing(false);
-    }
   };
 
   if (!user) return null; // Or a loading spinner
@@ -88,13 +75,13 @@ const DashboardPage = () => {
         </div>
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <span style={{ fontSize: '0.95rem', color: '#555' }}>{user.email ? `${user.email}님` : '카카오 회원님'}</span>
-          <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', textDecoration: 'underline' }}>로그아웃</button>
-          <button onClick={handleWithdrawal} disabled={isWithdrawing} style={{ 
-            background: 'none', border: 'none', color: isWithdrawing ? '#ccc' : '#ff6b6b', 
-            cursor: isWithdrawing ? 'not-allowed' : 'pointer', textDecoration: 'underline', fontSize: '0.85rem' 
+          <button onClick={() => setShowSettingsModal(true)} style={{ 
+            background: 'none', border: 'none', color: '#555', 
+            cursor: 'pointer', textDecoration: 'underline', fontSize: '0.9rem' 
           }}>
-            {isWithdrawing ? '탈퇴 처리중...' : '회원탈퇴'}
+            계정 설정
           </button>
+          <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', textDecoration: 'underline' }}>로그아웃</button>
         </div>
       </header>
 
@@ -128,6 +115,13 @@ const DashboardPage = () => {
                 ? `${mainInfo.groomNameKo} & ${mainInfo.brideNameKo}의 결혼식` 
                 : '제목 없는 청첩장';
               const date = new Date(inv.created_at).toLocaleDateString();
+              
+              // 결제 상태 및 남은 일수 계산
+              const isPaid = inv.payment_status === 'paid';
+              let daysLeft = 0;
+              if (!isPaid && inv.expires_at) {
+                daysLeft = Math.ceil((new Date(inv.expires_at) - new Date()) / (1000 * 60 * 60 * 24));
+              }
 
               return (
                 <div key={inv.id} style={{ 
@@ -136,7 +130,16 @@ const DashboardPage = () => {
                   display: 'flex', flexDirection: 'column'
                 }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ color: '#aaa', fontSize: '0.85rem', marginBottom: '8px' }}>ID: {inv.id}</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                      <div style={{ color: '#aaa', fontSize: '0.85rem' }}>ID: {inv.id}</div>
+                      {isPaid ? (
+                        <span style={{ padding: '4px 8px', backgroundColor: '#e8f5e9', color: '#2e7d32', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>결제 완료</span>
+                      ) : (
+                        <span style={{ padding: '4px 8px', backgroundColor: '#fff3e0', color: '#e65100', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                          결제 대기 (D-{daysLeft > 0 ? daysLeft : 0} 삭제)
+                        </span>
+                      )}
+                    </div>
                     <h3 style={{ margin: '0 0 12px 0', fontSize: '1.2rem', color: '#2C2C2C' }}>{title}</h3>
                     <div style={{ color: '#888', fontSize: '0.9rem' }}>생성일: {date}</div>
                   </div>
@@ -145,7 +148,7 @@ const DashboardPage = () => {
                     <Link to={`/editor/${inv.id}`} style={{ 
                       flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#f5f5f5', 
                       color: '#2C2C2C', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
-                    }}>수정</Link>
+                    }}>수정/결제</Link>
                     <button 
                       disabled={loadingManagerId === inv.id}
                       onClick={async () => {
@@ -212,6 +215,13 @@ const DashboardPage = () => {
           100% { transform: rotate(360deg); }
         }
       `}</style>
+      {showSettingsModal && (
+        <AccountSettingsModal 
+          user={user} 
+          onClose={() => setShowSettingsModal(false)} 
+          onLogout={() => setUser(null)}
+        />
+      )}
     </div>
   );
 };

@@ -64,7 +64,6 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
           transform: 'translateX(-50%)',
           zIndex: 40, // BGM버튼(50)보다 살짝 아래, 하지만 클릭가능하게
           opacity: isRsvpVisible ? 0 : 1,
-          pointerEvents: isRsvpVisible ? 'none' : 'auto',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           pointerEvents: isRsvpVisible ? 'none' : 'auto'
         }}>

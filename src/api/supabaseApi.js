@@ -75,7 +75,14 @@ export const getInvitation = async (id) => {
     return null;
   }
 
-  const fullData = { ...invData.data, id: invData.id, user_id: invData.user_id, createdAt: invData.created_at };
+  const fullData = { 
+    ...invData.data, 
+    id: invData.id, 
+    user_id: invData.user_id, 
+    createdAt: invData.created_at,
+    payment_status: invData.payment_status,
+    expires_at: invData.expires_at
+  };
 
   // 2. 방명록 가져오기
   const { data: guestbookData, error: gbError } = await supabase
@@ -117,6 +124,28 @@ export const getInvitation = async (id) => {
   }
 
   return fullData;
+};
+
+export const updatePaymentStatus = async (id, status) => {
+  const payload = {
+    payment_status: status
+  };
+  
+  // 결제 완료 시 만료일을 NULL로 설정하여 영구 보관
+  if (status === 'paid') {
+    payload.expires_at = null;
+  }
+
+  const { error } = await supabase
+    .from('invitations')
+    .update(payload)
+    .eq('id', id);
+
+  if (error) {
+    console.error('updatePaymentStatus Error:', error);
+    throw error;
+  }
+  return true;
 };
 
 export const getAllInvitations = async () => {
@@ -161,7 +190,7 @@ export const getUserInvitations = async (userId) => {
   if (!userId) return [];
   const { data, error } = await supabase
     .from('invitations')
-    .select('id, created_at, data')
+    .select('id, created_at, payment_status, expires_at, data')
     .eq('data->user->>id', userId)
     .order('created_at', { ascending: false });
 
@@ -289,6 +318,14 @@ export const signIn = async (email, password, captchaToken) => {
     throw error;
   }
   
+  return data;
+};
+
+export const updatePassword = async (newPassword) => {
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword
+  });
+  if (error) throw error;
   return data;
 };
 

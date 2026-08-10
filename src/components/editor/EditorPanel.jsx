@@ -5,6 +5,7 @@ import StepItem from './StepItem';
 import { Check, Zap } from 'lucide-react';
 import QuickSetupModal from './QuickSetupModal';
 import SaveCompleteModal from './SaveCompleteModal';
+import PaymentSimulationModal from './PaymentSimulationModal';
 import { saveInvitation, checkIdAvailable } from '../../api/supabaseApi';
 
 const EditorPanel = () => {
@@ -15,6 +16,7 @@ const EditorPanel = () => {
   // Save States
   const [isSaving, setIsSaving] = useState(false);
   const [saveModalUrl, setSaveModalUrl] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -34,8 +36,6 @@ const EditorPanel = () => {
       if (!fullState.user) {
         alert('청첩장을 저장하고 배포하려면 먼저 로그인(또는 회원가입)이 필요합니다.');
         setIsSaving(false);
-        // 향후 로그인 모달 팝업 등을 띄우는 로직을 여기에 추가할 수 있습니다.
-        // 현재는 DashboardPage(로그인/관리 페이지)로 이동하도록 안내
         if(window.confirm('로그인 페이지로 이동하시겠습니까? (작업 중인 내용은 브라우저에 임시 유지됩니다)')) {
           window.location.href = '/dashboard';
         }
@@ -89,7 +89,6 @@ const EditorPanel = () => {
       // 스토어에 ID를 저장하여 다음 번 저장 시 덮어쓰기가 되도록 합니다.
       useBuilderStore.setState({ currentInvitationId: newId });
       
-      // 카카오톡 캐시(이전의 썸네일 기억)를 회피하기 위해 타임스탬프 쿼리파라미터 추가
       const url = `${window.location.origin}/view/${newId}?t=${new Date().getTime()}`;
       setSaveModalUrl(url);
     } catch (err) {
@@ -182,6 +181,7 @@ const EditorPanel = () => {
       </div>
       
       {showQuickSetup && <QuickSetupModal onClose={() => setShowQuickSetup(false)} />}
+      {showPaymentModal && <PaymentSimulationModal onClose={() => setShowPaymentModal(false)} onPaymentComplete={handlePaymentComplete} />}
       {saveModalUrl && <SaveCompleteModal shareUrl={saveModalUrl} onClose={() => setSaveModalUrl(null)} />}
     </div>
   );

@@ -55,6 +55,7 @@ const QuickSetupModal = ({ onClose }) => {
       useGuestbook: guestbookInfo.useGuestbook ?? true,
       useBgm: bgmInfo.useBgm ?? true
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSave = () => {

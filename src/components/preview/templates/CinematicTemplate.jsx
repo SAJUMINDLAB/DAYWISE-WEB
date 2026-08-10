@@ -7,7 +7,6 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
   const groomEn = mainInfo.groomNameEn || 'Groom';
   const brideEn = mainInfo.brideNameEn || 'Bride';
   const dateObj = mainInfo.date ? new Date(mainInfo.date) : new Date();
-  const year = dateObj.getFullYear();
   const shape = mainInfo.mainImageShape;
   
   return (

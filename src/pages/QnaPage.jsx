@@ -27,41 +27,70 @@ const QnaPage = () => {
 
   return (
     <PageLayout>
-      <div style={{ fontFamily: 'var(--font-kr-sans)' }}>
-        
-        <div style={{ textAlign: 'center', marginBottom: '60px', marginTop: '20px' }}>
-          <h1 style={{ fontFamily: 'var(--font-kr-serif)', fontSize: '3rem', color: '#2C2C2C', fontWeight: '500', marginBottom: '16px' }}>
-            자주 묻는 질문
-          </h1>
-          <p style={{ color: '#666', fontSize: '1.1rem' }}>데이와이즈 서비스에 대해 궁금하신 점을 확인해 보세요.</p>
-        </div>
-        <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', borderTop: '1px solid #EBEBEB' }}>
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <div key={idx} style={{ borderBottom: '1px solid #EBEBEB' }}>
-                <div 
-                  onClick={() => toggleAccordion(idx)}
-                  style={{ 
-                    padding: '28px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
-                    cursor: 'pointer', transition: 'background-color 0.2s', backgroundColor: 'transparent'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#FAFAFA'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                >
-                  <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#2C2C2C', margin: 0, paddingRight: '20px', lineHeight: '1.4' }}>{faq.q}</h4>
-                  <div style={{ flexShrink: 0 }}>
-                    {isOpen ? <ChevronUp size={22} color="#888" /> : <ChevronDown size={22} color="#888" />}
+      <div style={{ backgroundColor: '#FDFBF7', minHeight: '100vh', padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ 
+          maxWidth: '800px', width: '100%', backgroundColor: '#fff', borderRadius: '24px', 
+          padding: '40px 48px', boxShadow: '0 20px 40px rgba(0,0,0,0.04)',
+          fontFamily: 'var(--font-kr-sans)'
+        }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '50px', borderBottom: '1px solid #f0f0f0', paddingBottom: '30px' }}>
+            <h1 style={{ fontSize: '2.2rem', margin: '0 0 16px 0', fontFamily: 'var(--font-kr-serif)', color: '#111' }}>자주 묻는 질문</h1>
+            <p style={{ color: '#888', margin: 0, fontSize: '0.95rem' }}>데이와이즈 서비스에 대해 궁금하신 점을 확인해 보세요.</p>
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {faqs.map((faq, idx) => {
+              const isOpen = openIndex === idx;
+              return (
+                <div key={idx} style={{ 
+                  border: '1px solid #eaeaea', 
+                  borderRadius: '16px', 
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  boxShadow: isOpen ? '0 10px 20px rgba(0,0,0,0.03)' : 'none',
+                  borderColor: isOpen ? '#e0e0e0' : '#eaeaea'
+                }}>
+                  <div 
+                    onClick={() => toggleAccordion(idx)}
+                    style={{ 
+                      padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
+                      cursor: 'pointer', backgroundColor: isOpen ? '#fafafa' : '#fff', transition: 'background-color 0.3s ease'
+                    }}
+                    onMouseOver={(e) => { if (!isOpen) e.currentTarget.style.backgroundColor = '#fdfdfd'; }}
+                    onMouseOut={(e) => { if (!isOpen) e.currentTarget.style.backgroundColor = '#fff'; }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ color: '#D4AF37', fontSize: '1.4rem', fontWeight: 'bold', fontFamily: 'var(--font-en)' }}>Q.</span>
+                      <h4 style={{ fontSize: '1.1rem', fontWeight: '600', color: '#222', margin: 0, lineHeight: '1.4' }}>{faq.q}</h4>
+                    </div>
+                    <div style={{ flexShrink: 0, 
+                                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', 
+                                  transition: 'transform 0.3s ease',
+                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  width: '32px', height: '32px', borderRadius: '50%', backgroundColor: isOpen ? '#f0f0f0' : 'transparent'
+                                }}>
+                      <ChevronDown size={20} color={isOpen ? "#555" : "#aaa"} />
+                    </div>
+                  </div>
+                  
+                  <div style={{ 
+                    maxHeight: isOpen ? '500px' : '0', 
+                    opacity: isOpen ? 1 : 0, 
+                    overflow: 'hidden', 
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    backgroundColor: '#fafafa'
+                  }}>
+                    <div style={{ padding: '0 24px 24px 24px', borderTop: '1px dashed #eee', marginTop: '4px', paddingTop: '20px', display: 'flex', gap: '12px' }}>
+                      <span style={{ color: '#444', fontSize: '1.4rem', fontWeight: 'bold', fontFamily: 'var(--font-en)' }}>A.</span>
+                      <p style={{ color: '#555', fontSize: '0.95rem', lineHeight: '1.6', margin: '4px 0 0 0' }}>{faq.a}</p>
+                    </div>
                   </div>
                 </div>
-                {isOpen && (
-                  <div style={{ padding: '0 12px 32px 12px' }}>
-                    <p style={{ color: '#777', fontSize: '1rem', lineHeight: '1.6', margin: 0 }}>{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+          
         </div>
       </div>
     </PageLayout>

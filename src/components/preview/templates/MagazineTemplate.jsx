@@ -6,7 +6,6 @@ const MagazineTemplate = ({ sectionOrder, renderSection, theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const groomEn = mainInfo.groomNameEn || 'Groom';
   const brideEn = mainInfo.brideNameEn || 'Bride';
-  const issueDate = mainInfo.date ? mainInfo.date.replace(/-/g, '.') : '2026.01.01';
 
   return (
     <div className="template-magazine" style={{ '--theme-text': theme.text, '--theme-bg': theme.bg }}>

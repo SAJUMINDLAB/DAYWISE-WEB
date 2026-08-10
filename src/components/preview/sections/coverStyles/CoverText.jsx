@@ -3,7 +3,7 @@ import FadeUp from '../../FadeUp';
 
 const CoverText = ({
   textStyle, isOverlay, theme, optionInfo, mainInfo, formattedDate, dayName,
-  containerStyle, commonTextProps, textColor, accentColor
+  containerStyle, commonTextProps, textColor
 }) => {
   if (textStyle === 'style2') {
     return (

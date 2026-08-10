@@ -268,10 +268,6 @@ export const useBuilderStore = create((set) => ({
     accountInfo: { ...state.accountInfo, message: text }
   })),
 
-  updateAccountInfo: (key, value) => set((state) => ({
-    accountInfo: { ...state.accountInfo, [key]: value }
-  })),
-
   updateAccount: (side, id, key, value) => set((state) => ({
     accountInfo: {
       ...state.accountInfo,
@@ -362,7 +358,6 @@ export const useBuilderStore = create((set) => ({
   setActiveStep: (step) => set({ activeStep: step }),
 
   // 스타일 관련 상태
-  selectedTemplate: 'classic',
   setTemplate: (templateId) => set((state) => {
     if (templateId === 'bento' && state.galleryInfo.layout !== 'carousel') {
       return { 
@@ -372,7 +367,6 @@ export const useBuilderStore = create((set) => ({
     }
     return { selectedTemplate: templateId };
   }),
-  selectedTheme: 'cream-beige',
   setTheme: (themeId) => set({ selectedTheme: themeId }),
   customColors: { bg: '#ffffff', accent: '#000000' },
   setCustomColors: (colors) => set((state) => ({ customColors: { ...state.customColors, ...colors } })),

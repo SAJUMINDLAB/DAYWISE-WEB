@@ -16,7 +16,7 @@ const AccountSection = ({ title, side }) => {
         <span>{title} ({accounts.length})</span>
       </div>
       
-      {accounts.map((acc, index) => (
+      {accounts.map((acc) => (
         <div key={acc.id} style={{ padding: '16px', border: '1px solid #EBEBEB', borderRadius: '8px', marginBottom: '12px', backgroundColor: '#fff', position: 'relative' }}>
           <button onClick={() => removeAccount(side, acc.id)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: '#ff4d4f', cursor: 'pointer' }}>
             <Trash2 size={18} />
