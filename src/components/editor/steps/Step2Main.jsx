@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, CheckCircle2, AlignCenter } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, CheckCircle2, AlignCenter, AlignLeft } from 'lucide-react';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
 import { checkIdAvailable } from '../../../api/supabaseApi';
