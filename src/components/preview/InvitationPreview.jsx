@@ -96,7 +96,7 @@ const InvitationPreview = () => {
     }
   }, [isPlaying, bgmInfo.selectedTrack]);
 
-  const fontRatioList = { 'S': 0.9, 'M': 1, 'L': 1.15, 'XL': 1.3 };
+  const fontRatioList = { 'S': 0.9, 'M': 1, 'L': 1.15, 'XL': 1.3, '2XL': 1.5, '3XL': 1.7 };
   const fontRatio = fontRatioList[optionInfo.fontSize] || 1;
   const baseFontSize = '1rem';
   const particlesType = optionInfo.particlesEffect ? (optionInfo.particleType || 'snow') : 'none';

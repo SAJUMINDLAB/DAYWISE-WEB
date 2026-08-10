@@ -12,7 +12,7 @@ const themes = [
   { id: 'classic-charcoal', name: 'Classic Charcoal', desc: '모던하고 시크한 클래식 차콜', colors: ['#F9F9F9', '#555555'] },
   { id: 'warm-terracotta', name: 'Warm Terracotta', desc: '가을을 품은 따뜻한 테라코타', colors: ['#FFF9F5', '#C47D68'] },
   { id: 'sunset-breeze', name: 'Sunset Breeze', desc: '트렌디한 코랄빛 노을', colors: ['#FFF7F2', '#E86A41'] },
-  { id: 'midnight-orange', name: 'Midnight Orange', desc: '시크한 블랙과 에르메스 오렌지', colors: ['#1A1817', '#F37021'] },
+  { id: 'midnight-orange', name: 'Midnight Orange', desc: '다크한 블랙과 에르메스 오렌지', colors: ['#000000', '#F37021'] },
   { id: 'deep-forest', name: 'Deep Forest', desc: '깊고 우아한 딥 그린과 골드', colors: ['#1A2421', '#D4AF37'] },
   { id: 'dusty-blue', name: 'Dusty Blue', desc: '차분하고 우아한 안개 낀 바다', colors: ['#F5F7FA', '#6B7F96'] },
   { id: 'vintage-wine', name: 'Vintage Wine', desc: '매혹적이고 짙은 빈티지 와인', colors: ['#2D1B1E', '#E6A8B6'] },

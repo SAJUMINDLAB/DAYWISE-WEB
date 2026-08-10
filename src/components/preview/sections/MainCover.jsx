@@ -92,7 +92,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
   if (layout === 'layout2') {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ marginTop: '0px' }}>{imageContent}</div>
+        <div style={{ padding: '40px 20px 0 20px' }}>{imageContent}</div>
         {textContent}
       </div>
     );

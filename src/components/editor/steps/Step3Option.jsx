@@ -29,7 +29,7 @@ const Step3Option = () => {
   const setOptionInfo = useBuilderStore(state => state.setOptionInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
 
-  const sizes = ['S', 'M', 'L', 'XL'];
+  const sizes = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
 
   return (
     <div style={{ padding: '0 10px' }}>
@@ -52,19 +52,34 @@ const Step3Option = () => {
 
       <OptionRow 
         icon={Type} 
-        title="글자 크기" 
+        title="글자 크기 (FONT SIZE)" 
         desc="본문의 글자 크기를 조정합니다."
       >
-        <div className="size-selector">
+        <div style={{ display: 'flex', width: '100%', gap: '4px' }}>
           {sizes.map(s => (
             <button 
               key={s} 
-              className={`size-btn ${optionInfo.fontSize === s ? 'active' : ''}`}
+              style={{
+                flex: 1,
+                padding: '8px 0',
+                border: '1px solid',
+                borderColor: optionInfo.fontSize === s ? '#222' : '#ddd',
+                borderRadius: '6px',
+                backgroundColor: optionInfo.fontSize === s ? '#222' : '#fff',
+                color: optionInfo.fontSize === s ? '#fff' : '#666',
+                fontSize: '0.85rem',
+                fontWeight: optionInfo.fontSize === s ? 'bold' : 'normal',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
               onClick={() => setOptionInfo('fontSize', s)}
             >
               {s}
             </button>
           ))}
+        </div>
+        <div style={{ marginTop: '8px', fontSize: '0.75rem', color: '#ff4d4f', fontWeight: 'bold' }}>
+          ※ 글자를 너무 크게 설정하면 전체적인 디자인과 비율을 해칠 수 있습니다.
         </div>
       </OptionRow>
 

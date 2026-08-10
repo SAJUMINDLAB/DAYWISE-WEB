@@ -12,7 +12,7 @@ const ShareArea = ({ theme }) => {
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
-      <div style={{ padding: '60px 20px', backgroundColor: theme.bg, borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+      <div style={{ padding: '60px 20px', backgroundColor: theme.bg }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <button 
             onClick={() => {
