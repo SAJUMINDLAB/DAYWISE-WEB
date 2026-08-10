@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 const HeroSection = ({ user }) => {
   return (
     <section style={{ 
-      height: '80vh', minHeight: '600px', display: 'flex', flexDirection: 'column', 
+      height: '60vh', minHeight: '400px', display: 'flex', flexDirection: 'column', 
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',
-      padding: '0 20px', position: 'relative', overflow: 'hidden',
-      backgroundColor: '#fdfbf7'
+      padding: '0 20px', position: 'relative', overflow: 'hidden'
     }}>
       <style>{`
         @keyframes heroFadeUp {
@@ -22,43 +21,44 @@ const HeroSection = ({ user }) => {
         .delay-2 { animation-delay: 0.4s; }
         .delay-3 { animation-delay: 0.6s; }
         .btn-premium {
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.3s ease;
           background-color: transparent;
         }
         .btn-premium:hover {
-          background-color: #2C2C2C !important;
+          background-color: #D4AF37 !important;
           color: #fff !important;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+          box-shadow: 0 10px 30px rgba(212,175,55,0.2) !important;
         }
       `}</style>
-      
-      {/* Elegant High-End Background */}
-      <img 
-        src="/images/elegant_landing_bg.jpg" 
-        alt="Premium Background" 
+      {/* Wedding Background Video */}
+      <video 
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
         style={{ 
           position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
-          objectFit: 'cover', objectPosition: 'center', zIndex: 0,
-          opacity: 0.6 // Blend with the #fdfbf7 background
+          objectFit: 'cover', objectPosition: 'center 35%', zIndex: 0 
         }}
-      />
+      >
+        <source src="/video/결혼식홈페이지 메인 사진 무료 픽사베이.mp4" type="video/mp4" />
+      </video>
       
-      {/* Subtle overlay for better text readability */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(to bottom, rgba(253, 251, 247, 0.3), rgba(253, 251, 247, 0.8))', zIndex: 1 }}></div>
+      {/* Dark overlay to make text readable over the video */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1 }}></div>
 
       {/* Content wrapper */}
       <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div className="hero-fade-up" style={{
-          display: 'inline-block', color: '#8b7355', fontSize: '0.95rem', fontWeight: '500',
-          marginBottom: '24px', letterSpacing: '3px'
+          display: 'inline-block', color: '#D4AF37', fontSize: '0.95rem', fontWeight: '500',
+          marginBottom: '24px', letterSpacing: '3px', textShadow: '0 2px 4px rgba(0,0,0,0.5)'
         }}>
-          PREMIUM WEDDING INVITATION BUILDER
+          세상에 단 하나, 우리의 첫 번째 이야기.
         </div>
         
         <h1 className="hero-fade-up delay-1" style={{ 
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          color: '#2C2C2C', margin: '0 0 32px 0', letterSpacing: '-1px'
+          color: '#fff', margin: '0 0 32px 0', letterSpacing: '-1px', textShadow: '0 4px 12px rgba(0,0,0,0.5)'
         }}>
           <span style={{ fontFamily: 'var(--font-kr-serif)', fontSize: '3.5rem', fontWeight: '400', lineHeight: '1.2', marginBottom: '8px' }}>
             가장 아름다운 순간을 위한
@@ -69,21 +69,21 @@ const HeroSection = ({ user }) => {
         </h1>
         
         {/* Elegant divider */}
-        <div className="hero-fade-up delay-1" style={{ height: '1px', width: '40px', backgroundColor: '#d4af37', marginBottom: '32px' }} />
+        <div className="hero-fade-up delay-1" style={{ height: '1px', width: '60px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)', marginBottom: '32px' }} />
         
         <p className="hero-fade-up delay-2" style={{ 
-          fontFamily: 'var(--font-kr-sans)', fontSize: '1.15rem', color: '#555', 
-          lineHeight: '1.8', marginBottom: '45px', fontWeight: '300', letterSpacing: '-0.3px'
+          fontFamily: 'var(--font-kr-sans)', fontSize: '1.15rem', color: 'rgba(255,255,255,0.95)', 
+          lineHeight: '1.8', marginBottom: '45px', fontWeight: '300', letterSpacing: '-0.3px',
+          textShadow: '0 2px 10px rgba(0,0,0,0.5)'
         }}>
           틀에 박힌 디자인에서 벗어나, 두 사람만의 분위기와 온도를 담으세요.<br/>
-          클릭 몇 번으로 완성되는 프리미엄 청첩장 서비스 <strong>DAYWISE</strong>
+          클릭 몇 번으로 완성되는 프리미엄 청첩장 서비스 <strong>데이와이즈</strong>
         </p>
         
         <Link to={user ? "/editor" : "/auth"} className="hero-fade-up delay-3 btn-premium" style={{ 
-          padding: '18px 48px', color: '#2C2C2C', backgroundColor: 'transparent',
-          border: '1px solid #2C2C2C', textDecoration: 'none', borderRadius: '4px', 
-          fontSize: '1rem', letterSpacing: '1px', display: 'inline-flex', alignItems: 'center', gap: '8px',
-          fontWeight: '500'
+          padding: '18px 48px', color: '#D4AF37', backgroundColor: 'transparent',
+          border: '1px solid #D4AF37', textDecoration: 'none', borderRadius: '4px', 
+          fontSize: '1.1rem', letterSpacing: '1px', display: 'inline-flex', alignItems: 'center', gap: '8px'
         }}>
           무료로 제작 시작하기 <span>&rarr;</span>
         </Link>
