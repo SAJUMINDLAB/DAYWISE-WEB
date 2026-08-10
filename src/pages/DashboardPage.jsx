@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useBuilderStore } from '../store/useBuilderStore';
 import { getUserInvitations, getInvitation, deleteInvitation, signOut } from '../api/supabaseApi';
 import InvitationManager from '../components/manager/InvitationManager';
-import { Loader2, Trash2 } from 'lucide-react';
+import { Loader2, Trash2, QrCode } from 'lucide-react';
 import AccountSettingsModal from '../components/dashboard/AccountSettingsModal';
+import QrCodeModal from '../components/dashboard/QrCodeModal';
 
 const DashboardPage = () => {
   const user = useBuilderStore(state => state.user);
@@ -14,6 +15,8 @@ const DashboardPage = () => {
   const [managingInvitation, setManagingInvitation] = useState(null);
   const [loadingManagerId, setLoadingManagerId] = useState(null);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [qrModalUrl, setQrModalUrl] = useState(null);
+  const [qrModalTitle, setQrModalTitle] = useState('');
   const navigate = useNavigate();
 
   const fetchInvitations = useCallback(async () => {
@@ -181,6 +184,15 @@ const DashboardPage = () => {
                       flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#FDFBF7', 
                       color: '#D4AF37', border: '1px solid #D4AF37', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
                     }}>미리보기</a>
+                    <button onClick={() => {
+                        setQrModalUrl(`https://www.daywise.kr/v/${inv.id}`);
+                        setQrModalTitle(title);
+                    }} style={{
+                      padding: '0 12px', backgroundColor: '#fff', color: '#2C2C2C', border: '1px solid #ccc',
+                      cursor: 'pointer', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }} title="QR 코드 다운로드">
+                      <QrCode size={16} />
+                    </button>
                     <button onClick={() => handleDelete(inv.id)} style={{
                       padding: '0 12px', backgroundColor: '#fff', color: '#ff4d4f', border: '1px solid #ffe5e5',
                       cursor: 'pointer', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'
@@ -222,6 +234,13 @@ const DashboardPage = () => {
           onLogout={() => setUser(null)}
         />
       )}
+      
+      <QrCodeModal 
+        isOpen={!!qrModalUrl}
+        url={qrModalUrl}
+        title={qrModalTitle}
+        onClose={() => setQrModalUrl(null)}
+      />
     </div>
   );
 };

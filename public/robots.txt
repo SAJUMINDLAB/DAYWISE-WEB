@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /$
+Allow: /images/
+Allow: /video/
+Disallow: /v/
+Disallow: /view/
+Disallow: /editor/
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /admin
+
+Sitemap: https://www.daywise.kr/sitemap.xml
