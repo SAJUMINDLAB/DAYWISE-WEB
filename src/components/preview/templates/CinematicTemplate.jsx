@@ -174,15 +174,15 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
         }
 
         /* V2-2. Film Strip Gallery */
-        .template-cinematic #section-gallery {
+        .template-cinematic #section-gallery.film-strip-enabled {
           position: relative;
           padding: 40px 0 !important;
           background-color: transparent;
           border-top: 24px solid var(--theme-text);
           border-bottom: 24px solid var(--theme-text);
         }
-        .template-cinematic #section-gallery::before,
-        .template-cinematic #section-gallery::after {
+        .template-cinematic #section-gallery.film-strip-enabled::before,
+        .template-cinematic #section-gallery.film-strip-enabled::after {
           content: '';
           position: absolute;
           left: 0;
@@ -192,8 +192,8 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
           opacity: 0.8;
           pointer-events: none;
         }
-        .template-cinematic #section-gallery::before { top: -16px; }
-        .template-cinematic #section-gallery::after { bottom: -16px; }
+        .template-cinematic #section-gallery.film-strip-enabled::before { top: -16px; }
+        .template-cinematic #section-gallery.film-strip-enabled::after { bottom: -16px; }
 
         /* V2-3. Clapperboard Date */
         .cinematic-clapperboard {
@@ -348,7 +348,7 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
       <div className="cinematic-light-leak-1"></div>
       <div className="cinematic-light-leak-2"></div>
       
-      <div id="section-home">
+      <div id="section-home" style={{ backgroundColor: theme.bg, paddingBottom: '100px' }}>
         {renderSection('main')}
         
         {/* Zero-height wrapper to position text relative to the bottom of the image */}
@@ -378,9 +378,11 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
             );
           }
 
+          const isFilmStrip = section.id === 'gallery' && optionInfo.showFilmStrip !== false;
+
           return (
-            <div key={section.id} className="cinematic-section" id={`section-${section.id}`}>
-              {section.id === 'calendar' && (
+            <div key={section.id} className={`cinematic-section ${isFilmStrip ? 'film-strip-enabled' : ''}`} id={`section-${section.id}`}>
+              {section.id === 'calendar' && optionInfo.showSlatePlate !== false && (
                 <div className="cinematic-clapperboard">
                   <div className="clapper-top"></div>
                   <div className="clapper-body">

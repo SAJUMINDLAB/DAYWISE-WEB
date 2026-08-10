@@ -191,13 +191,31 @@ const Step3Option = () => {
       )}
 
       {selectedTemplate === 'cinematic' && (
-        <OptionRow 
-          icon={Film} 
-          title="엔딩 크레딧 (ENDING CREDITS)" 
-          desc="시네마틱 테마의 마지막에 영화처럼 올라가는 엔딩 크레딧을 표시합니다."
-        >
-          <Toggle checked={optionInfo.cinematicCredits !== false} onChange={(e) => setOptionInfo('cinematicCredits', e.target.checked)} />
-        </OptionRow>
+        <>
+          <OptionRow 
+            icon={Film} 
+            title="엔딩 크레딧 (ENDING CREDITS)" 
+            desc="시네마틱 테마의 마지막에 영화처럼 올라가는 엔딩 크레딧을 표시합니다."
+          >
+            <Toggle checked={optionInfo.cinematicCredits !== false} onChange={(e) => setOptionInfo('cinematicCredits', e.target.checked)} />
+          </OptionRow>
+
+          <OptionRow 
+            icon={Film} 
+            title="영화 슬레이트 (SLATE PLATE)" 
+            desc="시네마틱 테마의 일시/장소 섹션에 영화 슬레이트(씬/테이크) 디자인을 표시합니다."
+          >
+            <Toggle checked={optionInfo.showSlatePlate !== false} onChange={(e) => setOptionInfo('showSlatePlate', e.target.checked)} />
+          </OptionRow>
+
+          <OptionRow 
+            icon={Film} 
+            title="필름 갤러리 (FILM STRIP)" 
+            desc="시네마틱 테마의 갤러리에 영화 필름 모양의 디자인을 적용합니다."
+          >
+            <Toggle checked={optionInfo.showFilmStrip !== false} onChange={(e) => setOptionInfo('showFilmStrip', e.target.checked)} />
+          </OptionRow>
+        </>
       )}
 
     </div>
