@@ -85,7 +85,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
                 left: 0,
                 width: '100%', 
                 height: '100%', 
-                objectFit: 'cover' 
+                objectFit: 'contain' 
               }} 
             />
           </div>
