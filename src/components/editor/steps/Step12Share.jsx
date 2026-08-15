@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Upload, MessageCircle, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 import { useImageUpload } from '../../../hooks/useImageUpload';
+import SimpleCropper from '../../common/SimpleCropper';
 
 const Step12Share = () => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
@@ -9,15 +10,34 @@ const Step12Share = () => {
   const mainImage = useBuilderStore(state => state.mainInfo.mainImage);
   const fileInputRef = useRef(null);
   const { uploadImage, isUploading } = useImageUpload();
+  
+  const [showCropper, setShowCropper] = useState(false);
+  const [cropFile, setCropFile] = useState(null);
 
-  const handleThumbnailUpload = async (e) => {
+  const handleThumbnailUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const publicUrl = await uploadImage(file, 800); // 썸네일은 800px 정도로 충분
+      setCropFile(file);
+      setShowCropper(true);
+      // 리셋하여 같은 파일을 다시 선택할 수 있게 함
+      e.target.value = null;
+    }
+  };
+
+  const handleCropComplete = async (croppedFile) => {
+    setShowCropper(false);
+    setCropFile(null);
+    if (croppedFile) {
+      const publicUrl = await uploadImage(croppedFile, 800); // 800x800 for 1:1 Kakao format
       if (publicUrl) {
         updateShareInfo('thumbnailUrl', publicUrl);
       }
     }
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
+    setCropFile(null);
   };
 
   const currentThumbnail = shareInfo.thumbnailUrl || mainImage;
@@ -40,7 +60,7 @@ const Step12Share = () => {
             <div>
               <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '2px' }}>모바일 청첩장</div>
               <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '2px' }}>저희 결혼합니다</div>
-              <div style={{ fontSize: '0.8rem', color: '#666' }}>소중한 분들을 초대합니다.</div>
+              <div style={{ fontSize: '0.8rem', color: '#666' }}>두 사람이 하나 되는 날</div>
             </div>
           </div>
         </div>
@@ -111,27 +131,46 @@ const Step12Share = () => {
             
             <div 
               style={{ 
-                width: '100%', paddingBottom: '50%', backgroundColor: '#f0f0f0', 
+                width: '100%', paddingBottom: '100%', backgroundColor: '#f0f0f0', 
                 backgroundImage: currentThumbnail ? `url(${currentThumbnail})` : 'none',
-                backgroundSize: 'cover', backgroundPosition: 'center'
+                backgroundSize: 'cover', backgroundPosition: 'center',
+                borderBottom: '1px solid #f0f0f0'
               }}
             />
             
             <div style={{ padding: '14px' }}>
               <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#333', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {shareInfo.title || '공유 제목'}
+                {shareInfo.title || '동현 ❤️ 슬기 결혼합니다'}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                {shareInfo.description || '공유 문구'}
+              <div style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-all' }}>
+                {shareInfo.description || '2026년 11월 14일\n두 사람이 하나 되는 날'}
               </div>
             </div>
             
-            <div style={{ borderTop: '1px solid #f0f0f0', display: 'flex' }}>
-              <div style={{ flex: 1, padding: '12px', textAlign: 'center', fontSize: '0.8rem', color: '#333', borderRight: '1px solid #f0f0f0' }}>청첩장 보기</div>
+            <div style={{ borderTop: '1px solid #f0f0f0', display: 'flex', backgroundColor: '#f9f9f9' }}>
+              <div style={{ flex: 1, padding: '12px', textAlign: 'center', fontSize: '0.8rem', color: '#333' }}>모바일 청첩장 보기</div>
+            </div>
+
+            {/* 하단 출처 아이콘 영역 */}
+            <div style={{ padding: '10px 14px', borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ width: '16px', height: '16px', borderRadius: '4px', backgroundImage: 'url(/favicon.svg)', backgroundSize: 'cover', opacity: 0.7 }} />
+                <span style={{ fontSize: '0.7rem', color: '#888' }}>데이와이즈</span>
+              </div>
+              <span style={{ fontSize: '0.7rem', color: '#ccc' }}>&gt;</span>
             </div>
           </div>
         </div>
       </div>
+
+      {showCropper && cropFile && (
+        <SimpleCropper 
+          imageFile={cropFile} 
+          aspectRatio={1} // 1:1 ratio for Kakao Share
+          onCropComplete={handleCropComplete} 
+          onCancel={handleCropCancel} 
+        />
+      )}
 
     </div>
   );

@@ -41,8 +41,10 @@ export const useKakaoShare = () => {
         objectType: 'feed',
         content: {
           title: title || '저희 결혼합니다',
-          description: description || '소중한 분들을 초대합니다',
+          description: description || '두 사람이 하나 되는 날',
           imageUrl: safeImageUrl,
+          imageWidth: 800,
+          imageHeight: 800,
           link: {
             mobileWebUrl: safeShareUrl,
             webUrl: safeShareUrl,

@@ -38,7 +38,7 @@ const ShareArea = ({ theme }) => {
           <button 
             onClick={() => {
               const title = shareInfo.title || `${mainInfo.groomNameKo} ♥ ${mainInfo.brideNameKo} 결혼합니다`;
-              const description = shareInfo.description || '소중한 분들을 초대합니다';
+              const description = shareInfo.description || '두 사람이 하나 되는 날';
               const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
               const viewerUrl = getViewerUrl();
 

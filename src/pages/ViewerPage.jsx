@@ -167,7 +167,8 @@ const ViewerPage = () => {
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#e5e5e5', display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '480px', backgroundColor: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.1)', minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column' }}>
         
-        {/* 미결제/미리보기 상태 배너 */}
+        {/* 미결제/미리보기 상태 배너 (사용자 테스트를 위해 임시 비활성화) */}
+        {/* 
         {invitationData && invitationData.payment_status !== 'paid' && (
           <div style={{
             backgroundColor: '#fff3e0',
@@ -186,6 +187,7 @@ const ViewerPage = () => {
             <span style={{ fontSize: '0.75rem', fontWeight: 'normal' }}>결제 완료 후 하객에게 공유할 수 있습니다.</span>
           </div>
         )}
+        */}
 
         <ErrorBoundary>
           <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>

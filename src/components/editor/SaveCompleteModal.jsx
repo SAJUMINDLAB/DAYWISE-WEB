@@ -21,7 +21,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
   const handleKakaoShare = () => {
     // 카카오 공유 카드에 표시될 제목/설명/이미지를 동적으로 구성
     const title = shareInfo.title || `${mainInfo.groomNameKo} ♥ ${mainInfo.brideNameKo} 결혼합니다`;
-    const description = shareInfo.description || `소중한 분들을 초대합니다`;
+    const description = shareInfo.description || `두 사람이 하나 되는 날`;
     const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
 
     share({ url: shareUrl, title, description, imageUrl });

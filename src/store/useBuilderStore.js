@@ -222,9 +222,9 @@ export const useBuilderStore = create((set) => ({
   },
 
   shareInfo: {
-    title: '신랑 ❤️ 신부 결혼합니다',
-    description: '2026년 01월 01일\n저희 두 사람의 아름다운 출발을 축하해 주세요.',
-    thumbnailUrl: null
+    title: '',
+    description: '2026년 01월 01일\n두 사람이 하나 되는 날',
+    thumbnailUrl: '',
   },
 
   updateRsvpInfo: (key, value) => set((state) => ({
@@ -305,11 +305,11 @@ export const useBuilderStore = create((set) => ({
 
     // 날짜 변경 시 공유 설명문 자동 업데이트
     if (key === 'date') {
-      const dateParts = value.split('-');
-      if (dateParts.length === 3) {
-        const [year, month, day] = dateParts;
-        newShareInfo.description = `${year}년 ${month}월 ${day}일\n저희 두 사람의 아름다운 출발을 축하해 주세요.`;
-      }
+      const d = new Date(value);
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+      newShareInfo.description = `${year}년 ${month}월 ${day}일\n두 사람이 하나 되는 날`;
     }
 
     return {
