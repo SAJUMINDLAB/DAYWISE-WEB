@@ -185,7 +185,7 @@ const DashboardPage = () => {
                       color: '#D4AF37', border: '1px solid #D4AF37', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
                     }}>미리보기</a>
                     <button onClick={() => {
-                        setQrModalUrl(`https://www.daywise.kr/v/${inv.id}`);
+                        setQrModalUrl(`https://daywise.kr/v/${inv.id}`);
                         setQrModalTitle(title);
                     }} style={{
                       padding: '0 12px', backgroundColor: '#fff', color: '#2C2C2C', border: '1px solid #ccc',
