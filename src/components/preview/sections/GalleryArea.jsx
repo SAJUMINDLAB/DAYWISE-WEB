@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import FadeUp from '../FadeUp';
 import { ChevronDown } from 'lucide-react';
-import GalleryFullModal from './GalleryFullModal';
 
 const svgPlaceholder = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
@@ -18,12 +17,11 @@ const dummyImages = Array.from({ length: 9 }).map((_, i) => ({
   url: svgPlaceholder
 }));
 
-const GalleryArea = ({ theme, setFullscreenIndex }) => {
+const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const galleryInfo = useBuilderStore(state => state.galleryInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
   const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
-  const [showFullGallery, setShowFullGallery] = useState(false);
 
   // Carousel Drag-to-Scroll Logic
   const carouselRef = useRef(null);
@@ -104,7 +102,7 @@ const GalleryArea = ({ theme, setFullscreenIndex }) => {
                       <div 
                         onClick={(e) => {
                           e.stopPropagation(); // 썸네일(스와이프 모달) 안 뜨게 막기
-                          setShowFullGallery(true);
+                          onOpenFullGallery && onOpenFullGallery(displayImages, gridCols);
                         }}
                         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'calc(1.4rem * var(--font-ratio))', fontFamily: 'var(--font-kr-sans)' }}
                       >
@@ -118,7 +116,7 @@ const GalleryArea = ({ theme, setFullscreenIndex }) => {
               {hasMore && (
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '24px' }}>
                   <button 
-                    onClick={() => setShowFullGallery(true)}
+                    onClick={() => onOpenFullGallery && onOpenFullGallery(displayImages, gridCols)}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: `1px solid ${theme.text}`, color: theme.text, padding: '10px 24px', borderRadius: '24px', fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.9rem * var(--font-ratio))', cursor: 'pointer', transition: 'all 0.2s', opacity: 0.8 }}
                   >
                     더보기 <ChevronDown size={16} />
@@ -151,16 +149,6 @@ const GalleryArea = ({ theme, setFullscreenIndex }) => {
         </div>
       </FadeUp>
 
-      {/* 갤러리 9장 초과 시 보여줄 풀 모달 화면 */}
-      {showFullGallery && (
-        <GalleryFullModal 
-          theme={theme} 
-          images={displayImages} 
-          gridCols={gridCols}
-          onClose={() => setShowFullGallery(false)}
-          setFullscreenIndex={setFullscreenIndex}
-        />
-      )}
     </>
   );
 };

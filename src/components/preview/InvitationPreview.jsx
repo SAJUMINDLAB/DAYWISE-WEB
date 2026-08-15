@@ -26,6 +26,7 @@ import ShareArea from './sections/ShareArea';
 
 // Templates
 import ClassicTemplate from './templates/ClassicTemplate';
+import GalleryFullModal from './sections/GalleryFullModal';
 import MagazineTemplate from './templates/MagazineTemplate';
 import CinematicTemplate from './templates/CinematicTemplate';
 import BentoTemplate from './templates/BentoTemplate';
@@ -67,6 +68,7 @@ const InvitationPreview = () => {
   const galleryInfo = useBuilderStore(state => state.galleryInfo);
 
   const [fullscreenIndex, setFullscreenIndex] = React.useState(null);
+  const [fullGalleryData, setFullGalleryData] = React.useState(null);
   const [showRsvpModal, setShowRsvpModal] = React.useState(false);
   const [showGuestbookModal, setShowGuestbookModal] = React.useState(false);
   const [showGuestbookListModal, setShowGuestbookListModal] = React.useState(false);
@@ -190,7 +192,7 @@ const InvitationPreview = () => {
             case 'story': return <StoryArea key="story" theme={theme} />;
             case 'gallery': 
               if (!useBuilderStore.getState().galleryInfo.useGallery) return null;
-              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenIndex={setFullscreenIndex} /></div>;
+              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenIndex={setFullscreenIndex} onOpenFullGallery={(images, gridCols) => setFullGalleryData({ images, gridCols })} /></div>;
             case 'location': return <LocationArea key="location" theme={theme} />;
             case 'account': return <AccountArea key="account" theme={theme} />;
             case 'guestbook': return (
@@ -218,6 +220,17 @@ const InvitationPreview = () => {
         }
       })()}
       
+      {/* Gallery Full Modal */}
+      {fullGalleryData && (
+        <GalleryFullModal 
+          theme={theme}
+          images={fullGalleryData.images}
+          gridCols={fullGalleryData.gridCols}
+          onClose={() => setFullGalleryData(null)}
+          setFullscreenIndex={setFullscreenIndex}
+        />
+      )}
+
       {/* Lightbox Modal */}
       {fullscreenIndex !== null && galleryInfo?.images?.[fullscreenIndex] && (
         <div 
