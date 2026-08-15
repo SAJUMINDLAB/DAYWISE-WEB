@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Check } from 'lucide-react';
 
-const SimpleCropper = ({ imageFile, aspectRatio = 1, onCropComplete, onCancel }) => {
-  const [imgSrc, setImgSrc] = useState(null);
+const SimpleCropper = ({ imageFile, imageUrl, aspectRatio = 1, onCropComplete, onCancel }) => {
+  const [imgSrc, setImgSrc] = useState(imageUrl || null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -16,8 +16,10 @@ const SimpleCropper = ({ imageFile, aspectRatio = 1, onCropComplete, onCancel })
       const reader = new FileReader();
       reader.onload = (e) => setImgSrc(e.target.result);
       reader.readAsDataURL(imageFile);
+    } else if (imageUrl) {
+      setImgSrc(imageUrl);
     }
-  }, [imageFile]);
+  }, [imageFile, imageUrl]);
 
   const handleImageLoad = () => {
     if (containerRef.current && imgRef.current) {
@@ -160,20 +162,21 @@ const SimpleCropper = ({ imageFile, aspectRatio = 1, onCropComplete, onCancel })
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
-        <img
+        <img 
           ref={imgRef}
-          src={imgSrc}
-          alt="Crop preview"
-          onLoad={handleImageLoad}
+          src={imgSrc} 
+          alt="crop" 
+          crossOrigin="anonymous"
           style={{
             position: 'absolute',
             left: `${position.x}px`,
             top: `${position.y}px`,
-            transformOrigin: 'top left',
             transform: `scale(${scale})`,
+            transformOrigin: 'top left',
             pointerEvents: 'none',
-            willChange: 'transform'
+            maxWidth: 'none'
           }}
+          onLoad={handleImageLoad}
         />
       </div>
 

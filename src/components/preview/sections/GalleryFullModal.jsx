@@ -12,6 +12,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
   }, []);
 
   const optionInfo = useBuilderStore(state => state.optionInfo);
+  const galleryInfo = useBuilderStore(state => state.galleryInfo);
   const subtitleColor = optionInfo.subtitleColor || theme.accent;
 
 
@@ -54,6 +55,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
       <div style={{
         flex: 1,
         overflowY: 'auto',
+        overscrollBehavior: 'none', // Prevents iOS rubber banding
         padding: '4px',
         display: 'grid',
         gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
@@ -86,7 +88,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
                 left: 0,
                 width: '100%', 
                 height: '100%', 
-                objectFit: 'contain' 
+                objectFit: galleryInfo.imageFit || 'contain' 
               }} 
             />
           </div>

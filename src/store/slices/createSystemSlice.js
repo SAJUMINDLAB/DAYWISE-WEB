@@ -86,7 +86,7 @@ export const createSystemSlice = (set) => ({
       title: 'Invite You',
       content: '서로가 마주보며 다져온 사랑을\n이제 함께 한 곳을 바라보며 걸어갈 수 있는\n큰 사랑으로 키우고자 합니다.\n\n저희 두 사람이 사랑의 이름으로\n지켜나갈 수 있게 앞날을\n축복해 주시면 감사하겠습니다.'
     },
-    galleryInfo: { useGallery: true, layout: 'grid', images: [] },
+    galleryInfo: { useGallery: true, layout: 'grid', imageFit: 'contain', images: [] },
     locationInfo: {
       useTransportation: true, mapType: 'dynamic', mapImage: null,
       venueName: '웨딩홀 이름', venueDetail: '상세홀 정보', address: '서울특별시 강남구 테헤란로 123',

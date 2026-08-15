@@ -1,7 +1,8 @@
 import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { ImagePlus, Trash2, GripVertical } from 'lucide-react';
+import { ImagePlus, Trash2, GripVertical, Crop } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
+import SimpleCropper from '../../common/SimpleCropper';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
 
@@ -10,6 +11,9 @@ const Step5Gallery = () => {
   const setGalleryInfo = useBuilderStore(state => state.setGalleryInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
   const { uploadImage } = useImageUpload();
+
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [currentCropImage, setCurrentCropImage] = useState(null);
 
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -40,6 +44,24 @@ const Step5Gallery = () => {
     setGalleryInfo('images', newImages);
   };
 
+  const openCropper = (img) => {
+    setCurrentCropImage(img);
+    setCropModalOpen(true);
+  };
+
+  const handleCropComplete = async (croppedFile) => {
+    if (!currentCropImage) return;
+    const base64 = await uploadImage(croppedFile, 1080);
+    if (base64) {
+      const newImages = galleryInfo.images.map(img => 
+        img.id === currentCropImage.id ? { ...img, url: base64 } : img
+      );
+      setGalleryInfo('images', newImages);
+    }
+    setCropModalOpen(false);
+    setCurrentCropImage(null);
+  };
+
   return (
     <div style={{ padding: '10px 0' }}>
       
@@ -61,9 +83,9 @@ const Step5Gallery = () => {
 
       {galleryInfo.useGallery && (
         <>
-            <div style={{ padding: '16px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+            <div style={{ padding: '16px', backgroundColor: '#f9f9f9', borderRadius: '8px', marginBottom: '16px' }}>
               <div style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px' }}>갤러리 레이아웃</div>
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
                 {['grid', 'carousel'].map(layout => {
                   return (
                     <button
@@ -81,6 +103,34 @@ const Step5Gallery = () => {
                     </button>
                   );
                 })}
+              </div>
+
+              <div style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px' }}>사진 맞춤 방식</div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={() => setGalleryInfo('imageFit', 'contain')}
+                  style={{
+                    flex: 1, padding: '10px', borderRadius: '6px',
+                    backgroundColor: galleryInfo.imageFit === 'contain' ? '#222' : '#fff',
+                    color: galleryInfo.imageFit === 'contain' ? '#fff' : '#666',
+                    border: `1px solid ${galleryInfo.imageFit === 'contain' ? '#222' : '#ddd'}`,
+                    cursor: 'pointer'
+                  }}
+                >
+                  원본 비율 (여백 발생)
+                </button>
+                <button
+                  onClick={() => setGalleryInfo('imageFit', 'cover')}
+                  style={{
+                    flex: 1, padding: '10px', borderRadius: '6px',
+                    backgroundColor: galleryInfo.imageFit === 'cover' ? '#222' : '#fff',
+                    color: galleryInfo.imageFit === 'cover' ? '#fff' : '#666',
+                    border: `1px solid ${galleryInfo.imageFit === 'cover' ? '#222' : '#ddd'}`,
+                    cursor: 'pointer'
+                  }}
+                >
+                  1:1 꽉 차게 (여백 없음)
+                </button>
               </div>
             </div>
 
@@ -142,6 +192,14 @@ const Step5Gallery = () => {
                           {img.name}
                         </div>
                         <button 
+                          onClick={() => openCropper(img)} 
+                          onPointerDown={(e) => e.stopPropagation()}
+                          style={{ padding: '4px', cursor: 'pointer', background: 'none', border: 'none', color: '#0066cc', display: 'flex', alignItems: 'center' }}
+                          title="1:1 비율로 자르기"
+                        >
+                          <Crop size={16} />
+                        </button>
+                        <button 
                           onClick={() => removeImage(img.id)} 
                           onPointerDown={(e) => e.stopPropagation()}
                           style={{ padding: '4px', cursor: 'pointer', background: 'none', border: 'none', color: '#ff4d4f' }}
@@ -159,6 +217,18 @@ const Step5Gallery = () => {
         </Droppable>
       </div>
         </>
+      )}
+
+      {cropModalOpen && currentCropImage && (
+        <SimpleCropper
+          imageUrl={currentCropImage.url}
+          aspectRatio={1}
+          onCropComplete={handleCropComplete}
+          onCancel={() => {
+            setCropModalOpen(false);
+            setCurrentCropImage(null);
+          }}
+        />
       )}
 
     </div>
