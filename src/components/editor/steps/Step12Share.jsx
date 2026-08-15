@@ -81,7 +81,7 @@ const Step12Share = () => {
         <textarea 
           value={shareInfo.description}
           onChange={(e) => updateShareInfo('description', e.target.value)}
-          placeholder="예: 2026년 11월 14일, 두 사람의 시작을 축하해 주세요."
+          placeholder="예: 2026년 11월 14일&#10;두 사람이 하나 되는 날"
           style={{ width: '100%', padding: '12px', border: '1px solid #ddd', borderRadius: '6px', minHeight: '80px', fontSize: '0.85rem', outline: 'none', resize: 'vertical', fontFamily: 'inherit', lineHeight: '1.6' }}
         />
       </div>
@@ -124,40 +124,38 @@ const Step12Share = () => {
           </div>
           
           {/* 말풍선 */}
-          <div style={{ flex: 1, backgroundColor: '#fff', borderRadius: '4px 12px 12px 12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-            <div style={{ fontSize: '0.8rem', padding: '12px 14px', lineHeight: '1.4', color: '#333' }}>
-              모바일 청첩장이 도착했습니다.
-            </div>
-            
+          <div style={{ flex: 1, backgroundColor: '#fff', borderRadius: '4px 12px 12px 12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: '1px solid #e5e5e5' }}>
             <div 
               style={{ 
                 width: '100%', paddingBottom: '100%', backgroundColor: '#f0f0f0', 
                 backgroundImage: currentThumbnail ? `url(${currentThumbnail})` : 'none',
                 backgroundSize: 'cover', backgroundPosition: 'center',
-                borderBottom: '1px solid #f0f0f0'
+                borderBottom: '1px solid #f2f2f2'
               }}
             />
             
-            <div style={{ padding: '14px' }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#333', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <div style={{ padding: '12px' }}>
+              <div style={{ fontSize: '14px', color: '#111', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.4' }}>
                 {shareInfo.title || '동현 ❤️ 슬기 결혼합니다'}
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#666', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-all' }}>
+              <div style={{ fontSize: '12px', color: '#8E8E8E', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-all' }}>
                 {shareInfo.description || '2026년 11월 14일\n두 사람이 하나 되는 날'}
               </div>
             </div>
             
-            <div style={{ borderTop: '1px solid #f0f0f0', display: 'flex', backgroundColor: '#f9f9f9' }}>
-              <div style={{ flex: 1, padding: '12px', textAlign: 'center', fontSize: '0.8rem', color: '#333' }}>모바일 청첩장 보기</div>
+            <div style={{ padding: '0 12px 12px 12px' }}>
+              <div style={{ width: '100%', padding: '10px 0', backgroundColor: '#F6F6F6', borderRadius: '6px', textAlign: 'center', fontSize: '12px', color: '#111' }}>
+                모바일 청첩장 보기
+              </div>
             </div>
 
-            {/* 하단 출처 아이콘 영역 */}
-            <div style={{ padding: '10px 14px', borderTop: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {/* 하단 출처 아이콘 영역 (카카오 템플릿에 따라 노출 여부 다름) */}
+            <div style={{ padding: '8px 12px', borderTop: '1px solid #f2f2f2', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '16px', height: '16px', borderRadius: '4px', backgroundImage: 'url(/favicon.svg)', backgroundSize: 'cover', opacity: 0.7 }} />
-                <span style={{ fontSize: '0.7rem', color: '#888' }}>데이와이즈</span>
+                <div style={{ width: '12px', height: '12px', borderRadius: '3px', backgroundImage: 'url(/favicon.svg)', backgroundSize: 'cover', opacity: 0.5 }} />
+                <span style={{ fontSize: '11px', color: '#8E8E8E' }}>데이와이즈</span>
               </div>
-              <span style={{ fontSize: '0.7rem', color: '#ccc' }}>&gt;</span>
+              <span style={{ fontSize: '11px', color: '#b3b3b3' }}>&gt;</span>
             </div>
           </div>
         </div>
