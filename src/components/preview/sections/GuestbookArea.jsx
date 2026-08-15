@@ -63,7 +63,7 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
               backgroundColor: 'transparent', 
               color: theme.text, 
               border: `1px solid ${theme.text}`, 
-              borderRadius: '0', 
+              borderRadius: '6px', 
               fontWeight: 'normal', 
               cursor: 'pointer', 
               fontFamily: 'var(--font-kr-sans)', 

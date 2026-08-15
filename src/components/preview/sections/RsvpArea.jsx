@@ -28,7 +28,7 @@ const RsvpArea = ({ theme, setShowRsvpModal }) => {
             backgroundColor: 'transparent', 
             color: theme.text, 
             border: `1px solid ${theme.text}`, 
-            borderRadius: '0', 
+            borderRadius: '6px', 
             fontSize: 'calc(0.9rem * var(--font-ratio))', 
             letterSpacing: 'calc(0.15rem * var(--font-ratio))',
             fontWeight: 'normal', 
