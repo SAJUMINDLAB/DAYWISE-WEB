@@ -26,9 +26,25 @@
     <!-- ★ 에러 핸들러를 가장 먼저 등록 (SDK보다 먼저!) -->
     <script>
       window.onerror = function(msg, url, line, col, error) {
+        // 브라우저 캐시 이슈(ChunkLoadError 등)로 인한 스크립트 에러 발생 시 자동 새로고침
+        if (
+          (typeof msg === 'string' && (msg.indexOf('Script error') > -1 || 
+          msg.indexOf('ChunkLoadError') > -1 || 
+          msg.indexOf('Failed to fetch dynamically imported module') > -1)) ||
+          (error && error.name === 'ChunkLoadError')
+        ) {
+          console.warn("캐시된 스크립트 로드 실패 감지. 페이지를 새로고침합니다.");
+          // 무한 새로고침 방지를 위해 sessionStorage 사용
+          if (!sessionStorage.getItem('reloaded_due_to_script_error')) {
+            sessionStorage.setItem('reloaded_due_to_script_error', 'true');
+            window.location.reload(true);
+            return true; // 에러 무시
+          }
+        }
+
         var errDiv = document.createElement('div');
         errDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:999999;padding:20px;font-size:12px;word-break:break-all;';
-        errDiv.innerHTML = 'Error: ' + msg + '<br>Line: ' + line + '<br>Col: ' + col;
+        errDiv.innerHTML = '<b>[Global Error]</b><br/>' + msg + '<br/>Line: ' + line + ' Col: ' + col + '<br/>URL: ' + url + '<br/><br/>새로고침을 권장합니다.';
         document.body.appendChild(errDiv);
         window.alert('Global Error: ' + msg);
       };
