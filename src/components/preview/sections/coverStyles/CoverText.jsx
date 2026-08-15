@@ -23,7 +23,7 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.05rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
@@ -61,7 +61,7 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.05rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
@@ -99,7 +99,7 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.05rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
@@ -181,7 +181,7 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.05rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
