@@ -100,7 +100,7 @@ const ViewerPage = () => {
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#ffffff', zIndex: 99999, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '40px', fontFamily: 'var(--font-kr-serif)' }}>
         {/* 로딩 스피너 */}
         <div style={{ width: '40px', height: '40px', border: '1px solid #f0f0f0', borderTop: '1px solid #333', borderRadius: '50%', animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite', marginBottom: '24px', opacity: 0.8 }} />
-        <div style={{ color: '#222', fontSize: '16px', letterSpacing: '0.05em', animation: 'pulseText 2s ease-in-out infinite' }}>두 사람의 소중한 초대를 준비하고 있습니다.</div>
+        <div style={{ color: '#222', fontSize: '14px', letterSpacing: '0.02em', textAlign: 'center', animation: 'pulseText 2s ease-in-out infinite', padding: '0 20px', wordBreak: 'keep-all' }}>두 사람의 소중한 초대를 준비하고 있습니다.</div>
         <style>
           {`
             @keyframes pulseText {
