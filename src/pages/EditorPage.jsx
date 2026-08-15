@@ -20,6 +20,7 @@ const EditorPage = () => {
   // URL에 ID가 있으면 해당 청첩장 데이터를 DB에서 불러와 스토어에 복원
   useEffect(() => {
     if (!id) {
+      useBuilderStore.getState().resetStore();
       setLoading(false);
       return;
     }
