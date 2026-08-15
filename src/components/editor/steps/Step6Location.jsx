@@ -159,8 +159,8 @@ const Step6Location = () => {
           <div style={{ marginBottom: '8px' }}>
             <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '16px', textAlign: 'center', lineHeight: '1.5' }}>
               <strong>카카오맵 연동 안내</strong><br/>
-              입력된 위치가 자동으로 표시됩니다.<br/>
-              * 정확한 위치 표시를 위해 상세 주소를 입력해주세요.
+              입력한 위치가 자동으로 표시됩니다.<br/>
+              <span style={{ color: '#0066cc' }}>※ 정확한 네비게이션 연동(티맵, 카카오내비, 네이버지도)을 위해 반드시 주소 검색을 통해 확인된 주소로 등록해주세요.</span>
             </div>
             
             <InputRow 

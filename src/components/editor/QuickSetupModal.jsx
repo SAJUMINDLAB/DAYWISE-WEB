@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Zap, Check } from 'lucide-react';
+import { X, Zap, Check, MapPin } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
+import DaumPostcode from 'react-daum-postcode';
 
 const QuickSetupModal = ({ onClose }) => {
   const mainInfo = useBuilderStore(state => state.mainInfo);
@@ -23,12 +24,14 @@ const QuickSetupModal = ({ onClose }) => {
   const updateGuestbookInfo = useBuilderStore(state => state.updateGuestbookInfo);
   const updateBgmInfo = useBuilderStore(state => state.updateBgmInfo);
 
+  const [showPostcode, setShowPostcode] = useState(false);
+
   // Local state for the form
   const [form, setForm] = useState({
     groomName: '', groomNameEn: '', groomFather: '', groomMother: '', groomRelation: '',
     brideName: '', brideNameEn: '', brideFather: '', brideMother: '', brideRelation: '',
     date: '', timeAmPm: 'PM', timeHour: '1', timeMinute: '00',
-    venueName: '', address: '',
+    venueName: '', venueDetail: '', address: '',
     // Optional toggles
     useGreeting: true,
     useTransportation: true,
@@ -40,12 +43,28 @@ const QuickSetupModal = ({ onClose }) => {
     useBgm: true
   });
 
+  const inputStyle = { width: '100%', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' };
+
+  const handleCompletePostcode = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') extraAddress += data.bname;
+      if (data.buildingName !== '') extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setForm({ ...form, address: fullAddress });
+    setShowPostcode(false);
+  };
+
   useEffect(() => {
     setForm({
       groomName: mainInfo.groomNameKo || '', groomNameEn: mainInfo.groomNameEn || '', groomFather: mainInfo.groomFather || '', groomMother: mainInfo.groomMother || '', groomRelation: mainInfo.groomRelation || '',
       brideName: mainInfo.brideNameKo || '', brideNameEn: mainInfo.brideNameEn || '', brideFather: mainInfo.brideFather || '', brideMother: mainInfo.brideMother || '', brideRelation: mainInfo.brideRelation || '',
       date: mainInfo.date || '', timeAmPm: mainInfo.timeAmPm || 'PM', timeHour: mainInfo.timeHour || '1', timeMinute: mainInfo.timeMinute || '00',
-      venueName: mainInfo.location || '', address: locationInfo.address || '',
+      venueName: mainInfo.location || '', venueDetail: mainInfo.locationDetail || '', address: locationInfo.address || '',
       useGreeting: introInfo.useGreeting ?? true,
       useTransportation: locationInfo.useTransportation ?? true,
       useGallery: galleryInfo.useGallery ?? true,
@@ -76,10 +95,12 @@ const QuickSetupModal = ({ onClose }) => {
     setMainInfo('timeAmPm', form.timeAmPm);
     setMainInfo('timeHour', form.timeHour);
     setMainInfo('timeMinute', form.timeMinute);
-    setMainInfo('location', form.venueName); // Used for cover
+    setMainInfo('location', form.venueName);
+    setMainInfo('locationDetail', form.venueDetail);
 
     // 2. 예식 장소 및 교통
     setLocationInfo('venueName', form.venueName);
+    setLocationInfo('venueDetail', form.venueDetail);
     setLocationInfo('address', form.address);
 
     // 4. 선택 옵션 ON/OFF
@@ -96,7 +117,6 @@ const QuickSetupModal = ({ onClose }) => {
     onClose();
   };
 
-  // Switch Toggle UI Component
   const ToggleSwitch = ({ label, checked, onChange }) => (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
       <div style={{ fontSize: '0.9rem', color: '#333' }}>{label}</div>
@@ -113,7 +133,6 @@ const QuickSetupModal = ({ onClose }) => {
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease-out' }}>
       <div style={{ backgroundColor: '#fff', width: '90%', maxWidth: '600px', borderRadius: '16px', display: 'flex', flexDirection: 'column', maxHeight: '90vh', boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}>
         
-        {/* Header */}
         <div style={{ padding: '20px 24px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, backgroundColor: '#fff', borderRadius: '16px 16px 0 0', zIndex: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ backgroundColor: '#f5f5f5', padding: '8px', borderRadius: '50%', color: '#222', display: 'flex' }}>
@@ -129,10 +148,8 @@ const QuickSetupModal = ({ onClose }) => {
           </button>
         </div>
 
-        {/* Form Content */}
         <div style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '30px' }} className="hide-scrollbar">
           
-          {/* 1. 주인공 정보 */}
           <div>
             <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>1. 주인공 정보 (필수)</div>
             
@@ -167,7 +184,6 @@ const QuickSetupModal = ({ onClose }) => {
 
           <div style={{ height: '1px', backgroundColor: '#eee' }} />
 
-          {/* 2. 예식 일시 */}
           <div>
             <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>2. 예식 일시 (필수)</div>
             <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} style={{ width: '100%', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', marginBottom: '8px', fontSize: '0.95rem' }} />
@@ -186,16 +202,34 @@ const QuickSetupModal = ({ onClose }) => {
 
           <div style={{ height: '1px', backgroundColor: '#eee' }} />
 
-          {/* 3. 예식 장소 */}
           <div>
             <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>3. 예식 장소 (필수)</div>
-            <input value={form.venueName} onChange={e => setForm({...form, venueName: e.target.value})} placeholder="웨딩홀 이름 (예: OO 웨딩홀 1층, 층/홀 이름 정확히 입력해주세요)" style={{ width: '100%', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', marginBottom: '8px', fontSize: '0.95rem' }} />
-            <input value={form.address} onChange={e => setForm({...form, address: e.target.value})} placeholder="상세 주소 (예: 서울 강남구 테헤란로 123)" style={{ width: '100%', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
+            <div style={{ display: 'grid', gap: '16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>예식장 이름</label>
+                <input type="text" style={inputStyle} value={form.venueName} onChange={e => setForm({...form, venueName: e.target.value})} placeholder="예: 하우스 오브 더 라움" />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>상세 홀 정보 (선택)</label>
+                <input type="text" style={inputStyle} value={form.venueDetail} onChange={e => setForm({...form, venueDetail: e.target.value})} placeholder="예: 그라스 가든" />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>도로명 주소</label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input type="text" style={{...inputStyle, flex: 1}} value={form.address} onChange={e => setForm({...form, address: e.target.value})} placeholder="우편번호 검색을 이용해주세요" />
+                  <button onClick={() => setShowPostcode(true)} style={{ padding: '0 16px', backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                    <MapPin size={16} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}/> 검색
+                  </button>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#0066cc', marginTop: '4px', lineHeight: '1.4' }}>
+                  ※ 정확한 네비게이션 연동(티맵, 카카오내비, 네이버지도)을 위해 반드시 주소 검색을 통해 확인된 주소로 등록해주세요.
+                </div>
+              </div>
+            </div>
           </div>
 
           <div style={{ height: '1px', backgroundColor: '#eee' }} />
 
-          {/* 4. 선택 옵션 */}
           <div>
             <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>4. 선택 기능 설정 (선택)</div>
             <div style={{ backgroundColor: '#fafafa', padding: '0 16px', borderRadius: '8px', border: '1px solid #ebebeb' }}>
@@ -213,7 +247,6 @@ const QuickSetupModal = ({ onClose }) => {
           
         </div>
 
-        {/* Footer */}
         <div style={{ padding: '20px 24px', borderTop: '1px solid #ebebeb', backgroundColor: '#fff', borderRadius: '0 0 16px 16px' }}>
           <button 
             onClick={handleSave}
@@ -223,6 +256,20 @@ const QuickSetupModal = ({ onClose }) => {
             한 번에 적용하고 세부 꾸미기 시작
           </button>
         </div>
+
+        {showPostcode && (
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10001, borderRadius: '16px' }}>
+            <div style={{ width: '90%', maxWidth: '400px', backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
+              <div style={{ padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8f9fa', borderBottom: '1px solid #eee' }}>
+                <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>주소 검색</div>
+                <button onClick={() => setShowPostcode(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666' }}>
+                  <X size={20} />
+                </button>
+              </div>
+              <DaumPostcode onComplete={handleCompletePostcode} style={{ width: '100%', height: '400px' }} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
