@@ -143,27 +143,24 @@ const InvitationPreview = () => {
     : { id: selectedTheme, ...(themeStyles[selectedTheme] || themeStyles['default']) };
 
   const handleOpenScreenSwap = (setter, value = true) => {
-    const scrollEl = document.querySelector('.preview-mockup-content') || document.documentElement;
-    setSavedScrollPos(scrollEl.scrollTop || window.scrollY);
+    const mockupEl = document.querySelector('.mobile-screen-content');
+    setSavedScrollPos(mockupEl ? mockupEl.scrollTop : window.scrollY);
     setter(value);
     
-    if (document.querySelector('.preview-mockup-content')) {
-      document.querySelector('.preview-mockup-content').scrollTop = 0;
-    } else {
+    setTimeout(() => {
+      const el = document.querySelector('.mobile-screen-content');
+      if (el) el.scrollTop = 0;
       window.scrollTo(0, 0);
-    }
+    }, 10);
   };
 
   const handleCloseScreenSwap = (setter) => {
     setter(false);
     setTimeout(() => {
-      const scrollEl = document.querySelector('.preview-mockup-content') || document.documentElement;
-      if (document.querySelector('.preview-mockup-content')) {
-        document.querySelector('.preview-mockup-content').scrollTop = savedScrollPos;
-      } else {
-        window.scrollTo(0, savedScrollPos);
-      }
-    }, 50);
+      const el = document.querySelector('.mobile-screen-content');
+      if (el) el.scrollTop = savedScrollPos;
+      window.scrollTo(0, savedScrollPos);
+    }, 10);
   };
 
   return (
@@ -178,8 +175,10 @@ const InvitationPreview = () => {
       '--font-en-serif': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', serif`,
       '--font-en-sans': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', sans-serif`,
       '--font-en-style': selectedFontEn === 'Cormorant Italic' ? 'italic' : 'normal',
+      display: 'flex',
+      flexDirection: 'column',
       minHeight: '100%',
-      paddingBottom: '40px',
+      paddingBottom: (fullGalleryData || showGuestbookModal || showGuestbookListModal) ? '0px' : '40px',
       overflowX: 'hidden',
       position: 'relative',
       '--base-font-size': baseFontSize,
@@ -247,6 +246,11 @@ const InvitationPreview = () => {
           default: return <ClassicTemplate {...templateProps} />;
         }
       })()}
+      
+      <ShareArea theme={theme} />
+      
+      <RsvpEmphasis theme={theme} setShowRsvpModal={setShowRsvpModal} />
+      
       </div>
       
       {/* Gallery Full Screen Swap */}
@@ -321,14 +325,10 @@ const InvitationPreview = () => {
         </div>
       )}
 
-      <ShareArea theme={theme} />
-
       {/* Modals */}
       {showAdminLogin && (
         <AdminLoginModal theme={theme} onClose={() => setShowAdminLogin(false)} />
       )}
-
-      <RsvpEmphasis theme={theme} setShowRsvpModal={setShowRsvpModal} />
 
       {showRsvpModal && (
         <RsvpModal theme={theme} rsvpInfo={rsvpInfo} onClose={() => setShowRsvpModal(false)} />

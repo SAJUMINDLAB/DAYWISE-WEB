@@ -78,7 +78,7 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
   return (
     <>
       <FadeUp active={optionInfo.motionEffect}>
-        <div style={{ padding: '60px 20px', position: 'relative', zIndex: 10 }}>
+        <div style={{ padding: '60px 20px 20px 20px', position: 'relative', zIndex: 10 }}>
           <h3 style={{ 
             fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`, 
             fontSize: 'calc(0.95rem * var(--font-ratio))', 

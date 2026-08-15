@@ -51,7 +51,7 @@ const GuestbookWriteModal = ({ theme, onClose, addGuestbookEntry }) => {
   };
 
   return (
-    <div style={{ width: '100%', minHeight: '100vh', backgroundColor: theme.bg, display: 'flex', flexDirection: 'column', animation: 'fadeIn 0.2s ease-out', position: 'relative' }}>
+    <div style={{ flex: 1, width: '100%', backgroundColor: theme.bg, display: 'flex', flexDirection: 'column', animation: 'fadeIn 0.2s ease-out', position: 'relative' }}>
       
       {/* Top Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', position: 'sticky', top: 0, backgroundColor: theme.bg, zIndex: 10 }}>

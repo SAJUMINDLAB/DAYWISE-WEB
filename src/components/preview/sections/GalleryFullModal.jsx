@@ -18,7 +18,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
 
   return (
     <div style={{
-      width: '100%', minHeight: '100vh',
+      flex: 1, width: '100%',
       backgroundColor: theme.bg, display: 'flex', flexDirection: 'column',
       animation: 'fadeIn 0.2s ease-out'
     }}>
