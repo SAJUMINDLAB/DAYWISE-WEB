@@ -61,32 +61,28 @@ const Step5Gallery = () => {
 
       {galleryInfo.useGallery && (
         <>
-          <div style={{ marginBottom: '24px' }}>
-            <div style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px' }}>갤러리 레이아웃</div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {['grid', 'carousel'].map(layout => {
-                const isDisabled = selectedTemplate === 'bento' && layout === 'grid';
-                return (
-                  <button
-                    key={layout}
-                    disabled={isDisabled}
-                    onClick={() => !isDisabled && setGalleryInfo('layout', layout)}
-                    style={{
-                      flex: 1, padding: '10px',
-                      border: '1px solid',
-                      borderColor: galleryInfo.layout === layout ? 'var(--tnc-charcoal)' : '#EBEBEB',
-                      backgroundColor: galleryInfo.layout === layout ? 'var(--tnc-charcoal)' : (isDisabled ? '#F5F5F5' : '#fff'),
-                      color: galleryInfo.layout === layout ? '#fff' : (isDisabled ? '#AAA' : '#666'),
-                      borderRadius: '6px', cursor: isDisabled ? 'not-allowed' : 'pointer', fontFamily: 'inherit',
-                      opacity: isDisabled ? 0.6 : 1
-                    }}
-                  >
-                    {layout === 'grid' ? '격자형 (Grid)' : '슬라이드 (Carousel)'}
-                  </button>
-                );
-              })}
+            <div style={{ padding: '16px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '8px' }}>갤러리 레이아웃</div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {['grid', 'carousel'].map(layout => {
+                  return (
+                    <button
+                      key={layout}
+                      onClick={() => setGalleryInfo('layout', layout)}
+                      style={{
+                        flex: 1, padding: '10px', borderRadius: '6px',
+                        backgroundColor: galleryInfo.layout === layout ? '#222' : '#fff',
+                        color: galleryInfo.layout === layout ? '#fff' : '#666',
+                        border: `1px solid ${galleryInfo.layout === layout ? '#222' : '#ddd'}`,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {layout === 'grid' ? '바둑판 격자형' : '가로 슬라이드형'}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
           <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>

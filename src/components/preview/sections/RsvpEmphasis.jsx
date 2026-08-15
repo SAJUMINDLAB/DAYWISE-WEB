@@ -4,6 +4,8 @@ import { Mail, X } from 'lucide-react';
 
 const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
   const rsvpInfo = useBuilderStore(state => state.rsvpInfo);
+  const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
+  const sectionOrder = useBuilderStore(state => state.sectionOrder);
   const [isRsvpVisible, setIsRsvpVisible] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +25,12 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
           { threshold: 0.1 }
         );
         observer.observe(rsvpElement);
+        
+        // Also check immediately if it's already in viewport
+        const rect = rsvpElement.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight) {
+          setIsRsvpVisible(true);
+        }
       } else {
         retryTimeout = setTimeout(initObserver, 300); // 0.3초 후 재시도
       }
@@ -47,7 +55,7 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
       if (timer1) clearTimeout(timer1);
       if (timer2) clearTimeout(timer2);
     };
-  }, [rsvpInfo.useRsvp, rsvpInfo.emphasisMode]);
+  }, [rsvpInfo.useRsvp, rsvpInfo.emphasisMode, selectedTemplate, sectionOrder]);
 
   const scrollToRsvp = () => {
     setShowToast(false);

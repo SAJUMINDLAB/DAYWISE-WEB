@@ -63,22 +63,9 @@ const BentoTemplate = ({ sectionOrder, renderSection, theme }) => {
           margin-bottom: 16px !important;
         }
         
-        /* Swipeable Gallery Override */
-        .template-bento .gallery-grid-container {
-          display: flex !important;
-          overflow-x: auto !important;
-          scroll-snap-type: x mandatory !important;
-          gap: 12px !important;
-          padding-bottom: 16px;
-        }
-        .template-bento .gallery-grid-container::-webkit-scrollbar {
-          display: none;
-        }
+        /* Gallery Override for Bento Style */
         .template-bento .gallery-grid-item {
-          flex: 0 0 75% !important;
-          aspect-ratio: 4/5 !important;
-          scroll-snap-align: center !important;
-          border-radius: 16px !important;
+          border-radius: 12px !important;
         }
         
         /* D-Day Activity Ring Override */

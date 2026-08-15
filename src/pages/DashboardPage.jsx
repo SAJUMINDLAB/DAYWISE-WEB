@@ -122,8 +122,9 @@ const DashboardPage = () => {
               // 결제 상태 및 남은 일수 계산
               const isPaid = inv.payment_status === 'paid';
               let daysLeft = 0;
-              if (!isPaid && inv.expires_at) {
-                daysLeft = Math.ceil((new Date(inv.expires_at) - new Date()) / (1000 * 60 * 60 * 24));
+              if (!isPaid) {
+                const expiresAt = inv.expires_at ? new Date(inv.expires_at) : new Date(new Date(inv.created_at).getTime() + (30 * 24 * 60 * 60 * 1000));
+                daysLeft = Math.ceil((expiresAt - new Date()) / (1000 * 60 * 60 * 24));
               }
 
               return (

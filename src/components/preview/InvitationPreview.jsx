@@ -241,6 +241,16 @@ const InvitationPreview = () => {
             display: 'flex', justifyContent: 'center', alignItems: 'center'
           }}
         >
+          {/* Photo Counter Pill Badge */}
+          <div style={{
+            position: 'absolute', top: '24px', left: '50%', transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', padding: '6px 16px',
+            borderRadius: '20px', color: '#fff', fontSize: '13px',
+            fontFamily: 'var(--font-en-sans)', letterSpacing: '2px', zIndex: 10001
+          }}>
+            {fullscreenIndex + 1} / {galleryInfo.images.length}
+          </div>
+
           <button style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', zIndex: 10001 }}>
             <X size={28} />
           </button>
