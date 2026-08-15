@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getInvitation } from '../api/supabaseApi';
 import { useBuilderStore } from '../store/useBuilderStore';
 import InvitationPreview from '../components/preview/InvitationPreview';
+import CinematicIntroOverlay from '../components/preview/CinematicIntroOverlay';
 import ErrorBoundary from '../components/ErrorBoundary';
 import InvitationManager from '../components/manager/InvitationManager';
 import { Settings } from 'lucide-react';
@@ -191,6 +192,7 @@ const ViewerPage = () => {
 
         <ErrorBoundary>
           <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+            <CinematicIntroOverlay />
             <InvitationPreview isPublicView={true} />
           </div>
         </ErrorBoundary>
