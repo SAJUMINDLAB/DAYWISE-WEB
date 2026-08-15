@@ -15,9 +15,9 @@ const ShareArea = ({ theme }) => {
 
   // 공유용 뷰어 URL 생성: 커스텀 URL이 있으면 /view/커스텀, 없으면 /v/초대장ID
   const getViewerUrl = () => {
-    // 이미 뷰어 페이지(/v/ 또는 /view/)에 있다면 현재 URL 그대로 사용
+    // 이미 뷰어 페이지(/v/ 또는 /view/)에 있다면 현재 URL에서 파라미터(?t=...)를 제거하고 반환
     if (window.location.pathname.startsWith('/v/') || window.location.pathname.startsWith('/view/')) {
-      return window.location.href;
+      return window.location.origin + window.location.pathname;
     }
     // 에디터 페이지에서 공유하는 경우: 올바른 뷰어 URL 생성
     const origin = window.location.origin;
