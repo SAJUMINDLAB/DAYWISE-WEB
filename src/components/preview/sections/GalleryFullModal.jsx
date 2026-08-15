@@ -18,12 +18,13 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
 
   return (
     <div style={{
-      position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-      backgroundColor: theme.bg, zIndex: 9999, display: 'flex', flexDirection: 'column',
+      width: '100%', minHeight: '100vh',
+      backgroundColor: theme.bg, display: 'flex', flexDirection: 'column',
       animation: 'fadeIn 0.2s ease-out'
     }}>
       {/* 헤더 영역 */}
       <div style={{
+        position: 'sticky', top: 0,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '16px 20px', borderBottom: '1px solid rgba(0,0,0,0.05)',
         backgroundColor: theme.bg, zIndex: 10
@@ -53,14 +54,10 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
 
       {/* 이미지 그리드 영역 */}
       <div style={{
-        flex: 1,
-        overflowY: 'auto',
-        overscrollBehavior: 'none', // Prevents iOS rubber banding
         padding: '4px',
         display: 'grid',
         gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-        gap: '4px',
-        alignContent: 'start'
+        gap: '4px'
       }}>
         {images.map((img, idx) => (
           <div 
@@ -88,7 +85,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
                 left: 0,
                 width: '100%', 
                 height: '100%', 
-                objectFit: galleryInfo.imageFit || 'contain' 
+                objectFit: 'contain' 
               }} 
             />
           </div>

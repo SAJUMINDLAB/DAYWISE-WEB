@@ -97,7 +97,7 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
                   <div key={img.id} onClick={() => setFullscreenIndex(idx)} className="gallery-grid-item hover-scale" style={{ width: '100%', overflow: 'hidden', cursor: 'pointer', position: 'relative', backgroundColor: 'transparent' }}>
                     {/* 1:1 Aspect Ratio Box */}
                     <div style={{ width: '100%', paddingBottom: '100%' }} />
-                    <img src={img.url} alt={`gallery-${idx}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s' }} />
+                    <img src={img.croppedUrl || img.url} alt={`gallery-${idx}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s' }} />
                     
                     {/* +N 더보기 오버레이 (마지막 이미지에만) */}
                     {hasMore && idx === (gridLimit - 1) && (
@@ -143,7 +143,7 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
             >
               {displayImages.map((img, idx) => (
                 <div key={img.id} onClick={() => handleImageClick(idx)} className="carousel-item hover-scale" style={{ flex: '0 0 auto', width: '280px', height: '360px', scrollSnapAlign: 'center', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                  <img src={img.url} alt={`gallery-${idx}`} draggable={false} style={{ width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s', position: 'absolute', top: 0, left: 0 }} />
+                  <img src={img.croppedUrl || img.url} alt={`gallery-${idx}`} draggable={false} style={{ width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s', position: 'absolute', top: 0, left: 0 }} />
                 </div>
               ))}
             </div>

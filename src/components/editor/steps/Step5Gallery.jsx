@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { ImagePlus, Trash2, GripVertical, Crop } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
@@ -54,7 +54,7 @@ const Step5Gallery = () => {
     const base64 = await uploadImage(croppedFile, 1080);
     if (base64) {
       const newImages = galleryInfo.images.map(img => 
-        img.id === currentCropImage.id ? { ...img, url: base64 } : img
+        img.id === currentCropImage.id ? { ...img, croppedUrl: base64 } : img
       );
       setGalleryInfo('images', newImages);
     }
@@ -187,7 +187,7 @@ const Step5Gallery = () => {
                         <div style={{ padding: '4px', color: snapshot.isDragging ? 'var(--tnc-charcoal)' : '#bbb', cursor: 'grab' }}>
                           <GripVertical size={16} />
                         </div>
-                        <img src={img.url} draggable={false} alt="preview" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                        <img src={img.croppedUrl || img.url} draggable={false} alt="preview" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
                         <div style={{ flex: 1, fontSize: '0.85rem', color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {img.name}
                         </div>

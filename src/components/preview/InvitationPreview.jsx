@@ -69,6 +69,8 @@ const InvitationPreview = () => {
 
   const [fullscreenIndex, setFullscreenIndex] = React.useState(null);
   const [fullGalleryData, setFullGalleryData] = React.useState(null);
+  const [savedScrollPos, setSavedScrollPos] = React.useState(0);
+  
   const [showRsvpModal, setShowRsvpModal] = React.useState(false);
   const [showGuestbookModal, setShowGuestbookModal] = React.useState(false);
   const [showGuestbookListModal, setShowGuestbookListModal] = React.useState(false);
@@ -140,8 +142,32 @@ const InvitationPreview = () => {
       }
     : { id: selectedTheme, ...(themeStyles[selectedTheme] || themeStyles['default']) };
 
+  const handleOpenScreenSwap = (setter, value = true) => {
+    const scrollEl = document.querySelector('.preview-mockup-content') || document.documentElement;
+    setSavedScrollPos(scrollEl.scrollTop || window.scrollY);
+    setter(value);
+    
+    if (document.querySelector('.preview-mockup-content')) {
+      document.querySelector('.preview-mockup-content').scrollTop = 0;
+    } else {
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handleCloseScreenSwap = (setter) => {
+    setter(false);
+    setTimeout(() => {
+      const scrollEl = document.querySelector('.preview-mockup-content') || document.documentElement;
+      if (document.querySelector('.preview-mockup-content')) {
+        document.querySelector('.preview-mockup-content').scrollTop = savedScrollPos;
+      } else {
+        window.scrollTo(0, savedScrollPos);
+      }
+    }, 50);
+  };
+
   return (
-    <div className={optionInfo.fontWeightBold ? 'preview-bold-text' : ''} style={{  
+    <div className={`${optionInfo.fontWeightBold ? 'preview-bold-text ' : ''}invitation-preview-container theme-${selectedTheme}`} style={{ 
       width: '100%', 
       maxWidth: '480px', 
       margin: '0 auto', 
@@ -170,6 +196,8 @@ const InvitationPreview = () => {
       {/* 2. Particles Overlay */}
       {particlesType !== 'none' && <ParticlesOverlay type={particlesType} />}
 
+      <div style={{ display: (fullGalleryData || showGuestbookModal || showGuestbookListModal) ? 'none' : 'block' }}>
+
       {(() => {
         const renderSection = (sectionId) => {
           if (sectionId === 'main') {
@@ -192,15 +220,15 @@ const InvitationPreview = () => {
             case 'story': return <StoryArea key="story" theme={theme} />;
             case 'gallery': 
               if (!useBuilderStore.getState().galleryInfo.useGallery) return null;
-              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenIndex={setFullscreenIndex} onOpenFullGallery={(images, gridCols) => setFullGalleryData({ images, gridCols })} /></div>;
+              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenIndex={setFullscreenIndex} onOpenFullGallery={(images, gridCols) => handleOpenScreenSwap(setFullGalleryData, { images, gridCols })} /></div>;
             case 'location': return <LocationArea key="location" theme={theme} />;
             case 'account': return <AccountArea key="account" theme={theme} />;
             case 'guestbook': return (
               <div id="section-guestbook" key="guestbook">
                 <GuestbookArea 
                   theme={theme} 
-                  setShowGuestbookModal={setShowGuestbookModal} 
-                  setShowGuestbookListModal={setShowGuestbookListModal} 
+                  setShowGuestbookModal={(val) => val ? handleOpenScreenSwap(setShowGuestbookModal, val) : handleCloseScreenSwap(setShowGuestbookModal)} 
+                  setShowGuestbookListModal={(val) => val ? handleOpenScreenSwap(setShowGuestbookListModal, val) : handleCloseScreenSwap(setShowGuestbookListModal)} 
                 />
               </div>
             );
@@ -219,14 +247,15 @@ const InvitationPreview = () => {
           default: return <ClassicTemplate {...templateProps} />;
         }
       })()}
+      </div>
       
-      {/* Gallery Full Modal */}
+      {/* Gallery Full Screen Swap */}
       {fullGalleryData && (
         <GalleryFullModal 
           theme={theme}
           images={fullGalleryData.images}
           gridCols={fullGalleryData.gridCols}
-          onClose={() => setFullGalleryData(null)}
+          onClose={() => handleCloseScreenSwap(setFullGalleryData)}
           setFullscreenIndex={setFullscreenIndex}
         />
       )}
@@ -308,7 +337,7 @@ const InvitationPreview = () => {
       {showGuestbookModal && (
         <GuestbookWriteModal 
           theme={theme} 
-          onClose={() => setShowGuestbookModal(false)} 
+          onClose={() => handleCloseScreenSwap(setShowGuestbookModal)} 
           addGuestbookEntry={addGuestbookEntry}
         />
       )}
@@ -317,7 +346,7 @@ const InvitationPreview = () => {
         <GuestbookListModal 
           theme={theme} 
           guestbookInfo={guestbookInfo} 
-          onClose={() => setShowGuestbookListModal(false)} 
+          onClose={() => handleCloseScreenSwap(setShowGuestbookListModal)} 
           removeGuestbookEntry={removeGuestbookEntry}
         />
       )}
