@@ -12,7 +12,7 @@ const themes = [
   { id: 'classic-charcoal', name: 'Classic Charcoal', desc: '모던하고 시크한 클래식 차콜', colors: ['#F9F9F9', '#555555'] },
   { id: 'warm-terracotta', name: 'Warm Terracotta', desc: '가을을 품은 따뜻한 테라코타', colors: ['#FFF9F5', '#C47D68'] },
   { id: 'sunset-breeze', name: 'Sunset Breeze', desc: '트렌디한 코랄빛 노을', colors: ['#FFF7F2', '#E86A41'] },
-  { id: 'midnight-orange', name: 'Midnight Orange', desc: '다크한 블랙과 에르메스 오렌지', colors: ['#000000', '#F37021'] },
+  { id: 'midnight-orange', name: 'Midnight Orange', desc: '다크한 블랙과 에르메스 오렌지', colors: ['#000000', '#F25C05'] },
   { id: 'deep-forest', name: 'Deep Forest', desc: '깊고 우아한 딥 그린과 골드', colors: ['#1A2421', '#D4AF37'] },
   { id: 'dusty-blue', name: 'Dusty Blue', desc: '차분하고 우아한 안개 낀 바다', colors: ['#F5F7FA', '#6B7F96'] },
   { id: 'vintage-wine', name: 'Vintage Wine', desc: '매혹적이고 짙은 빈티지 와인', colors: ['#2D1B1E', '#E6A8B6'] },
@@ -39,7 +39,9 @@ const Step1bColor = () => {
     { id: 'KyoboHandwriting', name: '교보손글씨 (감성적)' },
     { id: 'YesMyungjo', name: '예스명조 (우아)' },
     { id: 'Soonbatang', name: '순바탕 (부드러움)' },
-    { id: 'MapoGeumbitnaru', name: '마포금빛나루 (전통)' }
+    { id: 'MapoGeumbitnaru', name: '마포금빛나루 (전통)' },
+    { id: 'Hahmlet', name: '햄릿 (레트로 클래식)' },
+    { id: 'Aujournuit Myeongjo', name: 'Aujournuit (감각적인 덴스드)' }
   ];
 
   const fontsEn = [
@@ -52,7 +54,9 @@ const Step1bColor = () => {
     { id: 'Montserrat', name: 'Montserrat (깔끔한 모던)' },
     { id: 'Libre Baskerville', name: 'Libre Baskerville (가독성)' },
     { id: 'Italiana', name: 'Italiana (이국적인)' },
-    { id: 'Pinyon Script', name: 'Pinyon (고급 필기체)' }
+    { id: 'Pinyon Script', name: 'Pinyon (고급 필기체)' },
+    { id: 'Aujournuit', name: 'Aujournuit (감각적인 덴스드)' },
+    { id: 'Tangerine', name: 'Tangerine (우아한 필기체)' }
   ];
 
   return (

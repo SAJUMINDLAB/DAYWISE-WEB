@@ -7,15 +7,17 @@ const AccountArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const accountInfo = useBuilderStore(state => state.accountInfo);
 
+  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+
   if (!accountInfo.useAccount) return null;
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
       <div style={{ padding: '60px 20px', position: 'relative', zIndex: 10, backgroundColor: 'transparent' }}>
         <h3 style={{ 
-          fontFamily: 'var(--font-en-serif)', fontSize: 'calc(1.5rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: theme.accent, letterSpacing: 'calc(0.1rem * var(--font-ratio))'
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`, fontSize: 'calc(0.95rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: optionInfo.subtitleColor || theme.accent, letterSpacing: 'calc(0.2rem * var(--font-ratio))'
         }}>
-          마음 전하실 곳
+          {optionInfo.magazineTocLanguage === 'kr' ? '마음 전하실 곳' : 'ACCOUNT'}
         </h3>
         
         {accountInfo.message && accountInfo.message.trim() !== '' && (

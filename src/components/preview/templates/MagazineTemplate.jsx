@@ -274,15 +274,15 @@ const MagazineTemplate = ({ sectionOrder, renderSection, theme }) => {
               const isKr = optionInfo.magazineTocLanguage === 'kr';
               const getSectionName = (id) => {
                 switch(id) {
-                case 'intro': return isKr ? '인사말' : 'EDITOR\'S NOTE';
+                case 'intro': return isKr ? '인사말' : "EDITOR'S NOTE";
                 case 'host': return isKr ? '혼주 정보' : 'HOST';
-                case 'story': return isKr ? '우리의 이야기' : 'FEATURE STORY';
-                case 'gallery': return isKr ? '갤러리' : 'LOOKBOOK';
-                case 'calendar': return isKr ? '예식일' : 'THE DAY';
-                case 'location': return isKr ? '오시는 길' : 'VENUE';
-                case 'contact': return isKr ? '연락처' : 'DIRECTORY';
-                case 'account': return isKr ? '마음 전하실 곳' : 'GIFT';
-                case 'guestbook': return isKr ? '방명록' : 'LETTERS';
+                case 'story': return isKr ? '우리만의 이야기' : 'OUR STORY';
+                case 'gallery': return isKr ? '사진' : 'GALLERY';
+                case 'calendar': return isKr ? '달력' : 'THE DAY';
+                case 'location': return isKr ? '장소' : 'LOCATION';
+                case 'contact': return isKr ? '연락처' : 'CONTACT';
+                case 'account': return isKr ? '마음 전하실 곳' : 'ACCOUNT';
+                case 'guestbook': return isKr ? '방명록' : 'GUEST BOOK';
                 case 'rsvp': return isKr ? '참석 의사 전달' : 'RSVP';
                 case 'share': return isKr ? '공유하기' : 'SHARE';
                 default: return isKr ? id : id.toUpperCase();

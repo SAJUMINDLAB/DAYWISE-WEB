@@ -55,6 +55,20 @@ const RsvpModal = ({ rsvpInfo, theme, onClose }) => {
   
   const inputStyle = { width: '100%', padding: '12px 0', border: 'none', borderBottom: '1px solid rgba(0,0,0,0.2)', borderRadius: '0', outline: 'none', fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.95rem * var(--font-ratio))', backgroundColor: 'transparent', color: theme.text };
 
+  const handleContactChange = (e) => {
+    let value = e.target.value.replace(/[^0-9]/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    
+    let formatted = value;
+    if (value.length > 3 && value.length <= 7) {
+      formatted = `${value.slice(0, 3)}-${value.slice(3)}`;
+    } else if (value.length > 7) {
+      formatted = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`;
+    }
+    
+    setForm({ ...form, contact: formatted });
+  };
+
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: theme.bg, zIndex: 9999, display: 'flex', flexDirection: 'column', overflowY: 'auto', animation: 'fadeIn 0.2s ease-out' }}>
       
@@ -114,7 +128,7 @@ const RsvpModal = ({ rsvpInfo, theme, onClose }) => {
         {rsvpInfo.useContactOption && (
           <div style={{ marginBottom: '40px' }}>
             <div style={labelStyle}>연락처</div>
-            <input placeholder="010-0000-0000" value={form.contact} onChange={e => setForm({...form, contact: e.target.value})} style={inputStyle} />
+            <input type="tel" placeholder="010-0000-0000" value={form.contact} onChange={handleContactChange} style={inputStyle} />
           </div>
         )}
 

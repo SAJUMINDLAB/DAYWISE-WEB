@@ -6,15 +6,17 @@ const StoryArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const storyInfo = useBuilderStore(state => state.storyInfo);
 
+  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+
   if (!storyInfo.useStory) return null;
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
       <div style={{ padding: '60px 20px', backgroundColor: 'transparent' }}>
         <h3 style={{ 
-          fontFamily: 'var(--font-en-serif)', fontSize: 'calc(1.4rem * var(--font-ratio))', textAlign: 'center', marginBottom: '40px', color: theme.accent, letterSpacing: 'calc(0.1rem * var(--font-ratio))'
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`, fontSize: 'calc(0.95rem * var(--font-ratio))', textAlign: 'center', marginBottom: '40px', color: optionInfo.subtitleColor || theme.accent, letterSpacing: 'calc(0.2rem * var(--font-ratio))'
         }}>
-          {storyInfo.title}
+          {optionInfo.magazineTocLanguage === 'kr' ? '우리만의 이야기' : 'OUR STORY'}
         </h3>
         
         {storyInfo.mode === 'letter' ? (

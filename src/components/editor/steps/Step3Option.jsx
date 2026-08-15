@@ -160,50 +160,71 @@ const Step3Option = () => {
         <Toggle checked={optionInfo.shineEffect} onChange={(e) => setOptionInfo('shineEffect', e.target.checked)} />
       </OptionRow>
 
-      {selectedTemplate === 'magazine' && (
-        <OptionRow 
-          icon={Type} 
-          title="매거진 목차 언어 (CONTENTS LANGUAGE)" 
-          desc="매거진 템플릿의 목차(CONTENTS)를 영문/한글 중 선택합니다."
-        >
-          <div style={{ display: 'flex', gap: '8px', backgroundColor: '#F5F5F5', padding: '4px', borderRadius: '8px' }}>
-            <button
-              onClick={() => setOptionInfo('magazineTocLanguage', 'en')}
-              style={{
-                padding: '6px 12px',
-                borderRadius: '6px',
-                border: 'none',
-                backgroundColor: optionInfo.magazineTocLanguage !== 'kr' ? '#fff' : 'transparent',
-                boxShadow: optionInfo.magazineTocLanguage !== 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                color: optionInfo.magazineTocLanguage !== 'kr' ? '#222' : '#888',
-                fontWeight: optionInfo.magazineTocLanguage !== 'kr' ? 'bold' : 'normal',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
+      <OptionRow 
+        icon={Type} 
+        title="소제목 언어" 
+        desc="청첩장 메뉴와 소제목의 언어를 선택합니다."
+      >
+        <div style={{ display: 'flex', gap: '8px', backgroundColor: '#F5F5F5', padding: '4px', borderRadius: '8px' }}>
+          <button
+            onClick={() => setOptionInfo('magazineTocLanguage', 'en')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: optionInfo.magazineTocLanguage !== 'kr' ? '#fff' : 'transparent',
+              boxShadow: optionInfo.magazineTocLanguage !== 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+              color: optionInfo.magazineTocLanguage !== 'kr' ? '#222' : '#888',
+              fontWeight: optionInfo.magazineTocLanguage !== 'kr' ? 'bold' : 'normal',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+          >
+            영어
+          </button>
+          <button
+            onClick={() => setOptionInfo('magazineTocLanguage', 'kr')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: optionInfo.magazineTocLanguage === 'kr' ? '#fff' : 'transparent',
+              boxShadow: optionInfo.magazineTocLanguage === 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+              color: optionInfo.magazineTocLanguage === 'kr' ? '#222' : '#888',
+              fontWeight: optionInfo.magazineTocLanguage === 'kr' ? 'bold' : 'normal',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+          >
+            한글
+          </button>
+        </div>
+      </OptionRow>
+
+      <OptionRow 
+        icon={Type} 
+        title="소제목 색상 설정" 
+        desc="소제목의 글자색을 직접 지정할 수 있습니다. (미지정 시 테마 포인트 색상 적용)"
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <input 
+            type="color" 
+            value={optionInfo.subtitleColor || '#000000'} 
+            onChange={(e) => setOptionInfo('subtitleColor', e.target.value)}
+            style={{ width: '40px', height: '40px', cursor: 'pointer', border: '1px solid #ddd', borderRadius: '4px', padding: 0 }}
+          />
+          {optionInfo.subtitleColor && (
+            <button 
+              onClick={() => setOptionInfo('subtitleColor', '')}
+              style={{ padding: '6px 12px', fontSize: '0.8rem', border: '1px solid #ddd', backgroundColor: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
-              영문 (English)
+              초기화
             </button>
-            <button
-              onClick={() => setOptionInfo('magazineTocLanguage', 'kr')}
-              style={{
-                padding: '6px 12px',
-                borderRadius: '6px',
-                border: 'none',
-                backgroundColor: optionInfo.magazineTocLanguage === 'kr' ? '#fff' : 'transparent',
-                boxShadow: optionInfo.magazineTocLanguage === 'kr' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                color: optionInfo.magazineTocLanguage === 'kr' ? '#222' : '#888',
-                fontWeight: optionInfo.magazineTocLanguage === 'kr' ? 'bold' : 'normal',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-            >
-              한글 (Korean)
-            </button>
-          </div>
-        </OptionRow>
-      )}
+          )}
+        </div>
+      </OptionRow>
 
       {selectedTemplate === 'cinematic' && (
         <>

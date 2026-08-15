@@ -41,7 +41,7 @@ const themeStyles = {
   'classic-charcoal': { bg: '#F9F9F9', text: '#333333', accent: '#555555', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'warm-terracotta': { bg: '#FFF9F5', text: '#4A352F', accent: '#C47D68', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'sunset-breeze': { bg: '#FFF7F2', text: '#4A332A', accent: '#E86A41', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
-  'midnight-orange': { bg: '#1A1817', text: '#F2EFEB', accent: '#F37021', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'midnight-orange': { bg: '#1A1817', text: '#F2EFEB', accent: '#F25C05', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'deep-forest': { bg: '#1A2421', text: '#F0F4F1', accent: '#D4AF37', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'dusty-blue': { bg: '#F5F7FA', text: '#405368', accent: '#6B7F96', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'vintage-wine': { bg: '#2D1B1E', text: '#FDECEF', accent: '#E6A8B6', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
@@ -144,13 +144,13 @@ const InvitationPreview = () => {
       margin: '0 auto', 
       backgroundColor: theme.bg, 
       color: theme.text,
-      '--font-kr-serif': `'${selectedFont}', serif`,
-      '--font-kr-sans': `'${selectedFont}', sans-serif`,
+      '--font-kr-serif': selectedFont === 'Aujournuit Myeongjo' ? "'Aujournuit', 'Noto Serif KR', serif" : `'${selectedFont}', serif`,
+      '--font-kr-sans': selectedFont === 'Aujournuit Myeongjo' ? "'Aujournuit', 'Noto Sans KR', sans-serif" : `'${selectedFont}', sans-serif`,
       '--font-en-serif': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', serif`,
       '--font-en-sans': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', sans-serif`,
       '--font-en-style': selectedFontEn === 'Cormorant Italic' ? 'italic' : 'normal',
       minHeight: '100%',
-      paddingBottom: '100px',
+      paddingBottom: '40px',
       overflowX: 'hidden',
       position: 'relative',
       '--base-font-size': baseFontSize,
@@ -313,12 +313,17 @@ const InvitationPreview = () => {
             ) : (
               isPlaying ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '16px' }}>
-                  <div style={{ width: '4px', backgroundColor: theme.text, borderRadius: '2px', animation: 'eq 0.8s ease-in-out infinite alternate' }} />
-                  <div style={{ width: '4px', backgroundColor: theme.text, borderRadius: '2px', animation: 'eq 1.2s ease-in-out infinite alternate-reverse', animationDelay: '0.2s' }} />
-                  <div style={{ width: '4px', backgroundColor: theme.text, borderRadius: '2px', animation: 'eq 0.9s ease-in-out infinite alternate', animationDelay: '0.4s' }} />
+                  <div style={{ width: '4px', backgroundColor: ['royal-navy', 'deep-forest', 'midnight-orange'].includes(selectedTheme) ? theme.accent : theme.text, borderRadius: '2px', animation: 'eq 0.8s ease-in-out infinite alternate' }} />
+                  <div style={{ width: '4px', backgroundColor: ['royal-navy', 'deep-forest', 'midnight-orange'].includes(selectedTheme) ? theme.accent : theme.text, borderRadius: '2px', animation: 'eq 1.2s ease-in-out infinite alternate-reverse', animationDelay: '0.2s' }} />
+                  <div style={{ width: '4px', backgroundColor: ['royal-navy', 'deep-forest', 'midnight-orange'].includes(selectedTheme) ? theme.accent : theme.text, borderRadius: '2px', animation: 'eq 0.9s ease-in-out infinite alternate', animationDelay: '0.4s' }} />
                 </div>
               ) : (
-                <Play size={20} color={theme.text} style={{ marginLeft: '2px' }} />
+                <Play 
+                  size={20} 
+                  color={['royal-navy', 'deep-forest', 'midnight-orange'].includes(selectedTheme) ? theme.accent : theme.text} 
+                  fill="none"
+                  style={{ marginLeft: '2px' }} 
+                />
               )
             )}
             

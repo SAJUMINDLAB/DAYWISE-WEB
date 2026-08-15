@@ -71,18 +71,19 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
             onClick={() => setShowRsvpModal(true)}
             style={{
               padding: '12px 24px',
-              backgroundColor: theme.accent,
-              color: '#fff',
-              border: 'none',
-              borderRadius: '30px',
-              fontWeight: 'bold',
-              fontSize: '0.95rem',
+              backgroundColor: theme.bg,
+              color: theme.text,
+              border: `1px solid ${theme.text}`,
+              borderRadius: '0',
+              fontWeight: 'normal',
+              fontSize: '0.9rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+              gap: '6px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
               cursor: 'pointer',
               fontFamily: 'var(--font-kr-sans)',
+              letterSpacing: 'calc(0.1rem * var(--font-ratio))',
               whiteSpace: 'nowrap',
               animation: 'bounce 2s infinite'
             }}
@@ -165,13 +166,13 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
                   setShowModal(false);
                   setShowRsvpModal(true);
                 }}
-                style={{ width: '100%', padding: '14px', backgroundColor: theme.accent, color: '#fff', border: 'none', borderRadius: '8px', fontSize: '0.95rem', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)' }}
+                style={{ width: '100%', padding: '14px', backgroundColor: theme.text, color: theme.bg, border: 'none', borderRadius: '0', fontSize: '0.9rem', fontWeight: 'normal', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)', letterSpacing: 'calc(0.05rem * var(--font-ratio))' }}
               >
                 네, 지금 바로 전달할게요
               </button>
               <button 
                 onClick={() => setShowModal(false)}
-                style={{ width: '100%', padding: '14px', backgroundColor: 'transparent', color: '#888', border: 'none', borderRadius: '8px', fontSize: '0.9rem', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)' }}
+                style={{ width: '100%', padding: '14px', backgroundColor: 'transparent', color: theme.text, border: `1px solid ${theme.text}`, borderRadius: '0', fontSize: '0.9rem', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)', letterSpacing: 'calc(0.05rem * var(--font-ratio))' }}
               >
                 아니오, 나중에 할게요
               </button>

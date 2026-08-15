@@ -64,13 +64,15 @@ const LocationArea = ({ theme }) => {
     tryInitMap();
   }, [locationInfo.address, locationInfo.mapType]);
 
+  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+
   return (
     <FadeUp active={optionInfo.motionEffect}>
       <div style={{ padding: '60px 20px', position: 'relative', zIndex: 10, backgroundColor: 'transparent' }}>
         <h3 style={{ 
-          fontFamily: 'var(--font-en-serif)', fontSize: 'calc(1.5rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: theme.accent, letterSpacing: 'calc(0.1rem * var(--font-ratio))'
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`, fontSize: 'calc(0.95rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: optionInfo.subtitleColor || theme.accent, letterSpacing: 'calc(0.2rem * var(--font-ratio))'
         }}>
-          Location
+          {optionInfo.magazineTocLanguage === 'kr' ? '장소' : 'LOCATION'}
         </h3>
         
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>

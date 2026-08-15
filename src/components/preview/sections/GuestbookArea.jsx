@@ -34,15 +34,17 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
     }
   };
 
+  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+
   if (!guestbookInfo.useGuestbook) return null;
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
       <div style={{ padding: '60px 20px', backgroundColor: 'transparent' }}>
         <h3 style={{ 
-          fontFamily: 'var(--font-en-serif)', fontSize: 'calc(1.4rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: theme.accent, letterSpacing: 'calc(0.1rem * var(--font-ratio))'
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`, fontSize: 'calc(0.95rem * var(--font-ratio))', textAlign: 'center', marginBottom: '30px', color: optionInfo.subtitleColor || theme.accent, letterSpacing: 'calc(0.2rem * var(--font-ratio))'
         }}>
-          GUESTBOOK
+          {optionInfo.magazineTocLanguage === 'kr' ? '방명록' : 'GUEST BOOK'}
         </h3>
         
         {guestbookInfo.description && (
@@ -54,11 +56,28 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
         {/* 방명록 작성하기 버튼 */}
         <div style={{ marginBottom: '40px', position: 'relative' }}>
           <button 
-            className={optionInfo.shineEffect ? 'btn-shine' : ''}
-            onClick={handleButtonClick}
-            style={{ width: '100%', padding: '16px', backgroundColor: 'transparent', color: theme.text, border: `1px solid ${theme.accent}`, borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1rem * var(--font-ratio))', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}
+            onClick={() => handleButtonClick()}
+            style={{ 
+              width: '100%', 
+              padding: '16px', 
+              backgroundColor: 'transparent', 
+              color: theme.text, 
+              border: `1px solid ${theme.text}`, 
+              borderRadius: '0', 
+              fontWeight: 'normal', 
+              cursor: 'pointer', 
+              fontFamily: 'var(--font-kr-sans)', 
+              fontSize: 'calc(0.9rem * var(--font-ratio))', 
+              letterSpacing: 'calc(0.15rem * var(--font-ratio))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              transition: 'all 0.3s'
+            }}
           >
-            축하 메시지 남기기
+            <span>축하 메시지 남기기</span>
+            <span style={{ fontWeight: '300' }}>→</span>
           </button>
           
           {/* Floating Hearts Portal (Relative to button) */}

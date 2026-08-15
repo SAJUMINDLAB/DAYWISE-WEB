@@ -43,8 +43,8 @@ const CinematicIntroOverlay = () => {
 
   return (
     <div style={{
-      '--font-kr-serif': `'${selectedFont}', serif`,
-      '--font-kr-sans': `'${selectedFont}', sans-serif`,
+      '--font-kr-serif': selectedFont === 'Aujournuit Myeongjo' ? "'Aujournuit', 'Noto Serif KR', serif" : `'${selectedFont}', serif`,
+      '--font-kr-sans': selectedFont === 'Aujournuit Myeongjo' ? "'Aujournuit', 'Noto Sans KR', sans-serif" : `'${selectedFont}', sans-serif`,
       '--font-en-serif': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', serif`,
       '--font-en-sans': `'${selectedFontEn === 'Cormorant Italic' ? 'Cormorant Garamond' : selectedFontEn}', sans-serif`,
       '--font-en-style': selectedFontEn === 'Cormorant Italic' ? 'italic' : 'normal',

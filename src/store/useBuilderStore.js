@@ -328,6 +328,7 @@ export const useBuilderStore = create((set) => ({
     parallaxEffect: true,
     shineEffect: true,
     magazineTocLanguage: 'en',
+    subtitleColor: '',
     cinematicCredits: true
   },
 
@@ -373,5 +374,7 @@ export const useBuilderStore = create((set) => ({
   selectedFont: 'Noto Sans KR',
   setFont: (font) => set({ selectedFont: font }),
   selectedFontEn: 'Cormorant Italic',
-  setFontEn: (font) => set({ selectedFontEn: font })
+  setFontEn: (font) => set({ selectedFontEn: font }),
+  selectedFontSubtitle: 'Montserrat',
+  setFontSubtitle: (font) => set({ selectedFontSubtitle: font })
 }));

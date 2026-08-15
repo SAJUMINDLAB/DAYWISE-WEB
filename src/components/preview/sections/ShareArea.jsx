@@ -12,7 +12,7 @@ const ShareArea = ({ theme }) => {
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
-      <div style={{ padding: '60px 20px', backgroundColor: theme.bg }}>
+      <div style={{ padding: '60px 20px 20px 20px', backgroundColor: theme.bg }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <button 
             onClick={() => {
@@ -37,6 +37,9 @@ const ShareArea = ({ theme }) => {
             <LinkIcon size={20} color="#333" />
             초대장 링크 복사하기
           </button>
+        </div>
+        <div style={{ marginTop: '40px', textAlign: 'center', fontSize: '11px', color: theme.text, opacity: 0.5, fontFamily: 'var(--font-en-sans)', letterSpacing: '0.05em' }}>
+          &copy; Daywise. All rights reserved.
         </div>
       </div>
     </FadeUp>

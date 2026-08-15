@@ -1,4 +1,5 @@
 /* Google Fonts는 index.html에서 비동기로 로드합니다 (카카오톡 인앱 브라우저 호환성) */
+@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600&family=Tangerine:wght@400;700&display=swap');
 
 @font-face {
   font-family: 'MaruBuri';
@@ -20,6 +21,17 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aujournuit';
+  src: url('/fonts/Aujournuit-Densed.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.font-en-aujournuit {
+  font-family: 'Aujournuit', serif;
 }
 
 :root {

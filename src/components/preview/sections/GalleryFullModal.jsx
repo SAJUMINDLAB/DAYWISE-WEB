@@ -10,60 +10,41 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
     // For now, we rely on the modal covering the screen and intercepting events.
   }, []);
 
+  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+
+
   return (
     <div style={{
-      position: 'fixed', // This will be relative to .mobile-mockup because it has a CSS transform!
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: theme.bg,
-      zIndex: 99999,
-      display: 'flex',
-      flexDirection: 'column',
-      animation: 'fadeIn 0.3s ease-out'
+      position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+      backgroundColor: theme.bg, zIndex: 9999, display: 'flex', flexDirection: 'column',
+      animation: 'fadeIn 0.2s ease-out'
     }}>
       {/* 헤더 영역 */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '16px 20px',
-        backgroundColor: theme.bg,
-        borderBottom: '1px solid rgba(0,0,0,0.05)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        padding: '16px 20px', borderBottom: '1px solid rgba(0,0,0,0.05)',
+        backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)',
+        position: 'sticky', top: 0, zIndex: 10
       }}>
-        <button 
-          onClick={onClose}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: theme.text,
-            padding: '8px 0',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            fontSize: '1rem',
-            fontFamily: 'var(--font-kr-sans)'
-          }}
-        >
-          <ChevronLeft size={24} />
+        <button onClick={onClose} style={{
+          background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
+          color: theme.text, fontSize: '0.9rem', gap: '4px', padding: 0
+        }}>
+          <ChevronLeft size={20} />
           <span>뒤로</span>
         </button>
         <h3 style={{
-          fontFamily: 'var(--font-en-serif)',
-          fontSize: 'calc(1.2rem * var(--font-ratio))',
-          color: theme.accent,
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`,
+          fontSize: 'calc(1.3rem * var(--font-ratio))',
+          color: optionInfo.subtitleColor || theme.accent,
           margin: 0,
           letterSpacing: 'calc(0.1rem * var(--font-ratio))',
+          fontWeight: 'normal',
           position: 'absolute',
           left: '50%',
           transform: 'translateX(-50%)'
         }}>
-          Gallery
+          {optionInfo.magazineTocLanguage === 'kr' ? '사진' : 'GALLERY'}
         </h3>
         <div style={{ width: '48px' }}></div> {/* 우측 여백 맞춤 */}
       </div>

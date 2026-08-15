@@ -1,5 +1,6 @@
 import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
+import './CinematicTemplate.css';
 
 const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
   const mainInfo = useBuilderStore(state => state.mainInfo);
@@ -14,8 +15,6 @@ const CinematicTemplate = ({ sectionOrder, renderSection, theme }) => {
   
   return (
     <div className="template-cinematic" style={{ '--theme-text': theme.text, '--theme-bg': theme.bg }}>
-import './CinematicTemplate.css';
-
         <div className="cinematic-grain"></div>
         {theme.id !== 'midnight-orange' && (
           <>
