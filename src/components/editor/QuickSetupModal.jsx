@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { X, Zap, Check, MapPin } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import DaumPostcode from 'react-daum-postcode';
+import QuickSetupHeroForm from './forms/QuickSetupHeroForm';
+import QuickSetupVenueForm from './forms/QuickSetupVenueForm';
+import QuickSetupFeatureToggles from './forms/QuickSetupFeatureToggles';
 
 const QuickSetupModal = ({ onClose }) => {
   const mainInfo = useBuilderStore(state => state.mainInfo);
@@ -117,17 +120,6 @@ const QuickSetupModal = ({ onClose }) => {
     onClose();
   };
 
-  const ToggleSwitch = ({ label, checked, onChange }) => (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #f5f5f5' }}>
-      <div style={{ fontSize: '0.9rem', color: '#333' }}>{label}</div>
-      <div 
-        onClick={() => onChange(!checked)}
-        style={{ width: '44px', height: '24px', backgroundColor: checked ? '#222' : '#e5e5e5', borderRadius: '12px', position: 'relative', cursor: 'pointer', transition: 'background-color 0.3s' }}
-      >
-        <div style={{ position: 'absolute', top: '2px', left: checked ? '22px' : '2px', width: '20px', height: '20px', backgroundColor: '#fff', borderRadius: '50%', transition: 'left 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
-      </div>
-    </div>
-  );
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease-out' }}>
@@ -150,100 +142,15 @@ const QuickSetupModal = ({ onClose }) => {
 
         <div style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '30px' }} className="hide-scrollbar">
           
-          <div>
-            <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>1. 주인공 정보 (필수)</div>
-            
-            <div style={{ backgroundColor: '#fafafa', padding: '16px', borderRadius: '8px', marginBottom: '16px', border: '1px solid #ebebeb' }}>
-              <div style={{ fontWeight: 'bold', marginBottom: '12px', color: '#333', fontSize: '0.95rem' }}>👨 신랑 측</div>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                <input value={form.groomFather} onChange={e => setForm({...form, groomFather: e.target.value})} placeholder="아버님 성함" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-                <input value={form.groomMother} onChange={e => setForm({...form, groomMother: e.target.value})} placeholder="어머님 성함" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-              </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', fontSize: '0.9rem', color: '#666', padding: '0 4px' }}>의</div>
-                <input value={form.groomRelation} onChange={e => setForm({...form, groomRelation: e.target.value})} placeholder="예: 아들, 장남" style={{ width: '110px', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-                <input value={form.groomName} onChange={e => setForm({...form, groomName: e.target.value})} placeholder="이름만 (예: 철수)" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', fontWeight: 'bold' }} />
-                <input value={form.groomNameEn} onChange={e => setForm({...form, groomNameEn: e.target.value})} placeholder="영문 (예: Chulsoo)" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', fontFamily: 'var(--font-en-serif)' }} />
-              </div>
-            </div>
-
-            <div style={{ backgroundColor: '#fafafa', padding: '16px', borderRadius: '8px', border: '1px solid #ebebeb' }}>
-              <div style={{ fontWeight: 'bold', marginBottom: '12px', color: '#333', fontSize: '0.95rem' }}>👰 신부 측</div>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                <input value={form.brideFather} onChange={e => setForm({...form, brideFather: e.target.value})} placeholder="아버님 성함" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-                <input value={form.brideMother} onChange={e => setForm({...form, brideMother: e.target.value})} placeholder="어머님 성함" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-              </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', fontSize: '0.9rem', color: '#666', padding: '0 4px' }}>의</div>
-                <input value={form.brideRelation} onChange={e => setForm({...form, brideRelation: e.target.value})} placeholder="예: 딸, 장녀" style={{ width: '110px', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem' }} />
-                <input value={form.brideName} onChange={e => setForm({...form, brideName: e.target.value})} placeholder="이름만 (예: 영희)" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', fontWeight: 'bold' }} />
-                <input value={form.brideNameEn} onChange={e => setForm({...form, brideNameEn: e.target.value})} placeholder="영문 (예: Younghee)" style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', fontFamily: 'var(--font-en-serif)' }} />
-              </div>
-            </div>
-          </div>
+          <QuickSetupHeroForm form={form} setForm={setForm} />
 
           <div style={{ height: '1px', backgroundColor: '#eee' }} />
 
-          <div>
-            <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>2. 예식 일시 (필수)</div>
-            <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} style={{ width: '100%', padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', marginBottom: '8px', fontSize: '0.95rem' }} />
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <select value={form.timeAmPm} onChange={e => setForm({...form, timeAmPm: e.target.value})} style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', backgroundColor: '#fff' }}>
-                <option value="AM">오전</option><option value="PM">오후</option>
-              </select>
-              <select value={form.timeHour} onChange={e => setForm({...form, timeHour: e.target.value})} style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', backgroundColor: '#fff' }}>
-                {Array.from({ length: 12 }, (_, i) => i + 1).map(h => <option key={h} value={h}>{h}시</option>)}
-              </select>
-              <select value={form.timeMinute} onChange={e => setForm({...form, timeMinute: e.target.value})} style={{ flex: 1, padding: '12px 14px', border: '1px solid #ebebeb', borderRadius: '6px', fontSize: '0.95rem', backgroundColor: '#fff' }}>
-                {['00', '10', '20', '30', '40', '50'].map(m => <option key={m} value={m}>{m}분</option>)}
-              </select>
-            </div>
-          </div>
+          <QuickSetupVenueForm form={form} setForm={setForm} setShowPostcode={setShowPostcode} />
 
           <div style={{ height: '1px', backgroundColor: '#eee' }} />
 
-          <div>
-            <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>3. 예식 장소 (필수)</div>
-            <div style={{ display: 'grid', gap: '16px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>예식장 이름</label>
-                <input type="text" style={inputStyle} value={form.venueName} onChange={e => setForm({...form, venueName: e.target.value})} placeholder="예: 하우스 오브 더 라움" />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>상세 홀 정보 (선택)</label>
-                <input type="text" style={inputStyle} value={form.venueDetail} onChange={e => setForm({...form, venueDetail: e.target.value})} placeholder="예: 그라스 가든" />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>도로명 주소</label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input type="text" style={{...inputStyle, flex: 1}} value={form.address} onChange={e => setForm({...form, address: e.target.value})} placeholder="우편번호 검색을 이용해주세요" />
-                  <button onClick={() => setShowPostcode(true)} style={{ padding: '0 16px', backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: '6px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                    <MapPin size={16} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}/> 검색
-                  </button>
-                </div>
-                <div style={{ fontSize: '0.75rem', color: '#0066cc', marginTop: '4px', lineHeight: '1.4' }}>
-                  ※ 정확한 네비게이션 연동(티맵, 카카오내비, 네이버지도)을 위해 반드시 주소 검색을 통해 확인된 주소로 등록해주세요.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ height: '1px', backgroundColor: '#eee' }} />
-
-          <div>
-            <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#222', borderBottom: '2px solid #222', paddingBottom: '8px', marginBottom: '16px' }}>4. 선택 기능 설정 (선택)</div>
-            <div style={{ backgroundColor: '#fafafa', padding: '0 16px', borderRadius: '8px', border: '1px solid #ebebeb' }}>
-              <ToggleSwitch label="초대 인사말 사용" checked={form.useGreeting} onChange={v => setForm({...form, useGreeting: v})} />
-              <ToggleSwitch label="교통편 안내 (지하철, 버스, 주차장) 사용" checked={form.useTransportation} onChange={v => setForm({...form, useTransportation: v})} />
-              <ToggleSwitch label="마음 전하실 곳 (계좌번호 안내) 사용" checked={form.useAccount} onChange={v => setForm({...form, useAccount: v})} />
-              <ToggleSwitch label="웨딩 갤러리 (사진첩) 사용" checked={form.useGallery} onChange={v => setForm({...form, useGallery: v})} />
-              <ToggleSwitch label="우리만의 이야기 (스토리) 사용" checked={form.useStory} onChange={v => setForm({...form, useStory: v})} />
-              <ToggleSwitch label="참석 의사 전달 (RSVP) 사용" checked={form.useRsvp} onChange={v => setForm({...form, useRsvp: v})} />
-              <ToggleSwitch label="방명록 사용" checked={form.useGuestbook} onChange={v => setForm({...form, useGuestbook: v})} />
-              <ToggleSwitch label="배경음악 (BGM) 사용" checked={form.useBgm} onChange={v => setForm({...form, useBgm: v})} />
-            </div>
-            <p style={{ fontSize: '0.8rem', color: '#888', marginTop: '12px', textAlign: 'center' }}>스위치를 켠 기능의 세부 설정(사진 등록, 계좌 등록 등)은 닫기 후 각 스텝에서 진행하세요.</p>
-          </div>
+          <QuickSetupFeatureToggles form={form} setForm={setForm} />
           
         </div>
 
