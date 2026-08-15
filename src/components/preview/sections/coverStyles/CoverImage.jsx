@@ -15,7 +15,7 @@ export const getMainImageShapeStyle = (shape) => {
 
 const CoverImage = ({ optionInfo, mainInfo, isOverlay, scrollY }) => {
   return (
-    <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '2.4s' : '0s'} isFirst={true} style={{ width: '100%', height: isOverlay ? '100%' : 'auto' }}>
+    <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '3.5s' : '0s'} isFirst={true} style={{ width: '100%', height: isOverlay ? '100%' : 'auto' }}>
       <div className="main-image-wrapper" style={{ padding: (mainInfo.mainImageShape === 'full' || isOverlay) ? '0' : '0 20px', display: 'flex', justifyContent: 'center', marginBottom: isOverlay ? '0' : '70px', position: 'relative', zIndex: 1, height: isOverlay ? '100%' : 'auto' }}>
         {(mainInfo.mainImageShape === 'full' || isOverlay) ? (
           <div className="main-image-frame" style={{ width: '100%', height: isOverlay ? '100%' : 'auto', position: 'relative', display: 'flex' }}>
@@ -23,7 +23,7 @@ const CoverImage = ({ optionInfo, mainInfo, isOverlay, scrollY }) => {
               className="main-image-img"
               src={mainInfo.mainImage} 
               alt="Main Cover" 
-              style={{ width: '100%', height: isOverlay ? '100%' : 'auto', objectFit: isOverlay ? 'cover' : 'contain', display: 'block' }} 
+              style={{ width: '100%', height: isOverlay ? '100%' : 'auto', objectFit: 'contain', display: 'block' }} 
             />
             {isOverlay && <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.3)', pointerEvents: 'none' }} />}
           </div>

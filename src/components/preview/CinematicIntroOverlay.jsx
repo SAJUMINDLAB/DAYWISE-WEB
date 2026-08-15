@@ -2,9 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useBuilderStore } from '../../store/useBuilderStore';
 
 const themeStyles = {
-  'cream-beige': { bg: 'var(--tnc-cream)', text: 'var(--tnc-charcoal)', accent: 'var(--tnc-gold)', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'cream-beige': { bg: '#FDFBF7', text: '#333333', accent: '#B0946E', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
   'epure': { bg: '#ffffff', text: '#222222', accent: '#aaaaaa', fontTitle: 'var(--font-en-sans)', fontBody: 'var(--font-kr-sans)' },
-  'default': { bg: 'var(--tnc-cream)', text: 'var(--tnc-charcoal)', accent: 'var(--tnc-gold)', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' }
+  'vanilla-cream': { bg: '#fdfbf7', text: '#4a4036', accent: '#dcae78', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'royal-navy': { bg: '#141E30', text: '#F9F9F9', accent: '#E0C097', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'golden-hour': { bg: '#fffdfa', text: '#332211', accent: '#8B2500', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'sage-green': { bg: '#F4F5F2', text: '#3D4C41', accent: '#849C8D', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'lavender-blush': { bg: '#FBF9FA', text: '#4A3B42', accent: '#B497A6', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'classic-charcoal': { bg: '#F9F9F9', text: '#333333', accent: '#555555', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'warm-terracotta': { bg: '#FFF9F5', text: '#4A352F', accent: '#C47D68', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'sunset-breeze': { bg: '#FFF7F2', text: '#4A332A', accent: '#E86A41', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'midnight-orange': { bg: '#1A1817', text: '#F2EFEB', accent: '#F25C05', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'deep-forest': { bg: '#1A2421', text: '#F0F4F1', accent: '#D4AF37', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'dusty-blue': { bg: '#F5F7FA', text: '#405368', accent: '#6B7F96', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'vintage-wine': { bg: '#2D1B1E', text: '#FDECEF', accent: '#E6A8B6', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' },
+  'default': { bg: '#FDFBF7', text: '#333333', accent: '#8C9B90', title: '#333', fontTitle: 'var(--font-en-serif)', fontBody: 'var(--font-kr-serif)' }
 };
 
 const CinematicIntroOverlay = () => {
@@ -65,16 +77,16 @@ const CinematicIntroOverlay = () => {
           alt="intro" 
           style={{
             position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-            objectFit: 'cover',
+            objectFit: 'contain',
             opacity: stage >= 4 ? 0.6 : 0,
-            transform: stage >= 4 ? 'scale(1.1)' : 'scale(1)',
+            transform: stage >= 4 ? 'scale(1.05)' : 'scale(1)',
             transition: 'opacity 1s ease, transform 6s ease-out',
             zIndex: 1
           }}
         />
       )}
 
-      <div style={{ textAlign: 'center', color: stage >= 4 ? '#fff' : theme.text, transition: 'color 2s ease', zIndex: 10 }}>
+      <div style={{ position: 'relative', textAlign: 'center', color: stage >= 4 ? '#fff' : theme.text, transition: 'color 2s ease', zIndex: 10 }}>
         <h2 style={{ 
           fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.4rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', 
           fontWeight: '300', fontStyle: 'italic', marginBottom: '40px',

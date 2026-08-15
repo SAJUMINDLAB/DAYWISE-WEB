@@ -192,7 +192,9 @@ const ViewerPage = () => {
 
         <ErrorBoundary>
           <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-            <CinematicIntroOverlay />
+            <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '480px', height: '100%', zIndex: 9999, pointerEvents: 'none' }}>
+              <CinematicIntroOverlay />
+            </div>
             <InvitationPreview isPublicView={true} />
           </div>
         </ErrorBoundary>

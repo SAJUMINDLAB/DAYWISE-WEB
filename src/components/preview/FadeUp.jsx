@@ -32,15 +32,8 @@ const FadeUp = ({ children, active, delay = '0s', isFirst = false, style = {}, c
       observer.observe(domRef.current);
     }
     
-    // [중요] 카카오톡 등 일부 모바일 인앱 브라우저에서 IntersectionObserver가 작동하지 않는 버그에 대한 안전장치
-    // 500ms 후에도 표시되지 않으면 강제로 표시
-    const fallbackTimer = setTimeout(() => {
-      setIsVisible(true);
-    }, 500);
-    
     return () => {
       observer.disconnect();
-      clearTimeout(fallbackTimer);
     };
   }, [active, isFirst]);
 
