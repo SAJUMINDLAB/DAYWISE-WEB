@@ -9,7 +9,27 @@ const ShareArea = ({ theme }) => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
   const mainInfo = useBuilderStore(state => state.mainInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
+  const customUrl = useBuilderStore(state => state.customUrl);
+  const currentInvitationId = useBuilderStore(state => state.currentInvitationId);
   const { share } = useKakaoShare();
+
+  // 공유용 뷰어 URL 생성: 커스텀 URL이 있으면 /view/커스텀, 없으면 /v/초대장ID
+  const getViewerUrl = () => {
+    // 이미 뷰어 페이지(/v/ 또는 /view/)에 있다면 현재 URL 그대로 사용
+    if (window.location.pathname.startsWith('/v/') || window.location.pathname.startsWith('/view/')) {
+      return window.location.href;
+    }
+    // 에디터 페이지에서 공유하는 경우: 올바른 뷰어 URL 생성
+    const origin = window.location.origin;
+    if (customUrl) {
+      return `${origin}/view/${customUrl}`;
+    }
+    if (currentInvitationId) {
+      return `${origin}/v/${currentInvitationId}`;
+    }
+    // fallback
+    return window.location.href;
+  };
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
@@ -20,8 +40,9 @@ const ShareArea = ({ theme }) => {
               const title = shareInfo.title || `${mainInfo.groomNameKo} ♥ ${mainInfo.brideNameKo} 결혼합니다`;
               const description = shareInfo.description || '소중한 분들을 초대합니다';
               const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
+              const viewerUrl = getViewerUrl();
 
-              share({ url: window.location.href, title, description, imageUrl });
+              share({ url: viewerUrl, title, description, imageUrl });
             }}
             style={{ 
               flex: 1, 
@@ -45,7 +66,8 @@ const ShareArea = ({ theme }) => {
           </button>
           <button 
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
+              const viewerUrl = getViewerUrl();
+              navigator.clipboard.writeText(viewerUrl);
               alert('초대장 링크가 복사되었습니다.\n원하시는 곳에 붙여넣기(Ctrl+V) 하세요.');
             }}
             style={{ 
