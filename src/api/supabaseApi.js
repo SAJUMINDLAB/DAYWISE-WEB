@@ -18,11 +18,11 @@ export const checkIdAvailable = async (id) => {
 };
 
 export const saveInvitation = async (invitationData) => {
-  // 사용자가 커스텀 URL을 설정했다면 그것을 우선 사용, 아니면 기존 ID, 그것도 없으면 랜덤 생성
-  // (단, 기존 ID가 있다면 수정 모드이므로 customUrl은 덮어씌워지지 않아야 함)
-  const id = invitationData.currentInvitationId || invitationData.customUrl || generateShortId();
+  // 사용자가 커스텀 URL을 설정했다면 무조건 최우선으로 사용
+  // 없다면 기존 임시저장 ID 사용, 그것도 없으면 랜덤 숏 ID 생성
+  const id = invitationData.customUrl || invitationData.currentInvitationId || generateShortId();
   
-  // 보안 검증: 해당 ID가 이미 존재하는지, 존재한다면 주인이 맞는지 확인
+  // 보안 검사: 해당 ID가 이미 존재하는지, 존재한다면 주인이 맞는지 확인
   const { data: existingData } = await supabase
     .from('invitations')
     .select('data')

@@ -3,7 +3,7 @@ import { useBuilderStore } from '../../store/useBuilderStore';
 import ParticlesOverlay from './ParticlesOverlay';
 import FadeUp from './FadeUp';
 import Calendar from './Calendar';
-import { X, Play, Menu } from 'lucide-react';
+import { X, Play, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Extracted Modals
 import RsvpModal from './RsvpModal';
@@ -64,8 +64,9 @@ const InvitationPreview = () => {
   const addGuestbookEntry = useBuilderStore(state => state.addGuestbookEntry);
   const removeGuestbookEntry = useBuilderStore(state => state.removeGuestbookEntry);
   const bgmInfo = useBuilderStore(state => state.bgmInfo);
+  const galleryInfo = useBuilderStore(state => state.galleryInfo);
 
-  const [fullscreenImage, setFullscreenImage] = React.useState(null);
+  const [fullscreenIndex, setFullscreenIndex] = React.useState(null);
   const [showRsvpModal, setShowRsvpModal] = React.useState(false);
   const [showGuestbookModal, setShowGuestbookModal] = React.useState(false);
   const [showGuestbookListModal, setShowGuestbookListModal] = React.useState(false);
@@ -189,7 +190,7 @@ const InvitationPreview = () => {
             case 'story': return <StoryArea key="story" theme={theme} />;
             case 'gallery': 
               if (!useBuilderStore.getState().galleryInfo.useGallery) return null;
-              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenImage={setFullscreenImage} /></div>;
+              return <div id="section-gallery" key="gallery"><GalleryArea theme={theme} setFullscreenIndex={setFullscreenIndex} /></div>;
             case 'location': return <LocationArea key="location" theme={theme} />;
             case 'account': return <AccountArea key="account" theme={theme} />;
             case 'guestbook': return (
@@ -218,20 +219,53 @@ const InvitationPreview = () => {
       })()}
       
       {/* Lightbox Modal */}
-      {fullscreenImage && (
+      {fullscreenIndex !== null && galleryInfo?.images?.[fullscreenIndex] && (
         <div 
-          onClick={() => setFullscreenImage(null)}
+          onClick={() => setFullscreenIndex(null)}
           style={{
             position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
             backgroundColor: '#000000', zIndex: 10000,
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            cursor: 'zoom-out', animation: 'fadeIn 0.2s ease-out'
+            display: 'flex', justifyContent: 'center', alignItems: 'center'
           }}
         >
-          <button style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}>
+          <button style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', zIndex: 10001 }}>
             <X size={28} />
           </button>
-          <img src={fullscreenImage} alt="fullscreen" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', animation: 'scaleIn 0.2s ease-out' }} />
+
+          <button 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              setFullscreenIndex(prev => prev > 0 ? prev - 1 : galleryInfo.images.length - 1); 
+            }} 
+            style={{ 
+              position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', 
+              background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', cursor: 'pointer', 
+              borderRadius: '50%', width: '40px', height: '40px', display: 'flex', 
+              alignItems: 'center', justifyContent: 'center', zIndex: 10001 
+            }}>
+            <ChevronLeft size={24} />
+          </button>
+
+          <img 
+            src={galleryInfo.images[fullscreenIndex].url} 
+            alt="fullscreen" 
+            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', animation: 'scaleIn 0.2s ease-out' }} 
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              setFullscreenIndex(prev => prev < galleryInfo.images.length - 1 ? prev + 1 : 0); 
+            }} 
+            style={{ 
+              position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', 
+              background: 'rgba(0,0,0,0.5)', border: 'none', color: '#fff', cursor: 'pointer', 
+              borderRadius: '50%', width: '40px', height: '40px', display: 'flex', 
+              alignItems: 'center', justifyContent: 'center', zIndex: 10001 
+            }}>
+            <ChevronRight size={24} />
+          </button>
         </div>
       )}
 
@@ -285,8 +319,8 @@ const InvitationPreview = () => {
             } : { 
               position: 'fixed', bottom: '30px', right: '20px', zIndex: 50,
               width: '44px', height: '44px', borderRadius: '50%',
-              backgroundColor: '#fff', border: `1px solid ${theme.border || 'rgba(0,0,0,0.1)'}`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              backgroundColor: theme.bg, border: `1px solid ${theme.border || 'rgba(0,0,0,0.1)'}`,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
               display: 'flex', justifyContent: 'center', alignItems: 'center',
               cursor: 'pointer', transition: 'all 0.3s ease',
               animation: isPlaying ? 'pulse 2s infinite' : 'none'

@@ -8,11 +8,12 @@ const ShareArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const shareInfo = useBuilderStore(state => state.shareInfo);
   const mainInfo = useBuilderStore(state => state.mainInfo);
+  const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
   const { share } = useKakaoShare();
 
   return (
     <FadeUp active={optionInfo.motionEffect}>
-      <div style={{ padding: '60px 20px 20px 20px', backgroundColor: theme.bg }}>
+      <div style={{ padding: `60px 20px ${selectedTemplate === 'cinematic' ? 'calc(20px + 8vh)' : '20px'} 20px`, backgroundColor: theme.bg }}>
         <div style={{ display: 'flex', width: '100%', gap: '12px' }}>
           <button 
             onClick={() => {
@@ -68,8 +69,8 @@ const ShareArea = ({ theme }) => {
             링크 복사
           </button>
         </div>
-        <div style={{ marginTop: '40px', textAlign: 'center', fontSize: '11px', color: theme.text, opacity: 0.5, fontFamily: 'var(--font-en-sans)', letterSpacing: '0.05em' }}>
-          &copy; Daywise. All rights reserved.
+        <div style={{ marginTop: '40px', textAlign: 'center', fontSize: '13px', color: theme.text, opacity: 0.7, fontFamily: 'var(--font-en-sans)', letterSpacing: '0.05em' }}>
+          &copy; DAYWISE. All rights reserved.
         </div>
       </div>
     </FadeUp>

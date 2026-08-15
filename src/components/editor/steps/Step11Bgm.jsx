@@ -13,28 +13,42 @@ const Step11Bgm = () => {
     { id: 'track3', name: '쇼팽 녹턴 (Chopin Nocturne)', desc: '로맨틱하고 부드러운 무드의 야상곡' }
   ];
 
-  const handleFileUpload = (e) => {
+  const handleCustomTrackUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        alert('10MB 이하의 오디오 파일만 업로드 가능합니다.');
+        return;
+      }
+      
+      try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+        const filePath = `custom_tracks/${fileName}`;
 
-    if (file.size > 3 * 1024 * 1024) {
-      alert('청첩장 저장 용량 제한으로 인해 3MB 이하의 MP3 파일만 업로드 가능합니다.');
-      return;
+        // supabase 클라이언트를 사용하여 'audio' 버킷에 바로 업로드
+        const { supabase } = await import('../../../api/supabaseClient');
+        const { error: uploadError } = await supabase.storage
+          .from('audio')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from('audio')
+          .getPublicUrl(filePath);
+
+        updateBgmInfo('customTrackUrl', publicUrlData.publicUrl);
+        updateBgmInfo('customTrackName', file.name);
+        updateBgmInfo('selectedTrack', 'custom');
+      } catch (err) {
+        console.error('Audio upload failed:', err);
+        alert(`오디오 업로드에 실패했습니다. (audio 버킷이 없거나 권한 오류일 수 있습니다.)\n상세: ${err.message}`);
+      }
     }
-
-    if (!file.type.includes('audio')) {
-      alert('오디오 파일(MP3 등)만 업로드 가능합니다.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64String = event.target.result;
-      updateBgmInfo('customTrackUrl', base64String);
-      updateBgmInfo('customTrackName', file.name);
-      updateBgmInfo('selectedTrack', 'custom');
-    };
-    reader.readAsDataURL(file);
   };
 
   return (
@@ -167,7 +181,7 @@ const Step11Bgm = () => {
                 accept="audio/*" 
                 ref={fileInputRef} 
                 style={{ display: 'none' }} 
-                onChange={handleFileUpload}
+                onChange={handleCustomTrackUpload}
               />
             </div>
           </div>

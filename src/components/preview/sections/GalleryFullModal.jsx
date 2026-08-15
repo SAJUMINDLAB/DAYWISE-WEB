@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 
-const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenImage }) => {
+const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenIndex }) => {
   // 모달이 열렸을 때 배경 스크롤 방지
   useEffect(() => {
     // We don't disable body scroll anymore because the modal is contained within the preview mockup,
@@ -25,8 +25,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '16px 20px', borderBottom: '1px solid rgba(0,0,0,0.05)',
-        backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)',
-        position: 'sticky', top: 0, zIndex: 10
+        backgroundColor: theme.bg, zIndex: 10
       }}>
         <button onClick={onClose} style={{
           background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
@@ -66,21 +65,27 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
             key={img.id || idx} 
             onClick={() => {
               // 썸네일 클릭 시 기존 풀스크린(스와이프) 모달 띄우기
-              setFullscreenImage(img.url);
+              setFullscreenIndex(idx);
             }} 
             style={{ 
-              aspectRatio: '1', 
+              width: '100%',
+              paddingBottom: '100%', 
               overflow: 'hidden', 
-              cursor: 'pointer' 
+              cursor: 'pointer',
+              position: 'relative',
+              backgroundColor: 'transparent'
             }}
           >
             <img 
               src={img.url} 
               alt={`gallery-full-${idx}`} 
               style={{ 
+                position: 'absolute',
+                top: 0,
+                left: 0,
                 width: '100%', 
                 height: '100%', 
-                objectFit: 'cover' 
+                objectFit: 'contain' 
               }} 
             />
           </div>

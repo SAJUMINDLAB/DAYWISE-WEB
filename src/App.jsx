@@ -58,6 +58,7 @@ function App() {
 
           {/* Admin Dashboard Route */}
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/:id" element={<AdminDashboard />} />
 
           {/* Fallback Catch-All Route for debugging */}
           <Route path="*" element={

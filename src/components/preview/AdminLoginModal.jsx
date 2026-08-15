@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useBuilderStore } from '../../store/useBuilderStore';
 
 const AdminLoginModal = ({ theme, onClose }) => {
   const [password, setPassword] = useState('');
@@ -12,8 +13,13 @@ const AdminLoginModal = ({ theme, onClose }) => {
     // 심플한 비밀번호 확인 (실제로는 서버 연동 필요)
     if (password === '1234') {
       onClose();
-      // 현재 탭에서 '/admin' 경로로 이동
-      navigate('/admin');
+      // useBuilderStore를 통해 현재 보고 있는 청첩장의 ID를 가져옵니다
+      const currentId = useBuilderStore.getState().currentInvitationId || useBuilderStore.getState().customUrl;
+      if (currentId) {
+        navigate(`/admin/${currentId}`);
+      } else {
+        navigate('/admin');
+      }
     } else {
       setError('비밀번호가 일치하지 않습니다.');
     }

@@ -1,18 +1,22 @@
 import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Upload, MessageCircle, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
+import { useImageUpload } from '../../../hooks/useImageUpload';
 
 const Step12Share = () => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
   const updateShareInfo = useBuilderStore(state => state.updateShareInfo);
   const mainImage = useBuilderStore(state => state.mainInfo.mainImage);
   const fileInputRef = useRef(null);
+  const { uploadImage, isUploading } = useImageUpload();
 
-  const handleThumbnailUpload = (e) => {
+  const handleThumbnailUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      updateShareInfo('thumbnailUrl', url);
+      const publicUrl = await uploadImage(file, 800); // 썸네일은 800px 정도로 충분
+      if (publicUrl) {
+        updateShareInfo('thumbnailUrl', publicUrl);
+      }
     }
   };
 
@@ -79,11 +83,12 @@ const Step12Share = () => {
           <div>
             <button 
               onClick={() => fileInputRef.current?.click()}
-              style={{ padding: '8px 16px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '6px', fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}
+              disabled={isUploading}
+              style={{ padding: '8px 16px', backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '6px', fontSize: '0.85rem', cursor: isUploading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', opacity: isUploading ? 0.6 : 1 }}
             >
-              <Upload size={14} /> 이미지 변경
+              <Upload size={14} /> {isUploading ? '업로드 중...' : '이미지 변경'}
             </button>
-            <div style={{ fontSize: '0.75rem', color: '#888' }}>미설정 시 메인 화면 이미지가 사용됩니다.</div>
+            <div style={{ fontSize: '0.75rem', color: '#888' }}>미설정 시 메인 화면 이미지가 적용됩니다</div>
           </div>
           <input type="file" accept="image/*" ref={fileInputRef} style={{ display: 'none' }} onChange={handleThumbnailUpload} />
         </div>

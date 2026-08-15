@@ -9,38 +9,44 @@ const RsvpEmphasis = ({ theme, setShowRsvpModal }) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // 1. Intersection Observer (공통)
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsRsvpVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
+    let observer;
+    let retryTimeout;
 
-    const rsvpElement = document.getElementById('rsvp-area');
-    if (rsvpElement) {
-      observer.observe(rsvpElement);
-    }
+    // 1. Intersection Observer (공통) - 요소가 렌더링될 때까지 재시도
+    const initObserver = () => {
+      const rsvpElement = document.getElementById('rsvp-area');
+      if (rsvpElement) {
+        observer = new IntersectionObserver(
+          ([entry]) => {
+            setIsRsvpVisible(entry.isIntersecting);
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(rsvpElement);
+      } else {
+        retryTimeout = setTimeout(initObserver, 300); // 0.3초 후 재시도
+      }
+    };
+
+    initObserver();
 
     // 2. 초기 팝업/토스트 트리거
+    let timer1, timer2;
     if (rsvpInfo.useRsvp) {
       if (rsvpInfo.emphasisMode === 'toast') {
-        const timer = setTimeout(() => setShowToast(true), 1500);
-        return () => {
-          clearTimeout(timer);
-          observer.disconnect();
-        };
+        timer1 = setTimeout(() => setShowToast(true), 1500);
       } else if (rsvpInfo.emphasisMode === 'modal') {
         // 이미 띄웠었는지 체크 방지 로직 (여기선 데모용으로 매번 띄움)
-        const timer = setTimeout(() => setShowModal(true), 1000);
-        return () => {
-          clearTimeout(timer);
-          observer.disconnect();
-        };
+        timer2 = setTimeout(() => setShowModal(true), 1000);
       }
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (observer) observer.disconnect();
+      if (retryTimeout) clearTimeout(retryTimeout);
+      if (timer1) clearTimeout(timer1);
+      if (timer2) clearTimeout(timer2);
+    };
   }, [rsvpInfo.useRsvp, rsvpInfo.emphasisMode]);
 
   const scrollToRsvp = () => {

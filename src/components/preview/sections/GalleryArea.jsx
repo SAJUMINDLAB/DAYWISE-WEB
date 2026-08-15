@@ -18,7 +18,7 @@ const dummyImages = Array.from({ length: 9 }).map((_, i) => ({
   url: svgPlaceholder
 }));
 
-const GalleryArea = ({ theme, setFullscreenImage }) => {
+const GalleryArea = ({ theme, setFullscreenIndex }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const galleryInfo = useBuilderStore(state => state.galleryInfo);
   const selectedTemplate = useBuilderStore(state => state.selectedTemplate);
@@ -62,9 +62,9 @@ const GalleryArea = ({ theme, setFullscreenImage }) => {
     }
   };
 
-  const handleImageClick = (url) => {
+  const handleImageClick = (idx) => {
     if (hasDragged.current) return; // Prevent click if dragging
-    setFullscreenImage(url);
+    setFullscreenIndex(idx);
   };
 
   if (!galleryInfo.useGallery) return null;
@@ -96,8 +96,8 @@ const GalleryArea = ({ theme, setFullscreenImage }) => {
             <>
               <div className="gallery-grid-container" style={{ display: 'grid', gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gap: '4px' }}>
                 {visibleGridImages.map((img, idx) => (
-                  <div key={img.id} onClick={() => setFullscreenImage(img.url)} className="gallery-grid-item hover-scale" style={{ aspectRatio: '1', overflow: 'hidden', cursor: 'pointer', position: 'relative' }}>
-                    <img src={img.url} alt={`gallery-${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }} />
+                  <div key={img.id} onClick={() => setFullscreenIndex(idx)} className="gallery-grid-item hover-scale" style={{ width: '100%', paddingBottom: '100%', overflow: 'hidden', cursor: 'pointer', position: 'relative', backgroundColor: 'transparent' }}>
+                    <img src={img.url} alt={`gallery-${idx}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', transition: 'transform 0.3s' }} />
                     
                     {/* +N 더보기 오버레이 (마지막 이미지에만) */}
                     {hasMore && idx === (gridLimit - 1) && (
@@ -142,8 +142,8 @@ const GalleryArea = ({ theme, setFullscreenImage }) => {
               className="hide-scrollbar"
             >
               {displayImages.map((img, idx) => (
-                <div key={img.id} onClick={() => handleImageClick(img.url)} className="carousel-item hover-scale" style={{ flex: '0 0 auto', width: '280px', height: '360px', scrollSnapAlign: 'center', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-                  <img src={img.url} alt={`gallery-${idx}`} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s' }} />
+                <div key={img.id} onClick={() => handleImageClick(idx)} className="carousel-item hover-scale" style={{ flex: '0 0 auto', width: '280px', height: '360px', scrollSnapAlign: 'center', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img src={img.url} alt={`gallery-${idx}`} draggable={false} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', transition: 'transform 0.3s' }} />
                 </div>
               ))}
             </div>
@@ -158,7 +158,7 @@ const GalleryArea = ({ theme, setFullscreenImage }) => {
           images={displayImages} 
           gridCols={gridCols}
           onClose={() => setShowFullGallery(false)}
-          setFullscreenImage={setFullscreenImage}
+          setFullscreenIndex={setFullscreenIndex}
         />
       )}
     </>

@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { getAllInvitations } from '../api/supabaseApi';
+import { getAllInvitations, getInvitation } from '../api/supabaseApi';
 import { Users, BookOpen, Check, X, ArrowLeft, ExternalLink, Download } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [selectedInv, setSelectedInv] = useState(null);
 
   useEffect(() => {
     const fetchInvitations = async () => {
-      const data = await getAllInvitations();
-      // 시간순(최신순) 정렬 보장
-      const invArray = Object.values(data).sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });
-      
-      if (invArray.length > 0) {
-        setSelectedInv(invArray[0]);
+      try {
+        if (id) {
+          // 특정 청첩장 데이터만 가져오기 (고객용)
+          const data = await getInvitation(id);
+          if (data) {
+            setSelectedInv(data);
+          }
+        } else {
+          // 전체 청첩장 데이터 가져오기 (슈퍼 관리자용)
+          const data = await getAllInvitations();
+          const invArray = Object.values(data).sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
+          
+          if (invArray.length > 0) {
+            setSelectedInv(invArray[0]);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load admin data:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchInvitations();
-  }, []);
+  }, [id]);
 
   const handleExportCsv = () => {
     if (!selectedInv || !selectedInv.rsvpList || selectedInv.rsvpList.length === 0) {

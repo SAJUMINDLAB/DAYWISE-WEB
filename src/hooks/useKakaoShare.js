@@ -20,10 +20,11 @@ export const useKakaoShare = () => {
     }
 
     try {
-      // 어떤 환경(테스트 도메인 등)에서 테스트하더라도 카카오에 등록된 정식 도메인으로 강제 고정
+      // 어떤 환경(테스트 도메인)에서 테스트하더라도 카카오에 등록된 공식 도메인으로 강제 고정
       const urlObj = new URL(url, PRODUCTION_DOMAIN);
       urlObj.hostname = 'www.daywise.kr';
       urlObj.protocol = 'https:';
+      urlObj.port = ''; // 포트 번호를 명시적으로 제거해야 카카오가 오류 없이 인식합니다.
       const safeShareUrl = urlObj.toString();
 
       // 이미지 URL 안전하게 처리 (blob/data URL은 카카오가 못 읽으므로 기본 이미지 사용)

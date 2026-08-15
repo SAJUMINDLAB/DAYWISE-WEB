@@ -31,11 +31,11 @@ const MainCover = ({ theme, onAdminAccess }) => {
   const layout = mainInfo.coverLayout || 'layout1';
   const isOverlay = layout === 'layout3';
   const textColor = isOverlay ? '#fff' : (theme.id === 'midnight-orange' ? theme.bg : theme.text);
-  const accentColor = isOverlay ? '#fff' : (theme.id === 'midnight-orange' ? 'rgba(0,0,0,0.4)' : theme.accent);
+  const accentColor = isOverlay ? '#fff' : (theme.id === 'midnight-orange' ? 'rgba(0,0,0,0.8)' : theme.accent);
 
   const textStyle = mainInfo.coverTextStyle || 'style1';
 
-  const basePadding = theme.id === 'midnight-orange' && !isOverlay ? '80px 20px 60px 20px' : '60px 20px';
+  const basePadding = '60px 20px';
   const baseBg = theme.id === 'midnight-orange' && !isOverlay ? theme.accent : 'transparent';
   const baseMarginBottom = theme.id === 'midnight-orange' && !isOverlay ? '-30px' : '0';
   
