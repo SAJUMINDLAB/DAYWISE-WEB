@@ -48,7 +48,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
     onContextMenu: (e) => { e.preventDefault(); e.stopPropagation(); return false; },
     style: {
       fontFamily: 'var(--font-en-serif)', fontStyle: 'var(--font-en-style)',
-      fontSize: 'calc(0.85rem * var(--font-ratio))', letterSpacing: 'calc(0.2rem * var(--font-ratio))',
+      fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.2rem * var(--font-ratio))',
       color: accentColor, textTransform: 'uppercase',
       userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', cursor: 'default'
     }
@@ -125,7 +125,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
               onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); return false; }}
               style={{ 
                 fontFamily: 'var(--font-en-serif)', fontStyle: 'var(--font-en-style)', 
-                fontSize: 'calc(0.75rem * var(--font-ratio))', letterSpacing: 'calc(0.15rem * var(--font-ratio))', 
+                fontSize: 'calc(0.9rem * var(--font-ratio))', letterSpacing: 'calc(0.15rem * var(--font-ratio))', 
                 marginBottom: '16px', color: theme.accent, textTransform: 'uppercase',
                 userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', cursor: 'default'
               }}
@@ -139,7 +139,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
             </div>
           </FadeUp>
           <FadeUp active={optionInfo.motionEffect} delay={'0.6s'} isFirst={true}>
-            <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.8rem * var(--font-ratio))', marginTop: '16px', fontWeight: '300', color: theme.text, opacity: 0.7 }}>
+            <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.95rem * var(--font-ratio))', marginTop: '16px', fontWeight: '300', color: theme.text, opacity: 0.7 }}>
               {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm} · {mainInfo.location}
               {mainInfo.locationDetail && ` · ${mainInfo.locationDetail}`}
             </p>

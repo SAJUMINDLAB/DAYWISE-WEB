@@ -23,18 +23,18 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.95rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.1rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
+          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.25rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
             {mainInfo.locationDetail && (
               <>
                 <br />
-                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                <span style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
                   {mainInfo.locationDetail}
                 </span>
               </>
@@ -61,18 +61,18 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.95rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.1rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.1rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
+          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.25rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
             {mainInfo.locationDetail && (
               <>
                 <br />
-                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                <span style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
                   {mainInfo.locationDetail}
                 </span>
               </>
@@ -99,18 +99,18 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.9rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
+          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.15rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
             {mainInfo.locationDetail && (
               <>
                 <br />
-                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                <span style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
                   {mainInfo.locationDetail}
                 </span>
               </>
@@ -149,12 +149,12 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '24px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
+          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.15rem * var(--font-ratio))', marginTop: '24px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
             {mainInfo.locationDetail && (
               <>
                 <br />
-                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                <span style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
                   {mainInfo.locationDetail}
                 </span>
               </>
@@ -181,18 +181,18 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.2s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.9rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
+          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', marginTop: '40px', fontWeight: theme.id === 'midnight-orange' && !isOverlay ? '500' : '300' }}>
             {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
           </p>
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
+          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.15rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
             {mainInfo.locationDetail && (
               <>
                 <br />
-                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                <span style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
                   {mainInfo.locationDetail}
                 </span>
               </>
