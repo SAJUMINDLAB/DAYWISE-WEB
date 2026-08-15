@@ -84,6 +84,14 @@ const Step3Option = () => {
       </OptionRow>
 
       <OptionRow 
+        icon={Type}
+        title="글자 굵게 (BOLD)" 
+        desc="전체적인 글자를 굵게 표시합니다."
+      >
+        <Toggle checked={optionInfo.fontWeightBold} onChange={(e) => setOptionInfo('fontWeightBold', e.target.checked)} />
+      </OptionRow>
+
+      <OptionRow 
         icon={Layers} 
         title="종이 질감(TEXTURE) 추가" 
         desc="화면에 실제 종이 같은 질감과 입체감을 더합니다."

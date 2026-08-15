@@ -141,6 +141,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
           <FadeUp active={optionInfo.motionEffect} delay={'0.6s'} isFirst={true}>
             <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.8rem * var(--font-ratio))', marginTop: '16px', fontWeight: '300', color: theme.text, opacity: 0.7 }}>
               {formattedDate} {dayName}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm} · {mainInfo.location}
+              {mainInfo.locationDetail && ` · ${mainInfo.locationDetail}`}
             </p>
           </FadeUp>
         </div>

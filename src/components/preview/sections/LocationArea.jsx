@@ -78,6 +78,11 @@ const LocationArea = ({ theme }) => {
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
           <div style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.2rem * var(--font-ratio))', fontWeight: '600', marginBottom: '8px' }}>
             {locationInfo.venueName}
+            {locationInfo.venueDetail && (
+              <div style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px' }}>
+                {locationInfo.venueDetail}
+              </div>
+            )}
           </div>
           <div style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', color: theme.text, opacity: 0.85, marginBottom: '4px' }}>
             {locationInfo.address}

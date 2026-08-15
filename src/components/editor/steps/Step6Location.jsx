@@ -165,7 +165,12 @@ const Step6Location = () => {
             
             <InputRow 
               icon={MapPin} label="예식장 이름" value={locationInfo.venueName} 
-              onChange={(e) => setLocationInfo('venueName', e.target.value)} placeholder="예: 엘파소 하우스 웨딩" 
+              onChange={(e) => setLocationInfo('venueName', e.target.value)} placeholder="예: 하우스 오브 더 라움" 
+            />
+            
+            <InputRow 
+              icon={MapPin} label="상세 홀 정보 (선택)" value={locationInfo.venueDetail || ''} 
+              onChange={(e) => setLocationInfo('venueDetail', e.target.value)} placeholder="예: 그라스 가든" 
             />
             
             <InputRow 

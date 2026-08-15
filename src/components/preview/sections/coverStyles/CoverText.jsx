@@ -31,6 +31,14 @@ const CoverText = ({
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
           <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.1rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
+            {mainInfo.locationDetail && (
+              <>
+                <br />
+                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                  {mainInfo.locationDetail}
+                </span>
+              </>
+            )}
           </p>
         </FadeUp>
       </div>
@@ -61,6 +69,14 @@ const CoverText = ({
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
           <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.1rem * var(--font-ratio))', marginTop: '16px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
+            {mainInfo.locationDetail && (
+              <>
+                <br />
+                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                  {mainInfo.locationDetail}
+                </span>
+              </>
+            )}
           </p>
         </FadeUp>
       </div>
@@ -91,6 +107,14 @@ const CoverText = ({
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
           <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
+            {mainInfo.locationDetail && (
+              <>
+                <br />
+                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                  {mainInfo.locationDetail}
+                </span>
+              </>
+            )}
           </p>
         </FadeUp>
       </div>
@@ -127,6 +151,14 @@ const CoverText = ({
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
           <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '24px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
+            {mainInfo.locationDetail && (
+              <>
+                <br />
+                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                  {mainInfo.locationDetail}
+                </span>
+              </>
+            )}
           </p>
         </FadeUp>
       </div>
@@ -157,6 +189,14 @@ const CoverText = ({
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '1.8s' : '0s'} isFirst={true}>
           <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1rem * var(--font-ratio))', marginTop: '12px', color: textColor, opacity: theme.id === 'midnight-orange' && !isOverlay ? 0.8 : (isOverlay ? 0.9 : 1) }}>
             {mainInfo.location}
+            {mainInfo.locationDetail && (
+              <>
+                <br />
+                <span style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', fontWeight: 'normal', opacity: 0.8, marginTop: '4px', display: 'inline-block' }}>
+                  {mainInfo.locationDetail}
+                </span>
+              </>
+            )}
           </p>
         </FadeUp>
       </div>

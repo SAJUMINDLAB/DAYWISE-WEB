@@ -138,7 +138,7 @@ const InvitationPreview = () => {
     : { id: selectedTheme, ...(themeStyles[selectedTheme] || themeStyles['default']) };
 
   return (
-    <div style={{ 
+    <div className={optionInfo.fontWeightBold ? 'preview-bold-text' : ''} style={{  
       width: '100%', 
       maxWidth: '480px', 
       margin: '0 auto', 

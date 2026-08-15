@@ -56,6 +56,7 @@ export const useBuilderStore = create((set) => ({
     timeHour: '1',
     timeMinute: '00',
     location: '웨딩홀 이름',
+    locationDetail: '상세홀 정보',
     
     groomFather: '아버님',
     groomMother: '어머님',
@@ -97,6 +98,7 @@ export const useBuilderStore = create((set) => ({
     mapType: 'dynamic', // 'image' | 'dynamic'
     mapImage: null,
     venueName: '웨딩홀 이름',
+    venueDetail: '상세홀 정보',
     address: '서울특별시 강남구 테헤란로 123',
     tel: '02-123-4567',
     transportation: [
@@ -321,6 +323,7 @@ export const useBuilderStore = create((set) => ({
     motionEffect: true,
     cinematicIntro: true,
     fontSize: 'M',
+    fontWeightBold: false,
     texture: false,
     pageZoom: true,
     particlesEffect: true,

@@ -86,3 +86,6 @@ html, body, #root {
 .floating-mockup {
   animation: float 4s ease-in-out infinite;
 }
+.preview-bold-text * {
+  font-weight: 600 !important;
+}

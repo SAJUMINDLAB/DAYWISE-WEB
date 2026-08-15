@@ -50,7 +50,7 @@ export const saveInvitation = async (invitationData) => {
   const { error } = await supabase
     .from('invitations')
     .upsert({ 
-      id, 
+      id,
       data: dataToSave 
     });
 
@@ -190,7 +190,7 @@ export const getUserInvitations = async (userId) => {
   if (!userId) return [];
   const { data, error } = await supabase
     .from('invitations')
-    .select('id, created_at, payment_status, expires_at, data')
+    .select('id, created_at, data')
     .eq('data->user->>id', userId)
     .order('created_at', { ascending: false });
 

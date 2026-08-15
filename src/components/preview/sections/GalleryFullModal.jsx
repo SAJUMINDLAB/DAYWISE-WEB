@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { ChevronLeft } from 'lucide-react';
+import { useBuilderStore } from '../../../store/useBuilderStore';
 
 const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenImage }) => {
   // 모달이 열렸을 때 배경 스크롤 방지
@@ -10,7 +11,8 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
     // For now, we rely on the modal covering the screen and intercepting events.
   }, []);
 
-  const selectedFontSubtitle = useBuilderStore(state => state.selectedFontSubtitle);
+  const optionInfo = useBuilderStore(state => state.optionInfo);
+  const subtitleColor = optionInfo.subtitleColor || theme.accent;
 
 
   return (
@@ -34,7 +36,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
           <span>뒤로</span>
         </button>
         <h3 style={{
-          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : `'${selectedFontSubtitle}', serif`,
+          fontFamily: optionInfo.magazineTocLanguage === 'kr' ? 'var(--font-kr-serif)' : 'var(--font-en-sans)',
           fontSize: 'calc(1.3rem * var(--font-ratio))',
           color: optionInfo.subtitleColor || theme.accent,
           margin: 0,

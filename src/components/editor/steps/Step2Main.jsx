@@ -369,13 +369,24 @@ const Step2Main = () => {
       </div>
 
       <div>
-        <label style={labelStyle}>예식 장소</label>
+        <label style={labelStyle}>예식 장소 (웨딩홀 이름)</label>
         <input 
           type="text" 
           style={inputStyle} 
           value={mainInfo.location} 
           onChange={(e) => setMainInfo('location', e.target.value)} 
-          placeholder="예: OO 웨딩홀 1층, 층/홀 이름 정확히 입력해주세요"
+          placeholder="예: 하우스 오브 더 라움"
+        />
+      </div>
+
+      <div>
+        <label style={labelStyle}>상세 홀 정보 (선택)</label>
+        <input 
+          type="text" 
+          style={inputStyle} 
+          value={mainInfo.locationDetail || ''} 
+          onChange={(e) => setMainInfo('locationDetail', e.target.value)} 
+          placeholder="예: 그라스 가든"
         />
       </div>
     </div>
