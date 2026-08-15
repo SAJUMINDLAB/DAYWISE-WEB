@@ -86,36 +86,21 @@ const CinematicIntroOverlay = () => {
         />
       )}
 
-      <div style={{ position: 'relative', textAlign: 'center', color: stage >= 4 ? '#fff' : theme.text, transition: 'color 2s ease', zIndex: 10 }}>
-        <h2 style={{ 
-          fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(1.4rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', 
-          fontWeight: '300', fontStyle: 'italic', marginBottom: '40px',
-          opacity: stage >= 2 ? 1 : 0, transform: stage >= 2 ? 'translateY(0)' : 'translateY(15px)',
-          transition: 'all 1s ease'
-        }}>
-          {greetingInfo.title}
-        </h2>
-        
-        <div style={{ 
-          fontFamily: 'var(--font-en-serif)', fontSize: 'calc(3.2rem * var(--font-ratio))', lineHeight: '1.2', margin: '40px 0',
-          opacity: stage >= 3 ? 1 : 0, transform: stage >= 3 ? 'translateY(0)' : 'translateY(15px)',
-          transition: 'all 0.8s ease 0.1s'
-        }}>
-          <div style={{ fontStyle: 'var(--font-en-style)', fontWeight: '500' }}>{mainInfo.groomNameEn}</div>
-          <div style={{ fontSize: 'calc(1.5rem * var(--font-ratio))', margin: '8px 0', color: stage >= 4 ? 'rgba(255,255,255,0.7)' : theme.accent, transition: 'color 3s ease' }}>&amp;</div>
-          <div style={{ fontStyle: 'var(--font-en-style)', fontWeight: '500' }}>{mainInfo.brideNameEn}</div>
+      <div style={{ position: 'relative', textAlign: 'center', zIndex: 10 }}>
+        {/* Base Text Layer (Black/Theme Text) */}
+        <div style={{ color: theme.text }}>
+          {renderTextContent(false)}
         </div>
 
-        <div style={{
-          opacity: stage >= 3 ? 1 : 0, transform: stage >= 3 ? 'translateY(0)' : 'translateY(15px)',
-          transition: 'all 0.8s ease 0.3s'
+        {/* Overlay Text Layer (White Text, GPU Accelerated Crossfade) */}
+        <div style={{ 
+          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+          color: '#fff',
+          opacity: stage >= 4 ? 1 : 0,
+          transition: 'opacity 2s ease',
+          pointerEvents: 'none'
         }}>
-          <p style={{ fontFamily: 'var(--font-kr-sans)', fontSize: 'calc(0.9rem * var(--font-ratio))', letterSpacing: 'calc(0.1rem * var(--font-ratio))', fontWeight: '300' }}>
-            {mainInfo.date.replace(/-/g, '. ')}. {mainInfo.timeHour}:{mainInfo.timeMinute} {mainInfo.timeAmPm}
-          </p>
-          <p style={{ fontFamily: 'var(--font-kr-serif)', fontSize: 'calc(0.95rem * var(--font-ratio))', marginTop: '12px', color: stage >= 4 ? 'rgba(255,255,255,0.8)' : theme.text, transition: 'color 3s ease' }}>
-            {mainInfo.location}
-          </p>
+          {renderTextContent(true)}
         </div>
       </div>
     </div>
