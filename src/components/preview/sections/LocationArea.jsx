@@ -101,6 +101,8 @@ const LocationArea = ({ theme }) => {
         ) : (
           <div style={{ width: '100%', height: '240px', backgroundColor: '#eee', marginBottom: '16px', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
             <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
+            {/* 스크롤 방해 방지용 투명 오버레이 (지도를 터치해도 페이지가 스크롤되도록 함) */}
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
           </div>
         )}
 

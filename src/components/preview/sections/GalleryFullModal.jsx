@@ -69,13 +69,14 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
             }} 
             style={{ 
               width: '100%',
-              aspectRatio: '1 / 1', 
               overflow: 'hidden', 
               cursor: 'pointer',
               position: 'relative',
               backgroundColor: 'transparent'
             }}
           >
+            {/* Spacer for Safari grid height bug */}
+            <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'/%3E" alt="spacer" style={{ width: '100%', display: 'block', pointerEvents: 'none' }} />
             <img 
               src={img.url} 
               alt={`gallery-full-${idx}`} 

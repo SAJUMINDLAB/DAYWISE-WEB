@@ -94,7 +94,9 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
             <>
               <div className="gallery-grid-container" style={{ display: 'grid', gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gap: '4px' }}>
                 {visibleGridImages.map((img, idx) => (
-                  <div key={img.id} onClick={() => setFullscreenIndex(idx)} className="gallery-grid-item hover-scale" style={{ width: '100%', aspectRatio: '1 / 1', overflow: 'hidden', cursor: 'pointer', position: 'relative', backgroundColor: 'transparent' }}>
+                  <div key={img.id} onClick={() => setFullscreenIndex(idx)} className="gallery-grid-item hover-scale" style={{ width: '100%', overflow: 'hidden', cursor: 'pointer', position: 'relative', backgroundColor: 'transparent' }}>
+                    {/* Spacer for Safari grid height bug */}
+                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'/%3E" alt="spacer" style={{ width: '100%', display: 'block', pointerEvents: 'none' }} />
                     <img src={img.url} alt={`gallery-${idx}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', transition: 'transform 0.3s' }} />
                     
                     {/* +N 더보기 오버레이 (마지막 이미지에만) */}
