@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, X, Pencil, Check } from 'lucide-react';
+import { deleteGuestbookEntry } from '../../api/supabaseApi';
 import { useBuilderStore } from '../../store/useBuilderStore';
 
 const GuestbookListModal = ({ theme, guestbookInfo, onClose, removeGuestbookEntry }) => {
@@ -82,11 +83,23 @@ const GuestbookListModal = ({ theme, guestbookInfo, onClose, removeGuestbookEntr
                     <Pencil size={15} />
                   </button>
                   <button 
-                    onClick={() => {
+                    onClick={async () => {
                       const pwd = prompt('삭제하시려면 비밀번호를 입력하세요.');
                       if (pwd) {
-                        removeGuestbookEntry(entry.id);
-                        alert('삭제되었습니다.');
+                        try {
+                          if (entry.id.toString().startsWith('gb')) {
+                            // 로컬 더미 데이터 삭제
+                            removeGuestbookEntry(entry.id);
+                            alert('삭제되었습니다.');
+                          } else {
+                            // DB 데이터 삭제
+                            await deleteGuestbookEntry(entry.id, pwd);
+                            removeGuestbookEntry(entry.id);
+                            alert('삭제되었습니다.');
+                          }
+                        } catch(err) {
+                          alert(err.message);
+                        }
                       }
                     }}
                     style={{ background: 'none', border: 'none', color: '#aaa', cursor: 'pointer', padding: 0 }}

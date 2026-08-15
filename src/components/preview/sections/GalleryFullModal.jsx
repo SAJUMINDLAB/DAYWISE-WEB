@@ -69,7 +69,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
             }} 
             style={{ 
               width: '100%',
-              paddingBottom: '100%', 
+              aspectRatio: '1 / 1', 
               overflow: 'hidden', 
               cursor: 'pointer',
               position: 'relative',
@@ -85,7 +85,7 @@ const GalleryFullModal = ({ theme, images, gridCols = 3, onClose, setFullscreenI
                 left: 0,
                 width: '100%', 
                 height: '100%', 
-                objectFit: 'contain' 
+                objectFit: 'cover' 
               }} 
             />
           </div>

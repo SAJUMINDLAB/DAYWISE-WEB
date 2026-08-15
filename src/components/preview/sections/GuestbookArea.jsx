@@ -2,6 +2,7 @@ import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import FadeUp from '../FadeUp';
 import { X } from 'lucide-react';
+import { deleteGuestbookEntry } from '../../../api/supabaseApi';
 
 const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
@@ -108,11 +109,23 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
                 {entry.content}
               </div>
               <button 
-                onClick={() => {
+                onClick={async () => {
                   const pwd = prompt('삭제하시려면 비밀번호를 입력하세요.');
                   if (pwd) {
-                    removeGuestbookEntry(entry.id);
-                    alert('삭제되었습니다.');
+                    try {
+                      if (entry.id.toString().startsWith('gb')) {
+                        // 로컬 더미 데이터 삭제
+                        removeGuestbookEntry(entry.id);
+                        alert('삭제되었습니다.');
+                      } else {
+                        // DB 데이터 삭제
+                        await deleteGuestbookEntry(entry.id, pwd);
+                        removeGuestbookEntry(entry.id);
+                        alert('삭제되었습니다.');
+                      }
+                    } catch(err) {
+                      alert(err.message);
+                    }
                   }
                 }}
                 style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', fontSize: 'calc(1rem * var(--font-ratio))' }}

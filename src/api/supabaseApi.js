@@ -229,6 +229,7 @@ export const submitGuestbook = async (id, entryData) => {
       invitation_id: id,
       name: entryData.name,
       content: entryData.content,
+      password: entryData.password,
       date: entryData.date
     }])
     .select()
@@ -247,16 +248,22 @@ export const submitGuestbook = async (id, entryData) => {
   };
 };
 
-export const deleteGuestbookEntry = async (id) => {
-  const { error } = await supabase
+export const deleteGuestbookEntry = async (id, password) => {
+  const { error, count } = await supabase
     .from('guestbooks')
-    .delete()
-    .eq('id', id);
+    .delete({ count: 'exact' })
+    .eq('id', id)
+    .eq('password', password);
 
   if (error) {
     console.error('Guestbook Delete Error:', error);
     throw new Error('방명록 삭제에 실패했습니다.');
   }
+  
+  if (count === 0) {
+    throw new Error('비밀번호가 일치하지 않거나 이미 삭제된 방명록입니다.');
+  }
+
   return true;
 };
 
