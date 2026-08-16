@@ -181,28 +181,25 @@ const SimpleCropper = ({ imageFile, imageUrl, aspectRatio = 1, showKakaoSafeZone
         {showKakaoSafeZone && (
           <div style={{
             position: 'absolute',
-            top: 0, // 카카오톡은 주소 복사 시 1:1 사진의 상단 50%를 보여줍니다.
+            top: '50%', // 잘려나가는 하단 50% 영역
             left: 0,
             right: 0,
-            height: '50%',
-            borderBottom: '2px dashed rgba(255, 235, 59, 0.8)',
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            bottom: 0,
+            borderTop: '2px dashed rgba(255, 60, 60, 0.9)',
+            backgroundColor: 'rgba(0,0,0,0.5)', // 어둡게 처리하여 잘림을 직관적으로 표현
             pointerEvents: 'none',
             display: 'flex',
-            alignItems: 'flex-end',
+            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
-            paddingBottom: '8px',
-            zIndex: 10
+            zIndex: 10,
+            textAlign: 'center'
           }}>
-            <div style={{ 
-              backgroundColor: 'rgba(0,0,0,0.6)', 
-              color: '#fff', 
-              padding: '4px 8px', 
-              borderRadius: '4px',
-              fontSize: '0.75rem', 
-              fontWeight: 'bold' 
-            }}>
-              주소 복사 시 실제 노출 영역 (위쪽 50%)
+            <div style={{ color: '#fff', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '4px', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+              🚫 주소 복사 시 잘리는 영역
+            </div>
+            <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.65rem', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+              (단, [카카오톡 공유하기] 버튼 사용 시 전체 노출)
             </div>
           </div>
         )}

@@ -66,7 +66,7 @@ const Step12Share = () => {
         <input 
           value={shareInfo.title}
           onChange={(e) => updateShareInfo('title', e.target.value)}
-          placeholder="예: 동현과 슬기 결혼합니다"
+          placeholder="예: 신랑 ♥ 신부 결혼합니다"
           style={{ width: '100%', padding: '12px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit' }}
         />
       </div>
@@ -111,12 +111,16 @@ const Step12Share = () => {
 
       {/* 카카오톡 프리뷰 UI */}
       <div style={{ padding: '24px', backgroundColor: '#b2c7d9', borderRadius: '12px' }}>
-        <div style={{ fontSize: '0.8rem', color: '#fff', marginBottom: '12px', textAlign: 'center', opacity: 0.8 }}>카카오톡 공유 미리보기</div>
+        <div style={{ fontSize: '0.8rem', color: '#fff', marginBottom: '12px', textAlign: 'center', opacity: 0.8 }}>공유 미리보기</div>
         <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '8px' }}>
           
           {/* 1. 카카오톡 공유하기 버튼 클릭 시 */}
           <div style={{ flex: 1, minWidth: '240px' }}>
-            <div style={{ fontSize: '0.75rem', color: '#475569', marginBottom: '8px', textAlign: 'center' }}>✅ [공유하기] 버튼 클릭 시</div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#FEE500', color: '#191919', padding: '6px 12px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                <MessageCircle size={14} strokeWidth={2.5} /> 카카오톡 공유
+              </div>
+            </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <div style={{ width: '36px', height: '36px', borderRadius: '14px', backgroundColor: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: '0.7rem', color: '#999' }}>나</span>
@@ -124,7 +128,7 @@ const Step12Share = () => {
               <div style={{ flex: 1, backgroundColor: '#fff', borderRadius: '4px 12px 12px 12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: '1px solid #e5e5e5' }}>
                 <div style={{ width: '100%', paddingBottom: '100%', backgroundColor: '#f0f0f0', backgroundImage: currentThumbnail ? `url(${currentThumbnail})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', borderBottom: '1px solid #f2f2f2' }} />
                 <div style={{ padding: '12px' }}>
-                  <div style={{ fontSize: '14px', color: '#111', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.4' }}>{shareInfo.title || '동현 ❤️ 슬기 결혼합니다'}</div>
+                  <div style={{ fontSize: '14px', color: '#111', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.4' }}>{shareInfo.title || '신랑 ♥ 신부 결혼합니다'}</div>
                   <div style={{ fontSize: '12px', color: '#8E8E8E', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-all' }}>{shareInfo.description || '2026년 11월 14일\n두 사람이 하나 되는 날'}</div>
                 </div>
                 <div style={{ padding: '0 12px 12px 12px' }}>
@@ -140,7 +144,11 @@ const Step12Share = () => {
 
           {/* 2. 주소 직접 복사 시 */}
           <div style={{ flex: 1, minWidth: '240px' }}>
-            <div style={{ fontSize: '0.75rem', color: '#475569', marginBottom: '8px', textAlign: 'center' }}>🔗 주소 직접 복사 시</div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: '#fff', color: '#333', border: '1px solid #d1d5db', padding: '5px 12px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                <LinkIcon size={14} color="#666" strokeWidth={2.5} /> 링크 복사
+              </div>
+            </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <div style={{ width: '36px', height: '36px', borderRadius: '14px', backgroundColor: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', flexShrink: 0 }}>
                 <span style={{ fontSize: '0.7rem', color: '#999' }}>나</span>
@@ -148,7 +156,7 @@ const Step12Share = () => {
               <div style={{ flex: 1, backgroundColor: '#fff', borderRadius: '4px 12px 12px 12px', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', border: '1px solid #e5e5e5' }}>
                 <div style={{ width: '100%', paddingBottom: '50%', backgroundColor: '#f0f0f0', backgroundImage: currentThumbnail ? `url(${currentThumbnail})` : 'none', backgroundSize: 'cover', backgroundPosition: 'top', borderBottom: '1px solid #f2f2f2' }} />
                 <div style={{ padding: '12px' }}>
-                  <div style={{ fontSize: '14px', color: '#111', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.4' }}>{shareInfo.title || '동현 ❤️ 슬기 결혼합니다'}</div>
+                  <div style={{ fontSize: '14px', color: '#111', marginBottom: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.4' }}>{shareInfo.title || '신랑 ♥ 신부 결혼합니다'}</div>
                   <div style={{ fontSize: '12px', color: '#8E8E8E', marginBottom: '8px', lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-all' }}>{shareInfo.description || '2026년 11월 14일\n두 사람이 하나 되는 날'}</div>
                   <div style={{ fontSize: '12px', color: '#3b82f6', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>www.daywise.kr</div>
                 </div>
