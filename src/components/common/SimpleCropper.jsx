@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Check } from 'lucide-react';
 
-const SimpleCropper = ({ imageFile, imageUrl, aspectRatio = 1, onCropComplete, onCancel }) => {
+const SimpleCropper = ({ imageFile, imageUrl, aspectRatio = 1, showKakaoSafeZone = false, onCropComplete, onCancel }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl || null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
@@ -178,6 +178,34 @@ const SimpleCropper = ({ imageFile, imageUrl, aspectRatio = 1, onCropComplete, o
           }}
           onLoad={handleImageLoad}
         />
+        {showKakaoSafeZone && (
+          <div style={{
+            position: 'absolute',
+            top: 0, // 카카오톡은 주소 복사 시 1:1 사진의 상단 50%를 보여줍니다.
+            left: 0,
+            right: 0,
+            height: '50%',
+            borderBottom: '2px dashed rgba(255, 235, 59, 0.8)',
+            backgroundColor: 'rgba(0,0,0,0.1)',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+            paddingBottom: '8px',
+            zIndex: 10
+          }}>
+            <div style={{ 
+              backgroundColor: 'rgba(0,0,0,0.6)', 
+              color: '#fff', 
+              padding: '4px 8px', 
+              borderRadius: '4px',
+              fontSize: '0.75rem', 
+              fontWeight: 'bold' 
+            }}>
+              주소 복사 시 실제 노출 영역 (위쪽 50%)
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '16px', marginTop: '30px' }}>
