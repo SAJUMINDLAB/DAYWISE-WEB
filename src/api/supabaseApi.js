@@ -63,11 +63,14 @@ export const saveInvitation = async (invitationData) => {
 };
 
 export const getInvitation = async (id) => {
+  // 주소가 대문자로 들어오더라도 소문자로 변환하여 검색 (모든 ID는 소문자로 저장됨)
+  const searchId = id ? id.toLowerCase() : id;
+
   // 1. 청첩장 기본 데이터 가져오기
   const { data: invData, error: invError } = await supabase
     .from('invitations')
     .select('*')
-    .eq('id', id)
+    .eq('id', searchId)
     .single();
 
   if (invError || !invData) {
@@ -88,7 +91,7 @@ export const getInvitation = async (id) => {
   const { data: guestbookData, error: gbError } = await supabase
     .from('guestbooks')
     .select('*')
-    .eq('invitation_id', id)
+    .eq('invitation_id', searchId)
     .order('created_at', { ascending: false });
 
   if (!gbError && guestbookData) {
@@ -106,7 +109,7 @@ export const getInvitation = async (id) => {
   const { data: rsvpData, error: rsvpError } = await supabase
     .from('rsvps')
     .select('*')
-    .eq('invitation_id', id)
+    .eq('invitation_id', searchId)
     .order('submitted_at', { ascending: false });
 
   if (!rsvpError && rsvpData) {

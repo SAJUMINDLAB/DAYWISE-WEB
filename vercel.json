@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/view/:id",
+      "destination": "/api/og?id=:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
