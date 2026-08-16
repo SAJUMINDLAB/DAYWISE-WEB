@@ -5,6 +5,10 @@
       "destination": "/api/og?id=:id"
     },
     {
+      "source": "/v/:id",
+      "destination": "/api/og?id=:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
