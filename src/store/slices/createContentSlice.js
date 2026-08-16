@@ -138,7 +138,7 @@ export const createContentSlice = (set) => ({
   bgmInfo: {
     useBgm: true,
     selectedTrack: 'track1', // track1: 캐논, track2: 결혼행진곡, track3: 쇼팽, custom: 직접 업로드
-    autoPlay: false,
+    autoPlay: true, // 기본값을 자동 재생(true)으로 변경
     customTrackUrl: null,
     customTrackName: ''
   },
