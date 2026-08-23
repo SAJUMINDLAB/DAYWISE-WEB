@@ -96,7 +96,8 @@ const EditorPanel = () => {
       // 스토어에 ID를 저장하여 다음 번 저장 시 덮어쓰기가 되도록 합니다.
       useBuilderStore.setState({ currentInvitationId: newId });
       
-      const url = `${window.location.origin}/v/${newId}`;
+      // 제작 완료 시 진짜 주소가 아닌 '주인 전용 미리보기' 주소로 이동합니다.
+      const url = `${window.location.origin}/preview/${newId}`;
       setSaveModalUrl(url);
     } catch (err) {
       alert(err.message || '저장 중 오류가 발생했습니다.');

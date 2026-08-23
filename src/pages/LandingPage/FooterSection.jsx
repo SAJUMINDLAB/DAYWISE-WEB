@@ -24,8 +24,19 @@ const FooterSection = () => {
             </div>
           </div>
         </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-          <span>© 2026 Daywise. All rights reserved.</span>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8rem', color: '#666' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <span>상호: (주)데이와이즈</span>
+            <span>대표자: 대표자명</span>
+            <span>사업자등록번호: 000-00-00000</span>
+            <span>통신판매업신고번호: 발급 진행 중</span>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <span>사업장 주소: 서울특별시 강남구 테헤란로 00, 0층</span>
+            <span>고객센터: 010-0000-0000</span>
+            <span>이메일: support@daywise.com</span>
+          </div>
+          <span style={{ marginTop: '8px' }}>© 2026 Daywise. All rights reserved.</span>
         </div>
       </div>
     </footer>

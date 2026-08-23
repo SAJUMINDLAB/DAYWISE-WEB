@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Music, PlayCircle, Upload, CheckCircle2, X } from 'lucide-react';
+import { supabase } from '../../../api/supabaseClient';
 
 const Step11Bgm = () => {
   const bgmInfo = useBuilderStore(state => state.bgmInfo);
@@ -27,7 +28,6 @@ const Step11Bgm = () => {
         const filePath = `custom_tracks/${fileName}`;
 
         // supabase 클라이언트를 사용하여 'audio' 버킷에 바로 업로드
-        const { supabase } = await import('../../../api/supabaseClient');
         const { error: uploadError } = await supabase.storage
           .from('audio')
           .upload(filePath, file, {

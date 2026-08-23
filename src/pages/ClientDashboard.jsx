@@ -1,33 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { getAllInvitations, getInvitation } from '../api/supabaseApi';
-import { Users, BookOpen, Check, X, ArrowLeft, ExternalLink, Download } from 'lucide-react';
+import { getInvitation } from '../api/supabaseApi';
+import { Users, BookOpen, ArrowLeft, ExternalLink, Download } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const AdminDashboard = () => {
+const ClientDashboard = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [selectedInv, setSelectedInv] = useState(null);
 
   useEffect(() => {
-    const fetchInvitations = async () => {
+    const fetchInvitation = async () => {
       try {
-        if (id) {
-          // 특정 청첩장 데이터만 가져오기 (고객용)
-          const data = await getInvitation(id);
-          if (data) {
-            setSelectedInv(data);
-          }
-        } else {
-          // 전체 청첩장 데이터 가져오기 (슈퍼 관리자용)
-          const data = await getAllInvitations();
-          const invArray = Object.values(data).sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-          
-          if (invArray.length > 0) {
-            setSelectedInv(invArray[0]);
-          }
+        const data = await getInvitation(id);
+        if (data) {
+          setSelectedInv(data);
         }
       } catch (err) {
         console.error('Failed to load admin data:', err);
@@ -35,7 +22,9 @@ const AdminDashboard = () => {
         setLoading(false);
       }
     };
-    fetchInvitations();
+    if (id) {
+      fetchInvitation();
+    }
   }, [id]);
 
   const handleExportCsv = () => {
@@ -58,12 +47,11 @@ const AdminDashboard = () => {
       const companions = row.attend === 'yes' ? row.companions : '0';
       const meal = row.meal === 'yes' ? '예' : row.meal === 'no' ? '아니오' : row.meal === 'unsure' ? '미정' : '';
       const contact = `"${row.contact || ''}"`;
-      const message = `"${(row.message || '').replace(/"/g, '""')}"`; // 이스케이프 처리
+      const message = `"${(row.message || '').replace(/"/g, '""')}"`;
 
       csvRows.push([date, side, name, attend, companions, meal, contact, message].join(','));
     }
 
-    // 한글 깨짐 방지를 위해 BOM 추가
     const csvString = '\uFEFF' + csvRows.join('\n');
     const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -74,6 +62,21 @@ const AdminDashboard = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+  const cardStyle = {
+    backgroundColor: '#fff',
+    padding: '32px 24px',
+    border: '1px solid #EAEAEA',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    borderRadius: '12px',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
+  };
+
+  const thStyle = { padding: '16px 20px', fontWeight: '500', color: '#666', borderBottom: '1px solid #000', fontSize: '0.9rem', whiteSpace: 'nowrap' };
+  const tdStyle = { padding: '16px 20px', borderBottom: '1px solid #EAEAEA', color: '#111', fontSize: '0.95rem', verticalAlign: 'middle' };
 
   if (loading) {
     return (
@@ -106,19 +109,6 @@ const AdminDashboard = () => {
   const groomSideCount = rsvpList.filter(r => r.attend === 'yes' && r.side === 'groom').length;
   const brideSideCount = rsvpList.filter(r => r.attend === 'yes' && r.side === 'bride').length;
   const mealYesCount = rsvpList.filter(r => r.attend === 'yes' && r.meal === 'yes').length;
-
-  const cardStyle = {
-    backgroundColor: '#fff',
-    padding: '32px 24px',
-    border: '1px solid #EAEAEA',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-  };
-
-  const thStyle = { padding: '16px 20px', fontWeight: '500', color: '#666', borderBottom: '1px solid #000', fontSize: '0.9rem' };
-  const tdStyle = { padding: '16px 20px', borderBottom: '1px solid #EAEAEA', color: '#111', fontSize: '0.95rem', verticalAlign: 'middle' };
 
   return (
     <div style={{ backgroundColor: '#FAFAFA', height: '100dvh', overflowY: 'auto', padding: '60px 20px', fontFamily: 'var(--font-kr-sans)' }}>
@@ -276,4 +266,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default ClientDashboard;

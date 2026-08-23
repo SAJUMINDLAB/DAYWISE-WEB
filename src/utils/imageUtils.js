@@ -1,37 +1,39 @@
-export const compressImage = (file, maxWidth = 1080) => {
-  return new Promise((resolve, reject) => {
-    // 15MB 이상 이미지 거부
-    if (file.size > 15 * 1024 * 1024) {
-      alert('15MB 이하의 이미지만 업로드 가능합니다. (앱 성능 저하 방지)');
-      reject(new Error('File size exceeds 15MB'));
-      return;
-    }
+import imageCompression from 'browser-image-compression';
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
+export const compressImage = async (file, maxWidth = 1920) => {
+  // 15MB 이상 이미지 거부 (브라우저 메모리 초과 방지)
+  if (file.size > 15 * 1024 * 1024) {
+    alert('15MB 이하의 이미지만 업로드 가능합니다. (앱 성능 저하 방지)');
+    throw new Error('File size exceeds 15MB');
+  }
 
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
+  const options = {
+    maxSizeMB: 0.5, // 최대 500KB 수준으로 압축 목표
+    maxWidthOrHeight: maxWidth,
+    useWebWorker: true,
+    fileType: 'image/webp', // WebP로 변환
+    initialQuality: 0.85 // 고화질 세팅
+  };
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        
-        // Compress as JPEG with 0.7 quality to keep size small
-        resolve(canvas.toDataURL('image/jpeg', 0.7));
+  try {
+    const compressedFile = await imageCompression(file, options);
+    
+    // File 객체를 Base64 Data URL로 변환하여 반환 (기존 로직 호환용)
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(compressedFile);
+      reader.onloadend = () => {
+        resolve(reader.result);
       };
-    };
-  });
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  } catch (error) {
+    console.error("이미지 압축 중 오류 발생:", error);
+    // 실패 시 기존 캔버스 방식이나 원본 사용 등 처리 가능하나, 에러를 던져 업로드 중단
+    throw error;
+  }
 };
 
 export const dataURLtoBlob = (dataurl) => {

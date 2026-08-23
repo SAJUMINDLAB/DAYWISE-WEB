@@ -32,9 +32,16 @@ export const saveInvitation = async (invitationData) => {
   if (existingData) {
     const ownerId = existingData.data?.user?.id;
     const currentUserId = invitationData.user?.id;
-    // 주인이 다르다면 덮어쓰기 차단 (악의적인 ID 탈취 방지)
-    if (ownerId && ownerId !== currentUserId) {
+    const isMasterAdmin = localStorage.getItem('daywise_master_auth') === 'true';
+
+    // 주인이 다르고, 마스터 관리자도 아닐 때만 차단
+    if (ownerId && ownerId !== currentUserId && !isMasterAdmin) {
       throw new Error('이미 다른 분이 사용 중인 주소입니다. 다른 주소를 입력해주세요.');
+    }
+    
+    // 마스터 관리자가 수정하는 경우, 원래 주인의 소유권(user 데이터)을 그대로 유지해야 함
+    if (isMasterAdmin && ownerId && ownerId !== currentUserId) {
+      invitationData.user = existingData.data.user;
     }
   }
 
@@ -46,6 +53,9 @@ export const saveInvitation = async (invitationData) => {
   if (dataToSave.guestbookInfo && dataToSave.guestbookInfo.entries) {
     dataToSave.guestbookInfo.entries = [];
   }
+  
+  // 최종 수정일 기록
+  dataToSave.updatedAt = new Date().toISOString();
 
   const { error } = await supabase
     .from('invitations')
@@ -130,47 +140,146 @@ export const getInvitation = async (id) => {
 };
 
 export const updatePaymentStatus = async (id, status) => {
-  const payload = {
-    payment_status: status
-  };
-  
-  // 결제 완료 시 만료일을 NULL로 설정하여 영구 보관
-  if (status === 'paid') {
-    payload.expires_at = null;
+  // 1. 기존 데이터 가져오기
+  const { data: rowData, error: fetchError } = await supabase
+    .from('invitations')
+    .select('data')
+    .eq('id', id)
+    .single();
+
+  if (fetchError) {
+    console.error('updatePaymentStatus Fetch Error:', fetchError);
+    throw fetchError;
   }
 
+  const currentData = rowData.data || {};
+  currentData.payment_status = status;
+
+  // 결제 완료(또는 무료 패스) 시 만료일을 365일 뒤로 설정
+  if (status === 'paid' || status === 'free_pass') {
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 365);
+    currentData.expires_at = expiresAt.toISOString();
+  } else if (status === 'unpaid') {
+    // 취소 시 만료일 초기화
+    delete currentData.expires_at;
+  }
+
+  // 2. 덮어쓰기
   const { error } = await supabase
     .from('invitations')
-    .update(payload)
+    .update({ data: currentData })
     .eq('id', id);
 
   if (error) {
     console.error('updatePaymentStatus Error:', error);
     throw error;
   }
+
+  // Webhook 전송 로직 (결제 성공 또는 무료패스 발급 시)
+  if (status === 'paid' || status === 'free_pass') {
+    try {
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      // 실제 Webhook URL이 설정되어 있는지 검사 (가짜 URL 무시)
+      if (webhookUrl && webhookUrl.startsWith('http')) {
+        // 전송할 데이터를 조회합니다.
+        const invData = await getInvitation(id);
+        if (invData) {
+          const payload = {
+            event: 'payment_completed',
+            invitation_id: invData.id,
+            payment_status: status,
+            groom_name: invData.mainInfo?.groomNameKo || '',
+            bride_name: invData.mainInfo?.brideNameKo || '',
+            wedding_date: invData.mainInfo?.date || '',
+            created_at: invData.createdAt || new Date().toISOString(),
+            paid_amount: status === 'paid' ? 19900 : 0,
+            expires_at: currentData.expires_at || ''
+          };
+          
+          // 백그라운드로 전송 (성공/실패 여부가 메인 로직에 영향 주지 않음)
+          // Google Apps Script는 redirect(302) 응답을 줄 수 있으므로 redirect: 'follow' 추가
+          fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors', // CORS 이슈 회피
+            redirect: 'follow',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+          }).catch(e => console.warn('Webhook fetch failed:', e));
+        }
+      }
+    } catch (webhookErr) {
+      console.warn('Webhook sending failed (Ignored):', webhookErr);
+    }
+  }
+
   return true;
 };
 
+export const extendExpiration = async (id) => {
+  const { data: rowData, error: fetchError } = await supabase
+    .from('invitations')
+    .select('data')
+    .eq('id', id)
+    .single();
+
+  if (fetchError) {
+    console.error('extendExpiration Fetch Error:', fetchError);
+    throw fetchError;
+  }
+
+  const currentData = rowData.data || {};
+  let currentExp = currentData.expires_at ? new Date(currentData.expires_at) : new Date();
+  
+  currentExp.setDate(currentExp.getDate() + 365);
+  currentData.expires_at = currentExp.toISOString();
+
+  const { error } = await supabase
+    .from('invitations')
+    .update({ data: currentData })
+    .eq('id', id);
+
+  if (error) {
+    console.error('extendExpiration Update Error:', error);
+    throw new Error('만료일 연장에 실패했습니다.');
+  }
+  return currentData.expires_at;
+};
+
 export const getAllInvitations = async () => {
-  // 관리자 대시보드용
+  // 관리자 대시보드용 - 루프 없이 한 번의 조인 쿼리로 모든 데이터를 가져옵니다.
   const { data, error } = await supabase
     .from('invitations')
-    .select('*')
+    .select(`
+      id,
+      created_at,
+      data,
+      rsvps ( id, attend, companions, side, meal ),
+      guestbooks ( id )
+    `)
     .order('created_at', { ascending: false });
 
-  if (error) return {};
+  if (error) {
+    console.error('getAllInvitations error:', error);
+    return {};
+  }
 
   const result = {};
-  for (const inv of data) {
-    // 상세 정보를 전부 불러오지는 않고, 뼈대만 전달
-    // (현재 AdminDashboard는 rsvp 개수 등을 보려 하므로, 실제로는 
-    // 여기서 각 invitation의 rsvp를 다 불러오거나, AdminDashboard 로직 수정 필요)
-    
-    // 단순함을 위해 getInvitation 재활용
-    const fullInv = await getInvitation(inv.id);
-    if (fullInv) {
-      result[inv.id] = fullInv;
-    }
+  for (const row of data) {
+    const invData = row.data || {};
+    result[row.id] = {
+      id: row.id,
+      createdAt: row.created_at,
+      payment_status: invData.payment_status,
+      ...invData,
+      rsvpList: row.rsvps || [],
+      guestbookInfo: {
+        ...invData.guestbookInfo,
+        entries: row.guestbooks || []
+      }
+    };
   }
 
   return result;

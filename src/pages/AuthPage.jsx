@@ -87,8 +87,18 @@ const AuthPage = () => {
             marginBottom: '16px', lineHeight: '1'
           }}>
             <svg width="48" height="30" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '4px', transform: 'translateY(1px)' }}>
-              <circle cx="14" cy="12" r="10.5" stroke="#D4AF37" strokeWidth="2" />
-              <circle cx="26" cy="12" r="10.5" stroke="#D4AF37" strokeWidth="2" />
+              <circle cx="14.5" cy="12.5" r="9.5" stroke="url(#metallicGoldAuth)" strokeWidth="1.5" />
+              <circle cx="25.5" cy="12.5" r="9.5" stroke="url(#metallicGoldAuth)" strokeWidth="1.5" />
+              <path d="M20 2 L20.5 4.5 L23 5 L20.5 5.5 L20 8 L19.5 5.5 L17 5 L19.5 4.5 Z" fill="url(#metallicGoldAuth)" />
+              <defs>
+                <linearGradient id="metallicGoldAuth" x1="0" y1="0" x2="40" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#C59B3C" />
+                  <stop offset="35%" stopColor="#E2C87A" />
+                  <stop offset="50%" stopColor="#FFF7C0" />
+                  <stop offset="65%" stopColor="#C59B3C" />
+                  <stop offset="100%" stopColor="#8A6308" />
+                </linearGradient>
+              </defs>
             </svg>
             <span style={{ fontFamily: 'var(--font-en-serif)', fontStyle: 'italic', fontSize: '2.8rem', fontWeight: '600', letterSpacing: '2px' }}>DAYWISE</span>
           </div>

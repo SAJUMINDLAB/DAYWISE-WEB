@@ -54,6 +54,7 @@ html, body, #root {
 
 * {
   box-sizing: border-box;
+  font-variant-numeric: lining-nums;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

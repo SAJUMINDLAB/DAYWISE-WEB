@@ -60,7 +60,7 @@ const FeaturesSection = () => {
             icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A7E6A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
           },
           { 
-            label: 'RESPONSIVE', title: '완벽한 반응형 설계', desc: '스마트폰은 물론 태블릿, 가로 모드, PC까지 어떤 화면에서도 비율이 깨지지 않고 완벽하게 보여집니다.', 
+            label: 'RESPONSIVE', title: '완벽한 반응형 설계', desc: '스마트폰과 PC 어떤 화면에서도 비율이 깨지지 않고 가장 아름다운 형태로 완벽하게 보여집니다.', 
             icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A7E6A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
           }
         ].map((item, idx) => (

@@ -14,6 +14,7 @@ const Step5Gallery = () => {
 
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [currentCropImage, setCurrentCropImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -24,6 +25,7 @@ const Step5Gallery = () => {
       return;
     }
 
+    setIsUploading(true);
     const newImages = [];
     for (const file of files) {
       const base64 = await uploadImage(file, 1080);
@@ -37,6 +39,8 @@ const Step5Gallery = () => {
     }
 
     setGalleryInfo('images', [...galleryInfo.images, ...newImages]);
+    setIsUploading(false);
+    e.target.value = ''; // 동일 파일 재업로드 가능하도록 초기화
   };
 
   const removeImage = (id) => {
@@ -140,16 +144,28 @@ const Step5Gallery = () => {
           
           <label style={{
             display: 'flex', alignItems: 'center', gap: '6px',
-            backgroundColor: '#f5f5f5', padding: '6px 12px', borderRadius: '4px',
-            fontSize: '0.8rem', cursor: 'pointer', border: '1px solid #ddd'
+            backgroundColor: isUploading ? '#e0e0e0' : '#f5f5f5', 
+            padding: '6px 12px', borderRadius: '4px',
+            fontSize: '0.8rem', cursor: isUploading ? 'wait' : 'pointer', border: '1px solid #ddd'
           }}>
-            <ImagePlus size={16} /> 사진 추가
+            <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+            {isUploading ? (
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#666' }}>
+                <div style={{ width: '12px', height: '12px', border: '2px solid #666', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                업로드 중...
+              </span>
+            ) : (
+              <>
+                <ImagePlus size={16} /> 사진 추가
+              </>
+            )}
             <input 
               type="file" 
               multiple 
               accept="image/*" 
               style={{ display: 'none' }} 
-              onChange={handleFileUpload} 
+              onChange={handleFileUpload}
+              disabled={isUploading}
             />
           </label>
         </div>

@@ -17,7 +17,7 @@ const isKakaoInAppBrowser = () => {
   return /KAKAOTALK/i.test(ua);
 };
 
-const ViewerPage = () => {
+const ViewerPage = ({ isPreviewMode = false }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -164,31 +164,55 @@ const ViewerPage = () => {
     );
   }
 
+  const isPaid = invitationData?.payment_status === 'paid' || invitationData?.payment_status === 'free_pass';
+  const isMasterAdmin = localStorage.getItem('daywise_master_auth') === 'true';
+
+  // 🔒 자물쇠(Paywall) 로직: 미리보기 모드도 아니고, 마스터 관리자도 아니고, 결제/무료패스도 아닐 경우 차단
+  if (!isPreviewMode && !isMasterAdmin && !isPaid && invitationData) {
+    return (
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#FAFAFA', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '40px', zIndex: 99999, fontFamily: 'var(--font-kr-sans)' }}>
+        <div style={{ backgroundColor: '#fff', padding: '50px 30px', borderRadius: '16px', boxShadow: '0 10px 40px rgba(0,0,0,0.06)', textAlign: 'center', maxWidth: '380px', width: '100%', border: '1px solid #EAEAEA' }}>
+          <div style={{ fontSize: '3.5rem', marginBottom: '20px' }}>🔒</div>
+          <h2 style={{ fontSize: '1.4rem', color: '#111', marginBottom: '16px', fontWeight: 'bold' }}>결제가 필요한 청첩장입니다</h2>
+          <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+            아직 결제가 완료되지 않아<br/>하객들에게 공개할 수 없습니다.<br/>
+            <br/>
+            <span style={{ fontSize: '0.85rem', color: '#999' }}>제작자이신 경우, 관리 페이지에서<br/>결제를 진행해 주세요.</span>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ width: '100%', minHeight: '100vh', backgroundColor: '#e5e5e5', display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '100%', maxWidth: '480px', backgroundColor: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.1)', minHeight: '100vh', position: 'relative', display: 'flex', flexDirection: 'column' }}>
         
-        {/* 미결제/미리보기 상태 배너 (사용자 테스트를 위해 임시 비활성화) */}
-        {/* 
-        {invitationData && invitationData.payment_status !== 'paid' && (
+        {/* 미결제/미리보기 상태 배너 */}
+        {isPreviewMode && !isPaid && (
           <div style={{
-            backgroundColor: '#fff3e0',
-            color: '#e65100',
+            backgroundColor: '#111',
+            color: '#fff',
             padding: '12px 16px',
             textAlign: 'center',
             fontSize: '0.85rem',
             fontWeight: 'bold',
-            borderBottom: '1px solid #ffe0b2',
-            zIndex: 1000,
+            zIndex: 10000,
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px'
+            gap: '6px',
+            fontFamily: 'var(--font-kr-sans)'
           }}>
-            <span>⚠️ 본 청첩장은 미리보기 화면입니다.</span>
-            <span style={{ fontSize: '0.75rem', fontWeight: 'normal' }}>결제 완료 후 하객에게 공유할 수 있습니다.</span>
+            <span>⚠️ 현재는 본인만 볼 수 있는 미리보기입니다.</span>
+            <span style={{ fontSize: '0.75rem', fontWeight: 'normal', color: '#AAA' }}>결제 완료 후 하객에게 정식으로 공유할 수 있습니다.</span>
+            <button 
+              onClick={() => window.location.href = `/checkout/${id}`}
+              style={{ marginTop: '8px', padding: '8px', backgroundColor: '#fff', color: '#000', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.9rem' }}
+            >
+              19,900원 결제하고 공유하기
+            </button>
           </div>
         )}
-        */}
 
         <ErrorBoundary>
           <div style={{ flex: 1, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>

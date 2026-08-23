@@ -13,6 +13,8 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@marsidev/react-turnstile": "^1.5.5",
     "@supabase/supabase-js": "^2.111.0",
+    "@tosspayments/payment-widget-sdk": "^0.12.2",
+    "browser-image-compression": "^2.0.2",
     "lucide-react": "^1.28.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.8",
