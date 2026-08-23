@@ -105,8 +105,9 @@ export const getInvitation = async (id) => {
     id: invData.id, 
     user_id: invData.user_id, 
     createdAt: invData.created_at,
-    payment_status: invData.payment_status,
-    expires_at: invData.expires_at
+    // data 컬럼 안에 들어있으므로, 명시적으로 덮어쓸 필요 없지만 안전장치로 추가할 경우 data에서 읽어야 함
+    payment_status: invData.data?.payment_status || 'unpaid',
+    expires_at: invData.data?.expires_at
   };
 
   // 2. 방명록 가져오기
