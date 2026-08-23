@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import FadeUp from '../FadeUp';
 import CoverText from './coverStyles/CoverText';
@@ -7,6 +7,19 @@ import CoverImage from './coverStyles/CoverImage';
 const MainCover = ({ theme, onAdminAccess }) => {
   const mainInfo = useBuilderStore(state => state.mainInfo);
   const optionInfo = useBuilderStore(state => state.optionInfo);
+
+  useEffect(() => {
+    if (mainInfo?.mainImage) {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = mainInfo.mainImage;
+      document.head.appendChild(link);
+      return () => {
+        document.head.removeChild(link);
+      };
+    }
+  }, [mainInfo?.mainImage]);
   const scrollY = useBuilderStore(state => state.scrollY);
   const timerRef = React.useRef(null);
 

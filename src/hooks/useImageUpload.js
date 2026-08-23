@@ -5,12 +5,13 @@ import { supabase } from '../api/supabaseClient';
 export const useImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
 
-  const uploadImage = async (file, maxWidth = 1080) => {
+  // maxWidth를 인자로 받아 메인은 1920, 갤러리는 1080 등으로 유연하게 적용
+  const uploadImage = async (file, maxWidth = 1920) => {
     if (!file) return null;
     
     setIsUploading(true);
     try {
-      // 1. 이미지 압축 (Base64 변환)
+      // 1. 이미지 압축 (브라우저 기본 Canvas를 이용한 고화질 압축)
       const compressedBase64 = await compressImage(file, maxWidth);
       
       // 2. Base64 -> Blob 변환
@@ -42,7 +43,7 @@ export const useImageUpload = () => {
       return publicUrlData.publicUrl;
     } catch (err) {
       console.error('Image upload failed:', err);
-      alert(`이미지 업로드에 실패했습니다. (버킷이 없거나 권한 오류일 수 있습니다.)\n상세: ${err.message}`);
+      alert(`이미지 업로드에 실패했습니다.\n상세: ${err.message}`);
       return null;
     } finally {
       setIsUploading(false);

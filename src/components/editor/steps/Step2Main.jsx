@@ -37,7 +37,7 @@ const Step2Main = () => {
   const handleMainImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const base64 = await uploadImage(file, 1080);
+      const base64 = await uploadImage(file, 1920);
       if (base64) {
         setMainInfo('mainImage', base64);
       }

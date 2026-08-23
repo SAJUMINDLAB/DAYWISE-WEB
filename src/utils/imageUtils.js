@@ -1,39 +1,50 @@
-import imageCompression from 'browser-image-compression';
+export const compressImage = (file, maxWidth = 1920) => {
+  return new Promise((resolve, reject) => {
+    // 15MB 이상 이미지 거부 (브라우저 메모리 초과 방지)
+    if (file.size > 15 * 1024 * 1024) {
+      alert('15MB 이하의 이미지만 업로드 가능합니다.');
+      return reject(new Error('File size exceeds 15MB'));
+    }
 
-export const compressImage = async (file, maxWidth = 1920) => {
-  // 15MB 이상 이미지 거부 (브라우저 메모리 초과 방지)
-  if (file.size > 15 * 1024 * 1024) {
-    alert('15MB 이하의 이미지만 업로드 가능합니다. (앱 성능 저하 방지)');
-    throw new Error('File size exceeds 15MB');
-  }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
 
-  const options = {
-    maxSizeMB: 1.5, // 최고 화질 유지를 위해 1.5MB까지 허용
-    maxWidthOrHeight: maxWidth,
-    useWebWorker: true,
-    fileType: 'image/jpeg', // 업로드 시 image/jpeg로 설정되어 있으므로 일치시켜야 깨짐 방지
-    initialQuality: 0.95 // 고화질 세팅
-  };
+        // maxWidth(또는 maxHeight)를 기준으로 비율에 맞춰 축소
+        if (width > maxWidth || height > maxWidth) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxWidth) / height);
+            height = maxWidth;
+          }
+        }
 
-  try {
-    const compressedFile = await imageCompression(file, options);
-    
-    // File 객체를 Base64 Data URL로 변환하여 반환 (기존 로직 호환용)
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(compressedFile);
-      reader.onloadend = () => {
-        resolve(reader.result);
+        // 캔버스 생성 및 이미지 그리기
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        // 부드러운 이미지 스케일링 설정
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // JPEG 포맷으로 고화질(95%) 압축하여 Base64 반환
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+        resolve(dataUrl);
       };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  } catch (error) {
-    console.error("이미지 압축 중 오류 발생:", error);
-    // 실패 시 기존 캔버스 방식이나 원본 사용 등 처리 가능하나, 에러를 던져 업로드 중단
-    throw error;
-  }
+      img.onerror = (error) => reject(error);
+    };
+    reader.onerror = (error) => reject(error);
+  });
 };
 
 export const dataURLtoBlob = (dataurl) => {

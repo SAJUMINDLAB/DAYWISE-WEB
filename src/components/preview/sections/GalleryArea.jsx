@@ -17,6 +17,37 @@ const dummyImages = Array.from({ length: 9 }).map((_, i) => ({
   url: svgPlaceholder
 }));
 
+// Fade-in Loading Image Component
+const LazyImage = ({ src, alt, imageFit, draggable = true }) => {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: '#f5f5f5', overflow: 'hidden' }}>
+      {!loaded && (
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite'
+        }} />
+      )}
+      <img 
+        src={src} 
+        alt={alt} 
+        loading="lazy" 
+        decoding="async" 
+        draggable={draggable}
+        onLoad={() => setLoaded(true)}
+        style={{ 
+          width: '100%', height: '100%', 
+          objectFit: imageFit || 'contain', 
+          opacity: loaded ? 1 : 0,
+          transition: 'opacity 0.6s ease-in-out, transform 0.3s'
+        }} 
+      />
+    </div>
+  );
+};
+
 const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const galleryInfo = useBuilderStore(state => state.galleryInfo);
@@ -77,6 +108,12 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
 
   return (
     <>
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
       <FadeUp active={optionInfo.motionEffect}>
         <div style={{ padding: '60px 20px 20px 20px', position: 'relative', zIndex: 10 }}>
           <h3 style={{ 
@@ -97,9 +134,9 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
                   <div key={img.id} onClick={() => setFullscreenIndex(idx)} className="gallery-grid-item hover-scale" style={{ width: '100%', overflow: 'hidden', cursor: 'pointer', position: 'relative', backgroundColor: 'transparent' }}>
                     {/* 1:1 Aspect Ratio Box */}
                     <div style={{ width: '100%', paddingBottom: '100%' }} />
-                    <img src={img.croppedUrl || img.url} alt={`gallery-${idx}`} loading="lazy" decoding="async" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s' }} />
+                    <LazyImage src={img.croppedUrl || img.url} alt={`gallery-${idx}`} imageFit={galleryInfo.imageFit} />
                     
-                    {/* +N 더보기 오버레이 (마지막 이미지에만) */}
+                    {/* +N 정보 오버레이 (마지막 이미지에만) */}
                     {hasMore && idx === (gridLimit - 1) && (
                       <div 
                         onClick={(e) => {
@@ -143,7 +180,7 @@ const GalleryArea = ({ theme, setFullscreenIndex, onOpenFullGallery }) => {
             >
               {displayImages.map((img, idx) => (
                 <div key={img.id} onClick={() => handleImageClick(idx)} className="carousel-item hover-scale" style={{ flex: '0 0 auto', width: '280px', height: '360px', scrollSnapAlign: 'center', borderRadius: '12px', overflow: 'hidden', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                  <img src={img.croppedUrl || img.url} alt={`gallery-${idx}`} loading="lazy" decoding="async" draggable={false} style={{ width: '100%', height: '100%', objectFit: galleryInfo.imageFit || 'contain', transition: 'transform 0.3s', position: 'absolute', top: 0, left: 0 }} />
+                  <LazyImage src={img.croppedUrl || img.url} alt={`gallery-${idx}`} imageFit={galleryInfo.imageFit} draggable={false} />
                 </div>
               ))}
             </div>
