@@ -74,6 +74,7 @@ export const createSystemSlice = (set) => ({
       mainImageShape: 'full',
       coverLayout: 'layout1',
       coverTextStyle: 'style1',
+      coverTitle: '', coverTitleSize: 1.0,
       groomNameEn: 'Groom', groomNameKo: '신랑',
       brideNameEn: 'Bride', brideNameKo: '신부',
       date: '2026-01-01', timeAmPm: 'PM', timeHour: '1', timeMinute: '00',

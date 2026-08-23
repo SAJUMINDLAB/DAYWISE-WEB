@@ -161,11 +161,11 @@ const DashboardPage = () => {
                     <div style={{ color: '#888', fontSize: '0.9rem' }}>생성일: {date}</div>
                   </div>
                   
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '24px' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '24px', flexWrap: 'wrap' }}>
                     <Link to={`/editor/${inv.id}`} style={{ 
-                      flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#f5f5f5', 
+                      flex: 1, minWidth: '60px', textAlign: 'center', padding: '10px 0', backgroundColor: '#f5f5f5', 
                       color: '#2C2C2C', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
-                    }}>수정/결제</Link>
+                    }}>수정</Link>
                     <button 
                       disabled={loadingManagerId === inv.id}
                       onClick={async () => {
@@ -179,7 +179,7 @@ const DashboardPage = () => {
                           setLoadingManagerId(null);
                         }
                       }} style={{ 
-                        flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#f5f5f5', 
+                        flex: 1, minWidth: '60px', textAlign: 'center', padding: '10px 0', backgroundColor: '#f5f5f5', 
                         color: loadingManagerId === inv.id ? '#888' : '#2C2C2C', 
                         border: 'none', cursor: loadingManagerId === inv.id ? 'wait' : 'pointer', 
                         borderRadius: '8px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center'
@@ -188,16 +188,24 @@ const DashboardPage = () => {
                       {loadingManagerId === inv.id ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <Loader2 size={14} className="spin-animation" style={{ animation: 'spin 1s linear infinite' }} />
-                          불러오는 중...
+                          ...
                         </div>
                       ) : (
-                        '통계/관리'
+                        '관리'
                       )}
                     </button>
-                    <a href={`/view/${inv.id}`} target="_blank" rel="noreferrer" style={{ 
-                      flex: 1, textAlign: 'center', padding: '10px 0', backgroundColor: '#FDFBF7', 
+                    <a href={`/preview/${inv.id}`} target="_blank" rel="noreferrer" style={{ 
+                      flex: 1, minWidth: '60px', textAlign: 'center', padding: '10px 0', backgroundColor: '#FDFBF7', 
                       color: '#D4AF37', border: '1px solid #D4AF37', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem'
                     }}>미리보기</a>
+                    
+                    {!(isPaid || isFreePass) && (
+                      <Link to={`/checkout/${inv.id}`} style={{ 
+                        flex: 1, minWidth: '80px', textAlign: 'center', padding: '10px 0', backgroundColor: '#2e7d32', 
+                        color: '#fff', textDecoration: 'none', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 'bold'
+                      }}>결제하기</Link>
+                    )}
+
                     <button onClick={() => {
                         setQrModalUrl(`https://daywise.kr/v/${inv.id}`);
                         setQrModalTitle(title);

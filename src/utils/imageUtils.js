@@ -8,11 +8,11 @@ export const compressImage = async (file, maxWidth = 1920) => {
   }
 
   const options = {
-    maxSizeMB: 0.5, // 최대 500KB 수준으로 압축 목표
+    maxSizeMB: 1.5, // 최고 화질 유지를 위해 1.5MB까지 허용
     maxWidthOrHeight: maxWidth,
     useWebWorker: true,
-    fileType: 'image/webp', // WebP로 변환
-    initialQuality: 0.85 // 고화질 세팅
+    fileType: 'image/jpeg', // 업로드 시 image/jpeg로 설정되어 있으므로 일치시켜야 깨짐 방지
+    initialQuality: 0.95 // 고화질 세팅
   };
 
   try {

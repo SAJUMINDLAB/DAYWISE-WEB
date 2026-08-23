@@ -17,6 +17,8 @@ export const createContentSlice = (set) => ({
     mainImageShape: 'full', // full, arch, rectangle, rounded, circle
     coverLayout: 'layout1', // layout1(Text Top), layout2(Photo Top), layout3(Overlay), layout5(Minimal)
     coverTextStyle: 'style1', // style1(Center), style2(Left), style3(Inline), style4(Korean Main), style5(Big Date)
+    coverTitle: '', // Custom main cover title
+    coverTitleSize: 1.0, // Custom main cover title size
     groomNameEn: 'Groom',
     groomNameKo: '신랑',
     brideNameEn: 'Bride',

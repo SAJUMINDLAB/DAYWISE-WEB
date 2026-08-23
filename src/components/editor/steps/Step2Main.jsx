@@ -117,14 +117,14 @@ const Step2Main = () => {
         <div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <span style={{ position: 'absolute', left: '12px', color: '#aaa', fontSize: '0.95rem' }}>daywise.com/view/</span>
+              <span style={{ position: 'absolute', left: '12px', color: '#aaa', fontSize: '0.95rem' }}>daywise.kr/v/</span>
               <input
                 type="text"
                 value={customUrl}
                 onChange={handleUrlChange}
-                placeholder="yumin-wedding"
+                placeholder="love-wedding"
                 maxLength={30}
-                style={{ ...inputStyle, marginBottom: 0, paddingLeft: '135px' }}
+                style={{ ...inputStyle, marginBottom: 0, paddingLeft: '100px' }}
               />
             </div>
             <button 
@@ -277,6 +277,50 @@ const Step2Main = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+        {/* 메인 커버 상단 문구 UI */}
+        <div style={{ marginTop: '16px', backgroundColor: '#f9f9f9', padding: '16px', borderRadius: '8px', border: '1px solid #eee' }}>
+          <label style={{...labelStyle, marginBottom: '8px'}}>메인 커버 상단 문구 (선택)</label>
+          <textarea 
+            style={{...inputStyle, marginBottom: '12px', minHeight: '60px', resize: 'vertical'}} 
+            value={mainInfo.coverTitle !== undefined ? mainInfo.coverTitle : ''} 
+            onChange={(e) => setMainInfo('coverTitle', e.target.value)} 
+            placeholder={(mainInfo.coverTextStyle || 'style1') === 'style4' ? '결혼합니다' : 'Wedding Invitation'} 
+            rows={2}
+          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#555' }}>문구 크기</span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {[
+                { label: '작게', value: 0.8 },
+                { label: '보통', value: 1.0 },
+                { label: '크게', value: 1.2 }
+              ].map(size => (
+                <button
+                  key={size.value}
+                  onClick={() => setMainInfo('coverTitleSize', size.value)}
+                  style={{
+                    padding: '6px 12px', borderRadius: '6px', fontSize: '0.8rem', cursor: 'pointer',
+                    backgroundColor: (mainInfo.coverTitleSize || 1.0) === size.value ? '#222' : '#fff',
+                    color: (mainInfo.coverTitleSize || 1.0) === size.value ? '#fff' : '#444',
+                    border: (mainInfo.coverTitleSize || 1.0) === size.value ? 'none' : '1px solid #ddd'
+                  }}
+                >
+                  {size.label}
+                </button>
+              ))}
+            </div>
+            <input 
+              type="range" 
+              min="0.5" max="2.0" step="0.1" 
+              value={mainInfo.coverTitleSize || 1.0} 
+              onChange={(e) => setMainInfo('coverTitleSize', parseFloat(e.target.value))}
+              style={{ flex: 1, minWidth: '80px', cursor: 'pointer' }}
+            />
+            <span style={{ fontSize: '0.8rem', color: '#888', minWidth: '32px' }}>
+              {((mainInfo.coverTitleSize || 1.0) * 100).toFixed(0)}%
+            </span>
           </div>
         </div>
 

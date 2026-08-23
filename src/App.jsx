@@ -2,22 +2,42 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
-// 성능 최적화: 필요한 페이지 코드만 분리해서 다운로드 (Code Splitting / Lazy Loading)
-const EditorPage = lazy(() => import('./pages/EditorPage'));
-const ViewerPage = lazy(() => import('./pages/ViewerPage'));
-const MasterDashboard = lazy(() => import('./pages/MasterDashboard'));
-const ClientDashboard = lazy(() => import('./pages/ClientDashboard'));
-const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
-const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
-const PaymentFailPage = lazy(() => import('./pages/PaymentFailPage'));
+// 로딩 최적화: 청크 로드 실패 시(새 버전 배포 시) 자동으로 새로고침하는 커스텀 lazy 함수
+const lazyWithRetry = (componentImport) =>
+  lazy(async () => {
+    const pageHasAlreadyBeenForceRefreshed = JSON.parse(
+      window.sessionStorage.getItem('page-has-been-force-refreshed') || 'false'
+    );
+    try {
+      const component = await componentImport();
+      window.sessionStorage.setItem('page-has-been-force-refreshed', 'false');
+      return component;
+    } catch (error) {
+      if (!pageHasAlreadyBeenForceRefreshed) {
+        window.sessionStorage.setItem('page-has-been-force-refreshed', 'true');
+        window.location.reload();
+        return new Promise(() => {}); // Prevent React from trying to render while reloading
+      }
+      throw error;
+    }
+  });
 
-const LandingPage = lazy(() => import('./pages/LandingPage'));
-const AuthPage = lazy(() => import('./pages/AuthPage'));
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const TermsPage = lazy(() => import('./pages/TermsPage'));
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
-const SamplePage = lazy(() => import('./pages/SamplePage'));
-const QnaPage = lazy(() => import('./pages/QnaPage'));
+// 성능 최적화: 필요한 페이지 코드만 분리해서 다운로드 (Code Splitting / Lazy Loading)
+const EditorPage = lazyWithRetry(() => import('./pages/EditorPage'));
+const ViewerPage = lazyWithRetry(() => import('./pages/ViewerPage'));
+const MasterDashboard = lazyWithRetry(() => import('./pages/MasterDashboard'));
+const ClientDashboard = lazyWithRetry(() => import('./pages/ClientDashboard'));
+const CheckoutPage = lazyWithRetry(() => import('./pages/CheckoutPage'));
+const PaymentSuccessPage = lazyWithRetry(() => import('./pages/PaymentSuccessPage'));
+const PaymentFailPage = lazyWithRetry(() => import('./pages/PaymentFailPage'));
+
+const LandingPage = lazyWithRetry(() => import('./pages/LandingPage'));
+const AuthPage = lazyWithRetry(() => import('./pages/AuthPage'));
+const DashboardPage = lazyWithRetry(() => import('./pages/DashboardPage'));
+const TermsPage = lazyWithRetry(() => import('./pages/TermsPage'));
+const PrivacyPage = lazyWithRetry(() => import('./pages/PrivacyPage'));
+const SamplePage = lazyWithRetry(() => import('./pages/SamplePage'));
+const QnaPage = lazyWithRetry(() => import('./pages/QnaPage'));
 
 import { supabase } from './api/supabaseClient';
 import { useBuilderStore } from './store/useBuilderStore';

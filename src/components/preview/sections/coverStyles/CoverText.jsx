@@ -5,12 +5,32 @@ const CoverText = ({
   textStyle, isOverlay, theme, optionInfo, mainInfo, formattedDate, dayName,
   containerStyle, commonTextProps, textColor
 }) => {
+
+  const titleSize = mainInfo.coverTitleSize || 1.0;
+  const getCustomTitleStyle = (extraStyle = {}) => ({
+    ...commonTextProps.style,
+    ...extraStyle,
+    fontSize: `calc(1.05rem * var(--font-ratio) * ${titleSize})`
+  });
+
+  const renderTitle = (defaultTitle) => {
+    if (mainInfo.coverTitle) {
+      return mainInfo.coverTitle.split('\n').map((line, i, arr) => (
+        <React.Fragment key={i}>
+          {line}
+          {i < arr.length - 1 && <br />}
+        </React.Fragment>
+      ));
+    }
+    return defaultTitle;
+  };
+
   if (textStyle === 'style2') {
     return (
       <div style={{ ...containerStyle, textAlign: 'left', padding: '60px 30px' }}>
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '3.5s' : '0s'} isFirst={true}>
-          <p {...commonTextProps} style={{ ...commonTextProps.style, marginBottom: '40px' }}>
-            Wedding<br/>Invitation
+          <p {...commonTextProps} style={getCustomTitleStyle({ marginBottom: '40px' })}>
+            {renderTitle(<>Wedding<br/>Invitation</>)}
           </p>
         </FadeUp>
         
@@ -55,8 +75,8 @@ const CoverText = ({
         </FadeUp>
 
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '4.0s' : '0s'} isFirst={true}>
-          <p {...commonTextProps} style={{ ...commonTextProps.style, marginBottom: '40px' }}>
-            Wedding<br/>Invitation
+          <p {...commonTextProps} style={getCustomTitleStyle({ marginBottom: '40px' })}>
+            {renderTitle(<>Wedding<br/>Invitation</>)}
           </p>
         </FadeUp>
 
@@ -85,8 +105,8 @@ const CoverText = ({
     return (
       <div style={{ ...containerStyle, textAlign: 'center' }}>
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '3.5s' : '0s'} isFirst={true}>
-          <p {...commonTextProps} style={{ ...commonTextProps.style, marginBottom: '30px' }}>
-            결혼합니다
+          <p {...commonTextProps} style={getCustomTitleStyle({ fontFamily: 'var(--font-kr-serif)', fontStyle: 'normal', marginBottom: '30px' })}>
+            {renderTitle('결혼합니다')}
           </p>
         </FadeUp>
         
@@ -123,8 +143,8 @@ const CoverText = ({
     return (
       <div style={{ ...containerStyle, textAlign: 'center' }}>
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '3.5s' : '0s'} isFirst={true}>
-          <p {...commonTextProps} style={{ ...commonTextProps.style, marginBottom: '20px' }}>
-            Wedding Invitation
+          <p {...commonTextProps} style={getCustomTitleStyle({ marginBottom: '20px' })}>
+            {renderTitle('Wedding Invitation')}
           </p>
         </FadeUp>
         
@@ -167,8 +187,8 @@ const CoverText = ({
     return (
       <div style={{ ...containerStyle, textAlign: 'center' }}>
         <FadeUp active={optionInfo.motionEffect} delay={optionInfo.cinematicIntro ? '3.5s' : '0s'} isFirst={true}>
-          <p {...commonTextProps} style={{ ...commonTextProps.style, marginBottom: '30px' }}>
-            Wedding Invitation
+          <p {...commonTextProps} style={getCustomTitleStyle({ marginBottom: '30px' })}>
+            {renderTitle('Wedding Invitation')}
           </p>
         </FadeUp>
         

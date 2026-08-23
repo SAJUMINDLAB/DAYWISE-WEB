@@ -35,7 +35,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
 
   const textStyle = mainInfo.coverTextStyle || 'style1';
 
-  const basePadding = '60px 20px';
+  const basePadding = layout === 'layout2' ? '40px 20px 60px 20px' : '60px 20px';
   const baseBg = theme.id === 'midnight-orange' && !isOverlay ? theme.accent : 'transparent';
   const baseMarginBottom = theme.id === 'midnight-orange' && !isOverlay ? '-30px' : '0';
   
@@ -47,6 +47,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
     onTouchEnd: handlePointerUpOrLeave,
     onContextMenu: (e) => { e.preventDefault(); e.stopPropagation(); return false; },
     style: {
+      margin: 0,
       fontFamily: 'var(--font-en-serif)', fontStyle: 'var(--font-en-style)',
       fontSize: 'calc(1.05rem * var(--font-ratio))', letterSpacing: 'calc(0.2rem * var(--font-ratio))',
       color: accentColor, textTransform: 'uppercase',
@@ -77,7 +78,7 @@ const MainCover = ({ theme, onAdminAccess }) => {
   );
 
   const imageContent = (
-    <CoverImage optionInfo={optionInfo} mainInfo={mainInfo} isOverlay={isOverlay} scrollY={scrollY} />
+    <CoverImage optionInfo={optionInfo} mainInfo={mainInfo} isOverlay={isOverlay} scrollY={scrollY} layout={layout} />
   );
 
   if (layout === 'layout1') {

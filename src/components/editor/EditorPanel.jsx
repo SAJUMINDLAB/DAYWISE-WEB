@@ -269,7 +269,7 @@ const EditorPanel = () => {
             onMouseLeave={(e) => { if(!isSaving) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)'; } }}
           >
             <Check size={20} strokeWidth={3} />
-            {isSaving ? '생성 중...' : '완성 및 배포하기'}
+            {isSaving ? '생성 중...' : '완성하기'}
           </button>
         </div>
       </div>
