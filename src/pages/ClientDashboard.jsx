@@ -129,14 +129,26 @@ const ClientDashboard = () => {
               {selectedInv.mainInfo.groomNameKo} & {selectedInv.mainInfo.brideNameKo} 명단 관리
             </h1>
           </div>
-          <a 
-            href={`/view/${selectedInv.id}`} 
-            target="_blank" 
-            rel="noreferrer"
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#000', color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}
-          >
-            <ExternalLink size={16} /> 청첩장 확인
-          </a>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            {localStorage.getItem('daywise_master_auth') === 'true' && (
+              <a 
+                href={`/editor/${selectedInv.customUrl || selectedInv.id}`} 
+                target="_blank" 
+                rel="noreferrer"
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#fff', color: '#000', border: '1px solid #000', textDecoration: 'none', fontSize: '0.9rem' }}
+              >
+                <ExternalLink size={16} /> 에디터로 수정하기
+              </a>
+            )}
+            <a 
+              href={`/v/${selectedInv.customUrl || selectedInv.id}`} 
+              target="_blank" 
+              rel="noreferrer"
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 20px', backgroundColor: '#000', color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}
+            >
+              <ExternalLink size={16} /> 청첩장 보기
+            </a>
+          </div>
         </div>
 
         {/* Stats Cards */}

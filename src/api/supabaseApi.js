@@ -38,24 +38,36 @@ export const saveInvitation = async (invitationData) => {
     if (ownerId && ownerId !== currentUserId && !isMasterAdmin) {
       throw new Error('이미 다른 분이 사용 중인 주소입니다. 다른 주소를 입력해주세요.');
     }
+  }
+
+  // 저장할 데이터를 준비 (기존 데이터가 있다면 병합하여 payment_status 등 손실 방지)
+  let dataToSave = { ...invitationData };
+  if (existingData && existingData.data) {
+    dataToSave = {
+      ...existingData.data,
+      ...invitationData, // 새 데이터로 덮어쓰기
+    };
     
-    // 마스터 관리자가 수정하는 경우, 원래 주인의 소유권(user 데이터)을 그대로 유지해야 함
+    // 마스터 관리자가 수정하는 경우, 원래 주인의 소유권(user 데이터)을 강제로 원복 유지
+    const ownerId = existingData.data?.user?.id;
+    const currentUserId = invitationData.user?.id;
+    const isMasterAdmin = localStorage.getItem('daywise_master_auth') === 'true';
     if (isMasterAdmin && ownerId && ownerId !== currentUserId) {
-      invitationData.user = existingData.data.user;
+      dataToSave.user = existingData.data.user;
     }
   }
 
+  // 불필요한/중복 데이터 제거
+  delete dataToSave.rsvpList;
+  delete dataToSave.guestbookInfo;
+  
+  // 최종 수정일 추가
+  dataToSave.updatedAt = new Date().toISOString();
+  
   // rsvpList나 guestbookInfo.entries는 별도 테이블로 뺄 것이므로, 
   // 메인 데이터에서 초기화하거나 무시합니다.
   // Zustand 스토어의 함수들을 제거하기 위해 JSON 직렬화/역직렬화를 거칩니다.
-  const dataToSave = JSON.parse(JSON.stringify(invitationData));
-  if (dataToSave.rsvpList) delete dataToSave.rsvpList;
-  if (dataToSave.guestbookInfo && dataToSave.guestbookInfo.entries) {
-    dataToSave.guestbookInfo.entries = [];
-  }
-  
-  // 최종 수정일 기록
-  dataToSave.updatedAt = new Date().toISOString();
+  dataToSave = JSON.parse(JSON.stringify(dataToSave));
 
   const { error } = await supabase
     .from('invitations')
