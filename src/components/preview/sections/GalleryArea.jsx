@@ -39,7 +39,7 @@ const LazyImage = ({ src, alt, imageFit, draggable = true }) => {
         onLoad={() => setLoaded(true)}
         style={{ 
           width: '100%', height: '100%', 
-          objectFit: imageFit || 'contain', 
+          objectFit: imageFit || 'cover', 
           opacity: loaded ? 1 : 0,
           transition: 'opacity 0.6s ease-in-out, transform 0.3s'
         }} 

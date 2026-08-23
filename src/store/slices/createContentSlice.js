@@ -78,7 +78,7 @@ export const createContentSlice = (set) => ({
   galleryInfo: {
     useGallery: true,
     layout: 'grid', // 'grid' | 'carousel'
-    imageFit: 'contain', // 'contain' | 'cover'
+    imageFit: 'cover', // 'contain' | 'cover'
     images: [] // { id, url, name }
   },
   
