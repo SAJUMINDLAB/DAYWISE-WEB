@@ -38,7 +38,7 @@ export const compressImage = (file, maxWidth = 1920) => {
         ctx.drawImage(img, 0, 0, width, height);
 
         // JPEG 포맷으로 고화질(95%) 압축하여 Base64 반환
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+        const dataUrl = canvas.toDataURL('image/webp', 0.90);
         resolve(dataUrl);
       };
       img.onerror = (error) => reject(error);

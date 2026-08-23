@@ -18,7 +18,7 @@ export const useImageUpload = () => {
       const blob = dataURLtoBlob(compressedBase64);
       
       // 3. 고유 파일명 생성
-      const fileExt = 'jpg';
+      const fileExt = 'webp';
       const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
       const filePath = `uploads/${fileName}`;
 
@@ -26,7 +26,7 @@ export const useImageUpload = () => {
       const { error: uploadError } = await supabase.storage
         .from('images')
         .upload(filePath, blob, {
-          contentType: 'image/jpeg',
+          contentType: 'image/webp',
           cacheControl: '3600',
           upsert: false
         });

@@ -15,14 +15,14 @@ import AdminLoginModal from './AdminLoginModal';
 import MainCover from './sections/MainCover';
 import IntroArea from './sections/IntroArea';
 import HostArea from './sections/HostArea';
-import StoryArea from './sections/StoryArea';
-import GalleryArea from './sections/GalleryArea';
-import LocationArea from './sections/LocationArea';
-import AccountArea from './sections/AccountArea';
-import GuestbookArea from './sections/GuestbookArea';
-import RsvpArea from './sections/RsvpArea';
-import RsvpEmphasis from './sections/RsvpEmphasis';
-import ShareArea from './sections/ShareArea';
+const StoryArea = React.lazy(() => import('./sections/StoryArea'));
+const GalleryArea = React.lazy(() => import('./sections/GalleryArea'));
+const LocationArea = React.lazy(() => import('./sections/LocationArea'));
+const AccountArea = React.lazy(() => import('./sections/AccountArea'));
+const GuestbookArea = React.lazy(() => import('./sections/GuestbookArea'));
+const RsvpArea = React.lazy(() => import('./sections/RsvpArea'));
+const RsvpEmphasis = React.lazy(() => import('./sections/RsvpEmphasis'));
+const ShareArea = React.lazy(() => import('./sections/ShareArea'));
 
 // Templates
 import ClassicTemplate from './templates/ClassicTemplate';
