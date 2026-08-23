@@ -52,9 +52,9 @@ const FadeUp = ({ children, active, delay = '0s', isFirst = false, style = {}, c
         ...style,
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-        // 애니메이션 시간 2.2s로 원상복구
-        // 처음 1회 이후(hasShown)는 delay를 0s로 해서 스크롤 시 즉시 나타나게 함.
-        transition: `opacity 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) ${hasShown ? '0s' : delay}, transform 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) ${hasShown ? '0s' : delay}`,
+        // 프리미엄 2.8s 모션 효과 (끝부분이 더 부드럽게 감속하는 곡선 적용)
+        // 처음 1회이후(hasShown)면 delay를 0s로 해서 스크롤시 즉시 보이게 함
+        transition: `opacity 2.8s cubic-bezier(0.22, 1, 0.36, 1) ${hasShown ? '0s' : delay}, transform 2.8s cubic-bezier(0.22, 1, 0.36, 1) ${hasShown ? '0s' : delay}`,
         willChange: 'opacity, transform'
       }}
     >
