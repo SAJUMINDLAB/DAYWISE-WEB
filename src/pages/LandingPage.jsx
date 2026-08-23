@@ -7,6 +7,7 @@ import MockupSection from './LandingPage/MockupSection';
 import TemplatesSection from './LandingPage/TemplatesSection';
 import FeaturesSection from './LandingPage/FeaturesSection';
 import HowItWorksSection from './LandingPage/HowItWorksSection';
+import PricingSection from './LandingPage/PricingSection';
 import ShowcaseSection from './LandingPage/ShowcaseSection';
 import FinalCtaSection from './LandingPage/FinalCtaSection';
 import FooterSection from './LandingPage/FooterSection';
@@ -53,6 +54,7 @@ const LandingPage = () => {
       <FadeIn><MockupSection /></FadeIn>
       <FadeIn><FeaturesSection /></FadeIn>
       <FadeIn><HowItWorksSection /></FadeIn>
+      <FadeIn><PricingSection user={user} /></FadeIn>
       <FadeIn><FinalCtaSection user={user} /></FadeIn>
       <FooterSection />
 
