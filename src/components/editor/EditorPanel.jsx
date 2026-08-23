@@ -16,7 +16,7 @@ const EditorPanel = () => {
   
   // Save States
   const [isSaving, setIsSaving] = useState(false);
-  const [saveModalUrl, setSaveModalUrl] = useState(null);
+  const [saveModalId, setSaveModalId] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const onDragEnd = (result) => {
@@ -97,9 +97,8 @@ const EditorPanel = () => {
       // 스토어에 ID를 저장하여 다음 번 저장 시 덮어쓰기가 되도록 합니다.
       useBuilderStore.setState({ currentInvitationId: newId });
       
-      // 제작 완료 시 진짜 주소가 아닌 '주인 전용 미리보기' 주소로 이동합니다.
-      const url = `${window.location.origin}/preview/${newId}`;
-      setSaveModalUrl(url);
+      // 제작 완료 시 띄울 모달에 ID를 전달합니다.
+      setSaveModalId(newId);
     } catch (err) {
       alert(err.message || '저장 중 오류가 발생했습니다.');
       console.error(err);
@@ -277,7 +276,7 @@ const EditorPanel = () => {
       
       {showQuickSetup && <QuickSetupModal onClose={() => setShowQuickSetup(false)} />}
       {showPaymentModal && <PaymentSimulationModal onClose={() => setShowPaymentModal(false)} onPaymentComplete={handlePaymentComplete} />}
-      {saveModalUrl && <SaveCompleteModal shareUrl={saveModalUrl} onClose={() => setSaveModalUrl(null)} />}
+      {saveModalId && <SaveCompleteModal invitationId={saveModalId} onClose={() => setSaveModalId(null)} />}
     </div>
   );
 };

@@ -3,15 +3,18 @@ import { Check, Copy, ExternalLink, X } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { useKakaoShare } from '../../hooks/useKakaoShare';
 
-const SaveCompleteModal = ({ shareUrl, onClose }) => {
+const SaveCompleteModal = ({ invitationId, onClose }) => {
   const shareInfo = useBuilderStore(state => state.shareInfo);
   const mainInfo = useBuilderStore(state => state.mainInfo);
 
   const { share } = useKakaoShare();
 
+  const previewUrl = `${window.location.origin}/preview/${invitationId}`;
+  const liveUrl = `${window.location.origin}/v/${invitationId}`;
+
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(liveUrl);
       alert('청첩장 링크가 복사되었습니다.');
     } catch {
       alert('복사에 실패했습니다. 직접 선택해서 복사해주세요.');
@@ -24,7 +27,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
     const description = shareInfo.description || `두 사람이 하나 되는 날`;
     const imageUrl = shareInfo.thumbnailUrl || mainInfo.mainImage;
 
-    share({ url: shareUrl, title, description, imageUrl });
+    share({ url: liveUrl, title, description, imageUrl });
   };
 
   return (
@@ -66,7 +69,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
           marginBottom: '24px', wordBreak: 'break-all', textAlign: 'left',
           border: '1px solid #ebebeb'
         }}>
-          <span style={{ fontSize: '0.9rem', color: '#333' }}>{shareUrl}</span>
+          <span style={{ fontSize: '0.9rem', color: '#333' }}>{liveUrl}</span>
           <button 
             onClick={handleCopy}
             style={{ 
@@ -93,7 +96,7 @@ const SaveCompleteModal = ({ shareUrl, onClose }) => {
           
           <div style={{ display: 'flex', gap: '10px' }}>
             <button 
-              onClick={() => window.open(shareUrl, '_blank')}
+              onClick={() => window.open(previewUrl, '_blank')}
               style={{ 
                 flex: 1, padding: '14px', backgroundColor: '#fff', color: '#222', 
                 border: '1px solid #222', borderRadius: '8px', fontSize: '0.95rem', fontWeight: 'bold',

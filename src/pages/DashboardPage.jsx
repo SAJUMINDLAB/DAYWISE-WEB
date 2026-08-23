@@ -123,12 +123,17 @@ const DashboardPage = () => {
                 : '제목 없는 청첩장';
               const date = new Date(inv.created_at).toLocaleDateString();
               
-              // 결제 상태 및 남은 일수 계산
-              const isPaid = inv.payment_status === 'paid';
+              const paymentStatus = inv.data?.payment_status || 'unpaid';
+              const isPaid = paymentStatus === 'paid';
+              const isFreePass = paymentStatus === 'free_pass';
               let daysLeft = 0;
-              if (!isPaid) {
-                const expiresAt = inv.expires_at ? new Date(inv.expires_at) : new Date(new Date(inv.created_at).getTime() + (30 * 24 * 60 * 60 * 1000));
-                daysLeft = Math.ceil((expiresAt - new Date()) / (1000 * 60 * 60 * 24));
+              let expiresDateStr = '';
+              
+              const expiresAt = inv.data?.expires_at ? new Date(inv.data.expires_at) : new Date(new Date(inv.created_at).getTime() + (30 * 24 * 60 * 60 * 1000));
+              daysLeft = Math.ceil((expiresAt - new Date()) / (1000 * 60 * 60 * 24));
+              
+              if (isPaid || isFreePass) {
+                expiresDateStr = `${expiresAt.getFullYear()}년 ${expiresAt.getMonth() + 1}월 ${expiresAt.getDate()}일`;
               }
 
               return (
@@ -142,6 +147,10 @@ const DashboardPage = () => {
                       <div style={{ color: '#aaa', fontSize: '0.85rem' }}>ID: {inv.id}</div>
                       {isPaid ? (
                         <span style={{ padding: '4px 8px', backgroundColor: '#e8f5e9', color: '#2e7d32', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>결제 완료</span>
+                      ) : isFreePass ? (
+                        <span style={{ padding: '4px 8px', backgroundColor: '#e3f2fd', color: '#1565c0', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                          무료패스 적용 중 ({expiresDateStr} 삭제 예정)
+                        </span>
                       ) : (
                         <span style={{ padding: '4px 8px', backgroundColor: '#fff3e0', color: '#e65100', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>
                           결제 대기 (D-{daysLeft > 0 ? daysLeft : 0} 삭제)
