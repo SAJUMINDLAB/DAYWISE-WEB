@@ -359,43 +359,46 @@ const InvitationPreview = () => {
             src={bgmInfo.selectedTrack === 'custom' ? bgmInfo.customTrackUrl : (audioTracks[bgmInfo.selectedTrack] || audioTracks['track1'])} 
             loop 
           />
-          <div 
-            onClick={() => setIsPlaying(!isPlaying)}
-            style={selectedTemplate === 'bento' ? {
-              position: 'fixed', top: '16px', left: '50%', transform: 'translateX(-50%)', zIndex: 100,
-              width: isPlaying ? '140px' : '90px', height: '32px', borderRadius: '16px',
-              backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-              display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px',
-              cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            } : { 
-              position: 'fixed', bottom: '30px', right: '20px', zIndex: 50,
-              width: '44px', height: '44px', borderRadius: '50%',
-              backgroundColor: theme.bg, border: `1px solid ${theme.border || 'rgba(0,0,0,0.1)'}`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-              display: 'flex', justifyContent: 'center', alignItems: 'center',
-              cursor: 'pointer', transition: 'all 0.3s ease',
-              animation: isPlaying ? 'pulse 2s infinite' : 'none'
-            }}
-          >
-            {selectedTemplate === 'bento' ? (
-              <>
-                {isPlaying ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{ fontSize: '0.75rem', color: '#fff', fontWeight: 'bold' }}>Now Playing</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
-                      <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 0.8s ease-in-out infinite alternate' }} />
-                      <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 1.2s ease-in-out infinite alternate-reverse', animationDelay: '0.2s' }} />
-                      <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 0.9s ease-in-out infinite alternate', animationDelay: '0.4s' }} />
+          <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '480px', height: '100%', pointerEvents: 'none', zIndex: 100 }}>
+            <div 
+              onClick={() => setIsPlaying(!isPlaying)}
+              style={selectedTemplate === 'bento' ? {
+                position: 'absolute', top: '16px', left: '50%', transform: 'translateX(-50%)',
+                width: isPlaying ? '140px' : '90px', height: '32px', borderRadius: '16px',
+                backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px',
+                cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                pointerEvents: 'auto'
+              } : { 
+                position: 'absolute', bottom: '30px', right: '20px',
+                width: '44px', height: '44px', borderRadius: '50%',
+                backgroundColor: theme.bg, border: `1px solid ${theme.border || 'rgba(0,0,0,0.1)'}`,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center',
+                cursor: 'pointer', transition: 'all 0.3s ease',
+                animation: isPlaying ? 'pulse 2s infinite' : 'none',
+                pointerEvents: 'auto'
+              }}
+            >
+              {selectedTemplate === 'bento' ? (
+                <>
+                  {isPlaying ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#fff', fontWeight: 'bold' }}>Now Playing</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '12px' }}>
+                        <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 0.8s ease-in-out infinite alternate' }} />
+                        <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 1.2s ease-in-out infinite alternate-reverse', animationDelay: '0.2s' }} />
+                        <div style={{ width: '2px', backgroundColor: '#fff', borderRadius: '1px', animation: 'eq 0.9s ease-in-out infinite alternate', animationDelay: '0.4s' }} />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Play size={14} color="#fff" fill="#fff" />
-                    <div style={{ fontSize: '0.75rem', color: '#fff', fontWeight: 'bold' }}>BGM</div>
-                  </div>
-                )}
-              </>
+                  ) : (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Play size={14} color="#fff" fill="#fff" />
+                      <div style={{ fontSize: '0.75rem', color: '#fff', fontWeight: 'bold' }}>BGM</div>
+                    </div>
+                  )}
+                </>
             ) : (
               isPlaying ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '16px' }}>
@@ -417,6 +420,7 @@ const InvitationPreview = () => {
               @keyframes eq { 0% { height: 4px; } 100% { height: 16px; } }
               @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.1); } 70% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
             `}</style>
+          </div>
           </div>
         </>
       )}

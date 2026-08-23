@@ -52,8 +52,8 @@ const FadeUp = ({ children, active, delay = '0s', isFirst = false, style = {}, c
         ...style,
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-        // 애니메이션 시간을 1.6s -> 2.2s로 늘려 더욱 천천히 우아하게. 
-        // 처음 1번 나타난 이후(hasShown)에는 delay를 0s로 무시해서 스크롤 시 바로 반응하게 함.
+        // 애니메이션 시간 2.2s로 원상복구
+        // 처음 1회 이후(hasShown)는 delay를 0s로 해서 스크롤 시 즉시 나타나게 함.
         transition: `opacity 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) ${hasShown ? '0s' : delay}, transform 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) ${hasShown ? '0s' : delay}`,
         willChange: 'opacity, transform'
       }}
