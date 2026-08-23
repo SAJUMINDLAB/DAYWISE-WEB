@@ -41,7 +41,7 @@ const PaymentSimulationModal = ({ onClose, onPaymentComplete }) => {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#555' }}>결제금액</span>
-                <span style={{ fontWeight: 'bold', color: '#e53935' }}>0원 <s style={{ color: '#aaa', fontSize: '0.85rem' }}>9,900원</s></span>
+                <span style={{ fontWeight: 'bold', color: '#e53935' }}>0원 <s style={{ color: '#aaa', fontSize: '0.85rem' }}>19,900원</s></span>
               </div>
             </div>
             <button

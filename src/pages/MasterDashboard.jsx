@@ -391,7 +391,7 @@ const MasterDashboard = () => {
                               {statusText}
                             </span>
                             {paymentDate !== '-' && <span style={{ fontSize: '0.75rem', color: '#888' }}>결제일: {paymentDate}</span>}
-                              {status === 'paid' && <span style={{ fontSize: '0.75rem', color: '#333', fontWeight: 'bold' }}>{Number(inv.payment_amount || 9900).toLocaleString()}원</span>}
+                              {status === 'paid' && <span style={{ fontSize: '0.75rem', color: '#333', fontWeight: 'bold' }}>{Number(inv.payment_amount || 19900).toLocaleString()}원</span>}
                           </div>
                         </td>
                         <td style={{ ...tdStyle, color: isExpiryNear ? '#E53E3E' : '#333', fontSize: '0.85rem', fontWeight: 'bold' }}>

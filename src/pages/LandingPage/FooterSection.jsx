@@ -26,15 +26,14 @@ const FooterSection = () => {
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8rem', color: '#666' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-            <span>상호: (주)데이와이즈</span>
-            <span>대표자: 대표자명</span>
-            <span>사업자등록번호: 000-00-00000</span>
-            <span>통신판매업신고번호: 발급 진행 중</span>
+            <span>상호: 디에스컴퍼니 | 대표자: 김동현</span>
+            <span>사업자등록번호: 119-29-01871</span>
+            <span>통신판매업신고번호: 제2026-대구남구-422호</span>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-            <span>사업장 주소: 서울특별시 강남구 테헤란로 00, 0층</span>
-            <span>고객센터: 010-0000-0000</span>
-            <span>이메일: support@daywise.com</span>
+            <span>사업장 주소: 대구광역시 남구 봉덕로9길 3-4</span>
+            <span>고객센터: 010-8388-1751</span>
+            <span>이메일: yudhyun@naver.com</span>
           </div>
           <span style={{ marginTop: '8px' }}>© 2026 Daywise. All rights reserved.</span>
         </div>
