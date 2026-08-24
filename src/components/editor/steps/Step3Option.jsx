@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
-import { Activity, Film, Type, Layers, Maximize, Sparkles, MoveVertical, MousePointerClick } from 'lucide-react';
+import { Activity, Film, Type, Layers, Maximize, Sparkles, MoveVertical, MousePointerClick, Lock } from 'lucide-react';
 
 const OptionRow = ({ icon: Icon, title, desc, children }) => (
   <div style={{ display: 'flex', alignItems: 'center', padding: '16px 0', borderBottom: '1px solid #F0F0F0' }}>
@@ -260,6 +260,44 @@ const Step3Option = () => {
             <Toggle checked={optionInfo.showFilmStrip !== false} onChange={(e) => setOptionInfo('showFilmStrip', e.target.checked)} />
           </OptionRow>
         </>
+      )}
+
+      {/* Hidden Admin Config */}
+      <OptionRow 
+        icon={Lock} 
+        title="스마트폰 비밀 관리자 접속" 
+        desc={
+          <>
+            폰에서 즉시 방명록과 하객을 관리할 수 있는 숨겨진 기능입니다.<br/>
+            <strong>접속 방법:</strong> 청첩장 맨 위의 <strong>'Wedding Invitation'</strong> 또는 <strong>'결혼합니다'</strong> 글씨를 5초간 꾹 누르세요.
+          </>
+        }
+      >
+        <Toggle checked={optionInfo.useHiddenAdmin} onChange={(e) => setOptionInfo('useHiddenAdmin', e.target.checked)} />
+      </OptionRow>
+
+      {optionInfo.useHiddenAdmin && (
+        <div style={{ marginLeft: '40px', marginBottom: '16px', padding: '16px', backgroundColor: '#F8F9FA', borderRadius: '8px' }}>
+          <div style={{ fontSize: '0.85rem', color: '#555', marginBottom: '8px', fontWeight: 'bold' }}>접속 비밀번호 설정 (숫자 4자리)</div>
+          <input 
+            type="text" 
+            maxLength={4}
+            value={optionInfo.hiddenAdminPin || '1234'}
+            onChange={(e) => {
+              const val = e.target.value.replace(/[^0-9]/g, '');
+              setOptionInfo('hiddenAdminPin', val);
+            }}
+            style={{ 
+              width: '100px', 
+              padding: '8px 12px', 
+              border: '1px solid #ddd', 
+              borderRadius: '6px',
+              fontSize: '1rem',
+              textAlign: 'center',
+              letterSpacing: '4px'
+            }}
+          />
+        </div>
       )}
 
     </div>

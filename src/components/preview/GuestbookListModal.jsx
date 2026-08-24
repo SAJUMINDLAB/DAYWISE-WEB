@@ -67,7 +67,6 @@ const GuestbookListModal = ({ theme, guestbookInfo, onClose, removeGuestbookEntr
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', paddingRight: '40px' }}>
                   <div style={{ fontWeight: 'bold', fontSize: 'calc(0.95rem * var(--font-ratio))', color: theme.text }}>{entry.name}</div>
-                  <div style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', color: '#999' }}>{entry.date}</div>
                 </div>
                 <div style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', color: theme.text, lineHeight: '1.6', whiteSpace: 'pre-wrap', opacity: 0.85 }}>
                   {entry.content}

@@ -24,6 +24,9 @@ const MainCover = ({ theme, onAdminAccess }) => {
   const timerRef = React.useRef(null);
 
   const handlePointerDown = () => {
+    // 설정에서 활성화된 경우에만 작동
+    if (!optionInfo?.useHiddenAdmin) return;
+    
     timerRef.current = setTimeout(() => {
       if (onAdminAccess) onAdminAccess();
     }, 5000); 

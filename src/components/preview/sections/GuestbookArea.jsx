@@ -103,7 +103,6 @@ const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal
             <div key={entry.id} style={{ backgroundColor: 'transparent', border: '1px solid rgba(127,127,127,0.2)', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.02)', position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <div style={{ fontWeight: 'bold', fontSize: 'calc(0.95rem * var(--font-ratio))', color: theme.text }}>{entry.name}</div>
-                <div style={{ fontSize: 'calc(0.75rem * var(--font-ratio))', color: '#999' }}>{entry.date}</div>
               </div>
               <div style={{ fontSize: 'calc(0.9rem * var(--font-ratio))', color: theme.text, lineHeight: '1.6', whiteSpace: 'pre-wrap', opacity: 0.85 }}>
                 {entry.content}

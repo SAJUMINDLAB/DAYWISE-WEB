@@ -7,11 +7,13 @@ const AdminLoginModal = ({ theme, onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const optionInfo = useBuilderStore(state => state.optionInfo);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // 심플한 비밀번호 확인 (실제로는 서버 연동 필요)
-    if (password === '1234') {
+    const correctPin = optionInfo?.hiddenAdminPin || '1234';
+    
+    if (password === correctPin) {
       onClose();
       // useBuilderStore를 통해 현재 보고 있는 청첩장의 ID를 가져옵니다
       const currentId = useBuilderStore.getState().currentInvitationId || useBuilderStore.getState().customUrl;
@@ -57,7 +59,7 @@ const AdminLoginModal = ({ theme, onClose }) => {
           <div style={{ marginBottom: '16px' }}>
             <input 
               type="password" 
-              placeholder="비밀번호를 입력하세요 (기본: 1234)"
+              placeholder="비밀번호를 입력하세요"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{

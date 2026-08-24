@@ -35,7 +35,9 @@ export const createDesignSlice = (set) => ({
     shineEffect: true,
     magazineTocLanguage: 'en',
     subtitleColor: '',
-    cinematicCredits: true
+    cinematicCredits: true,
+    useHiddenAdmin: false,
+    hiddenAdminPin: '1234'
   },
   setOptionInfo: (key, value) => set((state) => ({
     optionInfo: { ...state.optionInfo, [key]: value }
