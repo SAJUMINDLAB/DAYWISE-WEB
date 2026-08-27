@@ -15,7 +15,7 @@ const SaveCompleteModal = ({ invitationId, onClose }) => {
     const checkPaymentStatus = async () => {
       try {
         const inv = await getInvitation(invitationId);
-        const paymentStatus = inv?.data?.payment_status || 'unpaid';
+        const paymentStatus = inv?.payment_status || 'unpaid';
         setIsPaid(paymentStatus === 'paid' || paymentStatus === 'free_pass');
       } catch (err) {
         console.error(err);
