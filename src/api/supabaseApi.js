@@ -59,7 +59,11 @@ export const saveInvitation = async (invitationData) => {
 
   // 불필요한/중복 데이터 제거
   delete dataToSave.rsvpList;
-  delete dataToSave.guestbookInfo;
+  // 방명록 글 목록(entries)은 별도 guestbooks 테이블에 저장되므로 중복 제거
+  // 단, useGuestbook 등 설정값은 반드시 유지해야 합니다!
+  if (dataToSave.guestbookInfo) {
+    delete dataToSave.guestbookInfo.entries;
+  }
   
   // 최종 수정일 추가
   dataToSave.updatedAt = new Date().toISOString();
@@ -147,6 +151,29 @@ export const getInvitation = async (id) => {
       message: r.message,
       submittedAt: r.submitted_at
     }));
+  }
+
+  // 하위 호환성 유지: 예전 청첩장의 sectionOrder에 새로 추가된 섹션(guestbook 등)이 없으면 뒤에 추가해 줍니다.
+  if (fullData.sectionOrder && Array.isArray(fullData.sectionOrder)) {
+    const defaultSections = [
+      { id: 'intro', label: '인사말' },
+      { id: 'host', label: '혼주 정보' },
+      { id: 'calendar', label: '달력' },
+      { id: 'story', label: '우리만의 이야기' },
+      { id: 'gallery', label: '갤러리' },
+      { id: 'location', label: '오시는 길' },
+      { id: 'account', label: '마음 전하실 곳' },
+      { id: 'guestbook', label: '방명록' },
+      { id: 'rsvp', label: '참석 의사 전달' }
+    ];
+    
+    const missingSections = defaultSections.filter(def => 
+      !fullData.sectionOrder.some(saved => saved.id === def.id)
+    );
+    
+    if (missingSections.length > 0) {
+      fullData.sectionOrder = [...fullData.sectionOrder, ...missingSections];
+    }
   }
 
   return fullData;
