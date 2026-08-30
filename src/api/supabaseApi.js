@@ -21,6 +21,10 @@ export const saveInvitation = async (invitationData) => {
   // 사용자가 커스텀 URL을 설정했다면 무조건 최우선으로 사용
   // 없다면 기존 임시저장 ID 사용, 그것도 없으면 랜덤 숏 ID 생성
   const id = invitationData.customUrl || invitationData.currentInvitationId || generateShortId();
+  const oldId = invitationData.currentInvitationId;
+  
+  // 주소가 변경되었는지 감지 (기존 ID가 있고, 새 ID와 다를 때)
+  const isUrlChanged = oldId && oldId !== id;
   
   // 보안 검사: 해당 ID가 이미 존재하는지, 존재한다면 주인이 맞는지 확인
   const { data: existingData } = await supabase
@@ -40,8 +44,24 @@ export const saveInvitation = async (invitationData) => {
     }
   }
 
+  // 주소 변경 시: 기존 청첩장의 결제 상태와 연관 데이터를 가져옵니다
+  let oldInvitationData = null;
+  if (isUrlChanged) {
+    const { data: oldData } = await supabase
+      .from('invitations')
+      .select('data')
+      .eq('id', oldId)
+      .maybeSingle();
+    
+    if (oldData) {
+      oldInvitationData = oldData.data;
+    }
+  }
+
   // 저장할 데이터를 준비 (기존 데이터가 있다면 병합하여 payment_status 등 손실 방지)
   let dataToSave = { ...invitationData };
+  
+  // 같은 ID로 덮어쓰는 경우: 기존 데이터와 병합
   if (existingData && existingData.data) {
     dataToSave = {
       ...existingData.data,
@@ -56,6 +76,18 @@ export const saveInvitation = async (invitationData) => {
       dataToSave.user = existingData.data.user;
     }
   }
+  
+  // 주소 변경 시: 기존 청첩장의 결제 상태를 새 주소로 이전
+  if (isUrlChanged && oldInvitationData) {
+    const oldPaymentStatus = oldInvitationData.payment_status;
+    const oldExpiresAt = oldInvitationData.expires_at;
+    
+    // 결제 상태가 paid 또는 free_pass이면 새 주소에도 그대로 적용
+    if (oldPaymentStatus === 'paid' || oldPaymentStatus === 'free_pass') {
+      dataToSave.payment_status = oldPaymentStatus;
+      if (oldExpiresAt) dataToSave.expires_at = oldExpiresAt;
+    }
+  }
 
   // 불필요한/중복 데이터 제거
   delete dataToSave.rsvpList;
@@ -68,8 +100,6 @@ export const saveInvitation = async (invitationData) => {
   // 최종 수정일 추가
   dataToSave.updatedAt = new Date().toISOString();
   
-  // rsvpList나 guestbookInfo.entries는 별도 테이블로 뺄 것이므로, 
-  // 메인 데이터에서 초기화하거나 무시합니다.
   // Zustand 스토어의 함수들을 제거하기 위해 JSON 직렬화/역직렬화를 거칩니다.
   dataToSave = JSON.parse(JSON.stringify(dataToSave));
 
@@ -83,6 +113,27 @@ export const saveInvitation = async (invitationData) => {
   if (error) {
     console.error('Supabase Save Error:', error);
     throw new Error('청첩장 저장에 실패했습니다: ' + (error.message || JSON.stringify(error)));
+  }
+
+  // 주소 변경 시: 방명록/RSVP 데이터를 새 ID로 이전하고, 기존 청첩장 삭제
+  if (isUrlChanged) {
+    // 1) 방명록의 invitation_id를 새 주소로 변경
+    await supabase
+      .from('guestbooks')
+      .update({ invitation_id: id })
+      .eq('invitation_id', oldId);
+
+    // 2) RSVP의 invitation_id를 새 주소로 변경
+    await supabase
+      .from('rsvps')
+      .update({ invitation_id: id })
+      .eq('invitation_id', oldId);
+
+    // 3) 기존 주소의 청첩장 행(row) 삭제
+    await supabase
+      .from('invitations')
+      .delete()
+      .eq('id', oldId);
   }
 
   return id;

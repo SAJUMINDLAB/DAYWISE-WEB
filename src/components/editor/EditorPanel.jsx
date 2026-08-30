@@ -90,6 +90,22 @@ const EditorPanel = () => {
           setIsSaving(false);
           return;
         }
+
+        // 기존 청첩장이 있는데 주소를 바꾸는 경우: 확인창 표시
+        if (fullState.currentInvitationId) {
+          const confirmed = window.confirm(
+            `청첩장 주소가 변경됩니다.\n\n` +
+            `기존: daywise.kr/${fullState.currentInvitationId}\n` +
+            `변경: daywise.kr/${fullState.customUrl}\n\n` +
+            `⚠️ 이미 공유한 기존 링크는 더 이상 작동하지 않습니다.\n` +
+            `결제 정보, 방명록, 참석 의사는 자동으로 이전됩니다.\n\n` +
+            `변경하시겠습니까?`
+          );
+          if (!confirmed) {
+            setIsSaving(false);
+            return;
+          }
+        }
       }
 
       const newId = await saveInvitation(fullState);
