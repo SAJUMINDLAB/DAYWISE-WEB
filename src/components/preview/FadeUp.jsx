@@ -28,8 +28,10 @@ const FadeUp = ({ children, active, delay = '0s', isFirst = false, style = {}, c
         if (entry.isIntersecting) {
           setIsVisible(true);
           setHasShown(true);
-        } else {
-          // 화면에서 벗어나면 다시 false로 만들어 스크롤 시 재발동되게 함
+        } else if (!isFirst) {
+          // isFirst가 아닌 요소만 스크롤 이탈 시 숨김 처리 (재진입 시 애니메이션 재생용)
+          // isFirst 요소(커버 텍스트)는 메인 이미지 로딩에 의한 레이아웃 시프트로
+          // Observer가 잘못 감지하여 숨겨버리는 버그를 방지하기 위해 보호합니다.
           setIsVisible(false);
         }
       });
