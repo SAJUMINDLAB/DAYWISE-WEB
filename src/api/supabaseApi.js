@@ -103,25 +103,10 @@ export const saveInvitation = async (invitationData) => {
   // Zustand 스토어의 함수들을 제거하기 위해 JSON 직렬화/역직렬화를 거칩니다.
   dataToSave = JSON.parse(JSON.stringify(dataToSave));
 
-  // user_id는 DB 컬럼이므로 data JSON 밖에 별도로 넣어야 합니다
-  // 마스터 관리자가 수정할 때는 원래 소유자의 user_id를 유지
-  const isMasterCheck = localStorage.getItem('daywise_master_auth') === 'true';
-  let userId = invitationData.user?.id || null;
-  
-  // 같은 주소 수정 시: 기존 소유자 유지
-  if (isMasterCheck && existingData?.data?.user?.id) {
-    userId = existingData.data.user.id;
-  }
-  // 주소 변경 시: 기존 청첩장의 소유자 유지
-  if (isUrlChanged && oldInvitationData?.user?.id) {
-    userId = oldInvitationData.user.id;
-  }
-
   const { error } = await supabase
     .from('invitations')
     .upsert({ 
       id,
-      user_id: userId,
       data: dataToSave 
     });
 
