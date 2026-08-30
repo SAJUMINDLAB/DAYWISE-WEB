@@ -103,10 +103,25 @@ export const saveInvitation = async (invitationData) => {
   // Zustand 스토어의 함수들을 제거하기 위해 JSON 직렬화/역직렬화를 거칩니다.
   dataToSave = JSON.parse(JSON.stringify(dataToSave));
 
+  // user_id는 DB 컬럼이므로 data JSON 밖에 별도로 넣어야 합니다
+  // 마스터 관리자가 수정할 때는 원래 소유자의 user_id를 유지
+  const isMasterCheck = localStorage.getItem('daywise_master_auth') === 'true';
+  let userId = invitationData.user?.id || null;
+  
+  // 같은 주소 수정 시: 기존 소유자 유지
+  if (isMasterCheck && existingData?.data?.user?.id) {
+    userId = existingData.data.user.id;
+  }
+  // 주소 변경 시: 기존 청첩장의 소유자 유지
+  if (isUrlChanged && oldInvitationData?.user?.id) {
+    userId = oldInvitationData.user.id;
+  }
+
   const { error } = await supabase
     .from('invitations')
     .upsert({ 
       id,
+      user_id: userId,
       data: dataToSave 
     });
 
@@ -117,23 +132,32 @@ export const saveInvitation = async (invitationData) => {
 
   // 주소 변경 시: 방명록/RSVP 데이터를 새 ID로 이전하고, 기존 청첩장 삭제
   if (isUrlChanged) {
-    // 1) 방명록의 invitation_id를 새 주소로 변경
-    await supabase
-      .from('guestbooks')
-      .update({ invitation_id: id })
-      .eq('invitation_id', oldId);
+    try {
+      // 1) 방명록의 invitation_id를 새 주소로 변경
+      await supabase
+        .from('guestbooks')
+        .update({ invitation_id: id })
+        .eq('invitation_id', oldId);
 
-    // 2) RSVP의 invitation_id를 새 주소로 변경
-    await supabase
-      .from('rsvps')
-      .update({ invitation_id: id })
-      .eq('invitation_id', oldId);
+      // 2) RSVP의 invitation_id를 새 주소로 변경
+      await supabase
+        .from('rsvps')
+        .update({ invitation_id: id })
+        .eq('invitation_id', oldId);
 
-    // 3) 기존 주소의 청첩장 행(row) 삭제
-    await supabase
-      .from('invitations')
-      .delete()
-      .eq('id', oldId);
+      // 3) 기존 주소의 청첩장 행(row) 삭제
+      const { error: deleteError } = await supabase
+        .from('invitations')
+        .delete()
+        .eq('id', oldId);
+
+      if (deleteError) {
+        console.error('기존 청첩장 삭제 실패:', deleteError);
+      }
+    } catch (migrationErr) {
+      console.error('주소 변경 중 데이터 이전 오류:', migrationErr);
+      // 새 주소에는 이미 저장 완료되었으므로, 이전 실패는 경고만 하고 진행
+    }
   }
 
   return id;
