@@ -16,6 +16,7 @@ const CheckoutPage = () => {
   
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
+  const [paymentWidgetReady, setPaymentWidgetReady] = useState(false);
 
   useEffect(() => {
     const fetchInv = async () => {
@@ -30,24 +31,13 @@ const CheckoutPage = () => {
           return;
         }
 
-        // Initialize TossPayments
+        // 1. Initialize TossPayments SDK first
         const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
         paymentWidgetRef.current = paymentWidget;
-
-        const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
-          '#payment-widget',
-          { value: 19900 },
-          { variantKey: 'DEFAULT' }
-        );
         
-        paymentWidget.renderAgreement(
-          '#agreement',
-          { variantKey: 'AGREEMENT' }
-        );
-
-        paymentMethodsWidgetRef.current = paymentMethodsWidget;
-        
+        // Data loading is complete, component will render the real UI (including #payment-widget)
         setLoading(false);
+        setPaymentWidgetReady(true);
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -56,6 +46,26 @@ const CheckoutPage = () => {
 
     fetchInv();
   }, [id, navigate]);
+
+  // 2. Render widgets ONLY AFTER the DOM elements (#payment-widget, #agreement) are mounted
+  useEffect(() => {
+    if (paymentWidgetReady && paymentWidgetRef.current && !loading && !error) {
+      const paymentWidget = paymentWidgetRef.current;
+      
+      const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
+        '#payment-widget',
+        { value: 19900 },
+        { variantKey: 'DEFAULT' }
+      );
+      
+      paymentWidget.renderAgreement(
+        '#agreement',
+        { variantKey: 'AGREEMENT' }
+      );
+
+      paymentMethodsWidgetRef.current = paymentMethodsWidget;
+    }
+  }, [paymentWidgetReady, loading, error]);
 
   const handlePayment = async () => {
     const paymentWidget = paymentWidgetRef.current;
