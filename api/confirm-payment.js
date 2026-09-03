@@ -10,8 +10,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: '필수 파라미터가 누락되었습니다.' });
     }
 
-    // 토스페이먼츠 시크릿 키 (Vercel 환경 변수 TOSS_SECRET_KEY 가 있으면 사용, 없으면 테스트 키 사용)
-    const widgetSecretKey = process.env.TOSS_SECRET_KEY || 'test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6'; 
+    // 토스페이먼츠 시크릿키 (Vercel 환경 변수 TOSS_SECRET_KEY 가 있으면 사용, 없으면 사장님의 테스트키 사용)
+    const widgetSecretKey = process.env.TOSS_SECRET_KEY || 'test_gsk_mBZ1gQ4YVXB1eKzBdKGX8l2KPoqN'; 
     const encryptedSecretKey = Buffer.from(`${widgetSecretKey}:`).toString('base64');
 
     const response = await fetch('https://api.tosspayments.com/v1/payments/confirm', {

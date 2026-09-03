@@ -4,7 +4,7 @@ import { getInvitation, updatePaymentStatus } from '../api/supabaseApi';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 
-const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'; // 토스페이먼츠 테스트 클라이언트 키
+const clientKey = 'test_gck_5OWRapdA8dqJOKbDDPbW3o1zEqZK'; // 데이와이즈(daywisfw5q) 테스트 클라이언트 키
 const customerKey = 'daywise_customer_' + Math.random().toString(36).substring(2, 10); // 익명 고객키
 
 const CheckoutPage = () => {
