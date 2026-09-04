@@ -20,27 +20,22 @@ const LandingPage = () => {
   const user = useBuilderStore(state => state.user);
 
   useEffect(() => {
-    // 랜딩 페이지에 한하여 모바일에서도 PC 화면(1280px)으로 렌더링되도록 뷰포트 강제 변경
-    const metaTag = document.querySelector('meta[name="viewport"]');
-    const originalContent = metaTag ? metaTag.getAttribute('content') : '';
-    
-    if (metaTag) {
-      metaTag.setAttribute('content', 'width=1280');
-    }
-
+    let ticking = false;
     const handleScroll = () => {
-      // 좀 더 많이 스크롤했을 때 나타나게 설정
-      setScrolled(window.scrollY > 400);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 400);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    document.body.style.overflow = 'auto'; // Force clear any scroll locks
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.body.style.overflow = 'auto'; 
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      // 다른 페이지(에디터 등)로 이동할 때 뷰포트 원상 복구
-      if (metaTag && originalContent) {
-        metaTag.setAttribute('content', originalContent);
-      }
     };
   }, []);
 
