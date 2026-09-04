@@ -12,23 +12,23 @@ const styleSheet = document.createElement("style");
 styleSheet.textContent = `
   @keyframes marqueeLeft {
     0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-33.333333%, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
   }
   @keyframes marqueeRight {
-    0% { transform: translate3d(-33.333333%, 0, 0); }
+    0% { transform: translate3d(-50%, 0, 0); }
     100% { transform: translate3d(0, 0, 0); }
   }
   .marquee-track-left {
     display: flex;
     width: max-content;
-    animation: marqueeLeft 30s linear infinite;
+    animation: marqueeLeft 40s linear infinite;
     will-change: transform;
     backface-visibility: hidden;
   }
   .marquee-track-right {
     display: flex;
     width: max-content;
-    animation: marqueeRight 30s linear infinite;
+    animation: marqueeRight 40s linear infinite;
     will-change: transform;
     backface-visibility: hidden;
   }
@@ -112,14 +112,16 @@ const MiniCard = ({ item }) => {
       borderRadius: '16px',
       overflow: 'hidden',
       margin: '0 12px',
-      boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
       display: 'flex',
       flexDirection: 'column',
       position: 'relative',
-      border: `1px solid rgba(0,0,0,0.05)`,
+      border: `1px solid rgba(0,0,0,0.06)`,
       flexShrink: 0,
       transform: 'translateZ(0)',
-      backfaceVisibility: 'hidden'
+      backfaceVisibility: 'hidden',
+      contentVisibility: 'auto',
+      containIntrinsicSize: '240px 380px'
     }}>
       {isOverlay ? (
         <>
@@ -196,7 +198,7 @@ const ShowcaseSection = () => {
           {/* Top Row - Scrolls Left */}
           <div style={{ width: '100%', overflow: 'hidden' }}>
             <div className="marquee-track-left" style={{ animationPlayState: isVisible ? 'running' : 'paused' }}>
-              {[...row1, ...row1, ...row1].map((item, idx) => (
+              {[...row1, ...row1].map((item, idx) => (
                 <MiniCard key={`row1-${item.id}-${idx}`} item={item} />
               ))}
             </div>
@@ -205,7 +207,7 @@ const ShowcaseSection = () => {
           {/* Bottom Row - Scrolls Right */}
           <div style={{ width: '100%', overflow: 'hidden' }}>
             <div className="marquee-track-right" style={{ animationPlayState: isVisible ? 'running' : 'paused' }}>
-              {[...row2, ...row2, ...row2].map((item, idx) => (
+              {[...row2, ...row2].map((item, idx) => (
                 <MiniCard key={`row2-${item.id}-${idx}`} item={item} />
               ))}
             </div>
