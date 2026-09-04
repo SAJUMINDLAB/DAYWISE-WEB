@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useBuilderStore } from '../store/useBuilderStore';
-import { getUserInvitations, getInvitation, deleteInvitation, signOut } from '../api/supabaseApi';
+import { getUserInvitations, getInvitation, deleteInvitation } from '../api/invitationApi';
+import { signOut } from '../api/authApi';
 import InvitationManager from '../components/manager/InvitationManager';
 import { Loader2, Trash2, QrCode } from 'lucide-react';
 import AccountSettingsModal from '../components/dashboard/AccountSettingsModal';

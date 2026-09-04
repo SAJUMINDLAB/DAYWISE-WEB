@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Menu } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
-import { submitRsvp } from '../../api/supabaseApi';
+import { submitRsvp } from '../../api/guestbookApi';
 
 const RsvpModal = ({ rsvpInfo, theme, onClose }) => {
   const currentInvitationId = useBuilderStore(state => state.currentInvitationId);

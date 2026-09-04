@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { Link } from 'react-router-dom';
+import { useStore } from 'zustand';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import StepItem from './StepItem';
-import { Check, Zap } from 'lucide-react';
+import { Check, Zap, Undo2, Redo2 } from 'lucide-react';
 import QuickSetupModal from './QuickSetupModal';
 import SaveCompleteModal from './SaveCompleteModal';
 import PaymentSimulationModal from './PaymentSimulationModal';
-import { saveInvitation, checkIdAvailable } from '../../api/supabaseApi';
+import { saveInvitation, checkIdAvailable } from '../../api/invitationApi';
 
 const EditorPanel = () => {
   const steps = useBuilderStore(state => state.steps);
   const reorderSteps = useBuilderStore(state => state.reorderSteps);
   const [showQuickSetup, setShowQuickSetup] = useState(false);
+  
+  // Zundo Temporal State (Undo/Redo)
+  const { undo, redo, pastStates, futureStates } = useStore(useBuilderStore.temporal);
+  const canUndo = pastStates.length > 0;
+  const canRedo = futureStates.length > 0;
   
   // Save States
   const [isSaving, setIsSaving] = useState(false);
@@ -180,23 +186,54 @@ const EditorPanel = () => {
           <h1>Wedding Invitation Editor</h1>
           <p style={{ color: '#888', fontSize: '0.9rem', marginTop: '4px' }}>나만의 청첩장 꾸미기</p>
         </div>
-        <Link 
-          to="/dashboard" 
-          style={{ 
-            padding: '8px 16px', 
-            backgroundColor: '#f1f3f5', 
-            color: '#495057', 
-            borderRadius: '8px', 
-            fontSize: '0.9rem', 
-            fontWeight: '600',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px'
-          }}
-        >
-          나의 청첩장
-        </Link>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', backgroundColor: '#f1f3f5', borderRadius: '8px', padding: '4px' }}>
+            <button 
+              onClick={() => canUndo && undo()} 
+              disabled={!canUndo}
+              title="되돌리기"
+              style={{ 
+                padding: '6px 10px', background: 'transparent', border: 'none', 
+                color: canUndo ? '#495057' : '#adb5bd', cursor: canUndo ? 'pointer' : 'not-allowed',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}
+            >
+              <Undo2 size={18} />
+            </button>
+            <div style={{ width: '1px', backgroundColor: '#dee2e6', margin: '4px 0' }} />
+            <button 
+              onClick={() => canRedo && redo()} 
+              disabled={!canRedo}
+              title="다시 실행"
+              style={{ 
+                padding: '6px 10px', background: 'transparent', border: 'none', 
+                color: canRedo ? '#495057' : '#adb5bd', cursor: canRedo ? 'pointer' : 'not-allowed',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}
+            >
+              <Redo2 size={18} />
+            </button>
+          </div>
+          
+          <Link 
+            to="/dashboard" 
+            style={{ 
+              padding: '8px 16px', 
+              backgroundColor: '#f1f3f5', 
+              color: '#495057', 
+              borderRadius: '8px', 
+              fontSize: '0.9rem', 
+              fontWeight: '600',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            나의 청첩장
+          </Link>
+        </div>
       </div>
 
       <div style={{ padding: '16px 20px 24px 20px' }}>

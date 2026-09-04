@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getInvitation, updatePaymentStatus } from '../api/supabaseApi';
+import { getInvitation, updatePaymentStatus } from '../api/invitationApi';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 

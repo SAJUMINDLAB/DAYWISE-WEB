@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getInvitation } from '../api/supabaseApi';
+import { getInvitation } from '../api/invitationApi';
 import { Users, BookOpen, ArrowLeft, ExternalLink, Download } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 

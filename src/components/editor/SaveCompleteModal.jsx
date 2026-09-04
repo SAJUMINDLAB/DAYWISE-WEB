@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Check, Copy, ExternalLink, X, CreditCard, Loader2 } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { useKakaoShare } from '../../hooks/useKakaoShare';
-import { getInvitation } from '../../api/supabaseApi';
+import { getInvitation } from '../../api/invitationApi';
 
 const SaveCompleteModal = ({ invitationId, onClose }) => {
   const shareInfo = useBuilderStore(state => state.shareInfo);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { updatePaymentStatus } from '../api/supabaseApi';
+import { updatePaymentStatus } from '../api/invitationApi';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 const PaymentSuccessPage = () => {

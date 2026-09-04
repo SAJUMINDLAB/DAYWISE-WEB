@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { getInvitation } from '../api/supabaseApi';
+import { getInvitation } from '../api/invitationApi';
 import { useBuilderStore } from '../store/useBuilderStore';
 import InvitationPreview from '../components/preview/InvitationPreview';
 import CinematicIntroOverlay from '../components/preview/CinematicIntroOverlay';

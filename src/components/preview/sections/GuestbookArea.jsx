@@ -2,7 +2,7 @@ import React from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import FadeUp from '../FadeUp';
 import { X } from 'lucide-react';
-import { deleteGuestbookEntry } from '../../../api/supabaseApi';
+import { deleteGuestbookEntry } from '../../../api/guestbookApi';
 
 const GuestbookArea = ({ theme, setShowGuestbookModal, setShowGuestbookListModal }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);

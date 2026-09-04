@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, X, Pencil, Check } from 'lucide-react';
-import { deleteGuestbookEntry } from '../../api/supabaseApi';
+import { deleteGuestbookEntry } from '../../api/guestbookApi';
 import { useBuilderStore } from '../../store/useBuilderStore';
 
 const GuestbookListModal = ({ theme, guestbookInfo, onClose, removeGuestbookEntry }) => {

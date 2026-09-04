@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Turnstile } from '@marsidev/react-turnstile';
-import { signIn, signUp, signInWithKakao } from '../api/supabaseApi';
+import { signIn, signUp, signInWithKakao } from '../api/authApi';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(false); // 가입을 기본으로

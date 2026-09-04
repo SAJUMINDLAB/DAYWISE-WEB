@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import MobileMockup from '../components/preview/MobileMockup';
 import EditorPanel from '../components/editor/EditorPanel';
 import { useBuilderStore } from '../store/useBuilderStore';
-import { getInvitation } from '../api/supabaseApi';
+import { getInvitation } from '../api/invitationApi';
 
 const EditorPage = () => {
   const { id } = useParams();

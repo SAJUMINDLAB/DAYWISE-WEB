@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Lock, Trash2, AlertCircle } from 'lucide-react';
-import { updatePassword, deleteUserAccount } from '../../api/supabaseApi';
+import { updatePassword, deleteUserAccount } from '../../api/authApi';
 
 const AccountSettingsModal = ({ user, onClose, onLogout }) => {
   const [activeTab, setActiveTab] = useState('password');

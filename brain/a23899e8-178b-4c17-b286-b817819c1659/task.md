@@ -1,0 +1,8 @@
+- [x] `src/api/authApi.js` 생성 및 Auth 로직 이동
+- [x] `src/api/invitationApi.js` 생성 및 청첩장 데이터 로직 이동
+- [x] `src/api/guestbookApi.js` 생성 및 방명록/RSVP 로직 이동
+- [x] `src/components/dashboard` 폴더 생성 및 `AdminLogin`, `MasterStats`, `MasterTable` 컴포넌트 분리
+- [x] `src/pages/MasterDashboard.jsx` 리팩토링 (위 분리된 컴포넌트 조립)
+- [x] 프로젝트 내 `supabaseApi` import 참조를 새 파일들로 일괄 업데이트
+- [x] 기존 `src/api/supabaseApi.js` 삭제
+- [x] `npm run build`로 무결성 검증 (오류 확인)

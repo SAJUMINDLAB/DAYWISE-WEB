@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
-import { submitGuestbook } from '../../api/supabaseApi';
+import { submitGuestbook } from '../../api/guestbookApi';
 
 const GuestbookWriteModal = ({ theme, onClose, addGuestbookEntry }) => {
   const currentInvitationId = useBuilderStore(state => state.currentInvitationId);

@@ -3,7 +3,7 @@ import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Upload, Image as ImageIcon, X, AlignVerticalJustifyStart, AlignVerticalJustifyEnd, Layers, SplitSquareVertical, CheckCircle2, AlignCenter, AlignLeft, Type, Calendar, Languages } from 'lucide-react';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
-import { checkIdAvailable } from '../../../api/supabaseApi';
+import { checkIdAvailable } from '../../../api/invitationApi';
 
 /* 템플릿별 호환 가능한 커버 레이아웃 정의 */
 const LAYOUT_COMPAT = {

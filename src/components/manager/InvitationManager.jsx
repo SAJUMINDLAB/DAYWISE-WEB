@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteGuestbookEntry, deleteRsvpEntry } from '../../api/supabaseApi';
+import { deleteGuestbookEntry, deleteRsvpEntry } from '../../api/guestbookApi';
 import { X, Trash2, Users, MessageSquare, Download } from 'lucide-react';
 
 const InvitationManager = ({ invitation, onClose, onUpdate }) => {

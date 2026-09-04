@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { signOut } from '../../api/supabaseApi';
+import { signOut } from '../../api/authApi';
 
 const Header = ({ scrolled, user }) => {
   return (
