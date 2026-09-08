@@ -17,7 +17,7 @@ import IntroArea from './sections/IntroArea';
 import HostArea from './sections/HostArea';
 const StoryArea = React.lazy(() => import('./sections/StoryArea'));
 const GalleryArea = React.lazy(() => import('./sections/GalleryArea'));
-const LocationArea = React.lazy(() => import('./sections/LocationArea'));
+import LocationArea from './sections/LocationArea';
 const AccountArea = React.lazy(() => import('./sections/AccountArea'));
 const GuestbookArea = React.lazy(() => import('./sections/GuestbookArea'));
 const RsvpArea = React.lazy(() => import('./sections/RsvpArea'));
