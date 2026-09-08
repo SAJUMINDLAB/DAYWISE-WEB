@@ -12,8 +12,8 @@ const LocationArea = ({ theme }) => {
   React.useEffect(() => {
     if (!mapContainer.current) return;
     
-    // 2차 방어: 지도 컨테이너의 크기 변경을 실시간 감지하여 relayout 호출
-    // (FadeUp 애니메이션, 브라우저 주소창 변화 등에 완벽히 대응)
+    // 방어 1: 지도 컨테이너의 크기 변경을 실시간 감지하여 relayout 호출
+    // (FadeUp 애니메이션, 브라우저 주소창 변화 등에 대응)
     const observer = new ResizeObserver(() => {
       if (mapInstance.current && mapCoords.current) {
         mapInstance.current.relayout();
@@ -22,7 +22,32 @@ const LocationArea = ({ theme }) => {
     });
     
     observer.observe(mapContainer.current);
-    return () => observer.disconnect();
+
+    // 방어 2: 지도 영역이 화면에 보이기 시작하면 relayout 호출
+    // FadeUp 애니메이션(2.8초) 도중/이후에 타일이 안 그려지는 모바일 버그 방어
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && mapInstance.current && mapCoords.current) {
+          // FadeUp이 2.8초짜리이므로, 애니메이션 진행 중/완료 후 여러 번 relayout
+          const delays = [100, 500, 1500, 3000];
+          delays.forEach(delay => {
+            setTimeout(() => {
+              if (mapInstance.current && mapCoords.current) {
+                mapInstance.current.relayout();
+                mapInstance.current.setCenter(mapCoords.current);
+              }
+            }, delay);
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+
+    visibilityObserver.observe(mapContainer.current);
+
+    return () => {
+      observer.disconnect();
+      visibilityObserver.disconnect();
+    };
   }, []);
 
   React.useEffect(() => {
@@ -74,13 +99,16 @@ const LocationArea = ({ theme }) => {
               map.setDraggable(false);
               map.setZoomable(false);
 
-              // 1차 방어: 타이머를 이용한 relayout
-              setTimeout(() => {
-                if (map) {
-                  map.relayout();
-                  map.setCenter(coords);
-                }
-              }, 300);
+              // 지도 초기화 직후 relayout (FadeUp 2.8초 애니메이션 대응)
+              // 모바일에서 애니메이션 도중 타일이 안 그려지는 문제를 방어
+              [300, 1000, 2000, 3200].forEach(delay => {
+                setTimeout(() => {
+                  if (map) {
+                    map.relayout();
+                    map.setCenter(coords);
+                  }
+                }, delay);
+              });
             }
           });
         } catch (e) {
