@@ -53,6 +53,15 @@ const LocationArea = ({ theme }) => {
               // 지도 드래그(이동) 및 줌 막기 - 모바일 스크롤 중 지도 오작동 방지
               map.setDraggable(false);
               map.setZoomable(false);
+
+              // 모바일 렌더링 지연 및 width 100% 계산 문제 방어 코드
+              // 지도가 초기화된 후, 크기가 잡히면 다시 레이아웃을 계산하고 중앙으로 이동시킵니다.
+              setTimeout(() => {
+                if (map) {
+                  map.relayout();
+                  map.setCenter(coords);
+                }
+              }, 300);
             }
           });
         } catch (e) {
