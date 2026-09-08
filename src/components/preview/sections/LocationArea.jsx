@@ -37,15 +37,6 @@ const LocationArea = ({ theme }) => {
       window.kakao.maps.load(() => {
         if (!mapContainer.current) return;
         
-        // Suspense 로딩 중이거나 화면에 렌더링되지 않아 크기가 0일 때 초기화하면 지도가 깨짐
-        if (mapContainer.current.clientWidth === 0 || mapContainer.current.clientHeight === 0) {
-          attempts++;
-          if (attempts < maxAttempts) {
-            setTimeout(tryInitMap, 200);
-          }
-          return;
-        }
-
         try {
           const geocoder = new window.kakao.maps.services.Geocoder();
           
@@ -58,26 +49,49 @@ const LocationArea = ({ theme }) => {
                 level: 4 // 지도의 확대 레벨
               };
               
-              const map = new window.kakao.maps.Map(mapContainer.current, options);
-              mapInstance.current = map;
-              mapCoords.current = coords;
-              
-              new window.kakao.maps.Marker({
-                map: map,
-                position: coords
-              });
-
-              // 지도 드래그(이동) 및 줌 막기 - 모바일 스크롤 중 지도 오작동 방지
-              map.setDraggable(false);
-              map.setZoomable(false);
-
-              // 지도가 렌더링될 수 있는 충분한 시간을 준 후 리레이아웃
-              setTimeout(() => {
-                if (map) {
-                  map.relayout();
-                  map.setCenter(coords);
+              // 모바일 브라우저 렌더링/Suspense 방어: 컨테이너 크기가 0이면 0.1초마다 체크 후 렌더링
+              const checkAndRenderMap = () => {
+                if (!mapContainer.current) return;
+                
+                const width = mapContainer.current.clientWidth;
+                const height = mapContainer.current.clientHeight;
+                
+                if (width === 0 || height === 0) {
+                  setTimeout(checkAndRenderMap, 100);
+                  return;
                 }
-              }, 500);
+                
+                // 크기가 정상적으로 확보된 후 지도 생성
+                const map = new window.kakao.maps.Map(mapContainer.current, options);
+                
+                new window.kakao.maps.Marker({
+                  map: map,
+                  position: coords
+                });
+
+                map.setDraggable(false);
+                map.setZoomable(false);
+
+                // 안전장치: 모바일에서 화면 크기 변경 시 중앙 유지
+                window.addEventListener('resize', () => {
+                  if (map) {
+                    map.relayout();
+                    map.setCenter(coords);
+                  }
+                });
+
+                // 생성 직후 릴레이아웃 (FadeUp 2.8s 대비)
+                [100, 500, 1000, 2000, 3000].forEach(delay => {
+                  setTimeout(() => {
+                    if (map && mapContainer.current && mapContainer.current.clientWidth > 0) {
+                      map.relayout();
+                      map.setCenter(coords);
+                    }
+                  }, delay);
+                });
+              };
+              
+              checkAndRenderMap();
             }
           });
         } catch (e) {
