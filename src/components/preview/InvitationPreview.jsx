@@ -178,7 +178,7 @@ const InvitationPreview = () => {
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100%',
-      paddingBottom: (fullGalleryData || showGuestbookModal || showGuestbookListModal) ? '0px' : '40px',
+      paddingBottom: (fullGalleryData || showGuestbookModal || showGuestbookListModal) ? '0px' : '100px',
       overflowX: 'hidden',
       position: 'relative',
       '--base-font-size': baseFontSize,

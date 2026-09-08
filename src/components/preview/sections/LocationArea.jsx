@@ -55,33 +55,18 @@ const LocationArea = ({ theme }) => {
                 }
                 
                 try {
-                  const map = new window.kakao.maps.Map(mapContainer.current, options);
-                  
-                  new window.kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                  });
-
-                  map.setDraggable(false);
-                  map.setZoomable(false);
-                  
-                  setDebugLog(`Map OK. Size: ${width}x${height}`);
-
-                  window.addEventListener('resize', () => {
-                    if (map) {
-                      map.relayout();
-                      map.setCenter(coords);
+                  const staticMapOption = {
+                    center: coords,
+                    level: 4,
+                    marker: {
+                      position: coords
                     }
-                  });
-
-                  [100, 500, 1000, 2000, 3000].forEach(delay => {
-                    setTimeout(() => {
-                      if (map && mapContainer.current && mapContainer.current.clientWidth > 0) {
-                        map.relayout();
-                        map.setCenter(coords);
-                      }
-                    }, delay);
-                  });
+                  };
+                  
+                  // 모바일 렌더링 버그(타일 누락)를 원천 차단하기 위해 StaticMap 사용
+                  new window.kakao.maps.StaticMap(mapContainer.current, staticMapOption);
+                  
+                  setDebugLog(`StaticMap OK. Size: ${width}x${height}`);
                 } catch (err) {
                   setDebugLog(`Map error: ${err.message}`);
                 }
@@ -141,7 +126,6 @@ const LocationArea = ({ theme }) => {
             borderRadius: '8px', overflow: 'hidden', position: 'relative'
           }}>
             <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
           </div>
         )}
 
