@@ -129,14 +129,16 @@ const LocationArea = ({ theme }) => {
         ) : (
           <div style={{ 
             width: '100%', height: '240px', backgroundColor: '#eee', marginBottom: '16px', 
-            borderRadius: '8px', overflow: 'hidden', position: 'relative',
-            // ★ iOS Safari 버그 픽스: 부모에 transform 애니메이션이 있을 때 border-radius+overflow:hidden이 캔버스를 지워버리는 현상 방지
-            WebkitMaskImage: '-webkit-radial-gradient(white, black)',
-            transform: 'translateZ(0)'
+            borderRadius: '8px', overflow: 'hidden', position: 'relative'
           }}>
-            <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
-            {/* 스크롤 방해 방지용 투명 오버레이 (지도를 터치해도 페이지가 스크롤되도록 함) */}
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
+            <div ref={mapContainer} style={{ 
+              width: '100%', height: '100%',
+              // ★ 핵심 수정: 투명 오버레이 div를 제거하는 대신,
+              // 지도 컨테이너에 touch-action: pan-y를 적용하여
+              // 세로 스크롤은 통과시키고 지도 조작(핀치줌 등)만 차단합니다.
+              // setDraggable(false) + setZoomable(false)와 함께 이중 방어합니다.
+              touchAction: 'pan-y'
+            }} />
           </div>
         )}
 
