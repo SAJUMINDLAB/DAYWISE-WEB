@@ -6,30 +6,23 @@ const LocationArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const locationInfo = useBuilderStore(state => state.locationInfo);
   const mapContainer = React.useRef(null);
-  const mapInstance = React.useRef(null);
-  const mapCoords = React.useRef(null);
-
-  React.useEffect(() => {
-    // 옵저버 삭제: 모바일 사파리에서 무한 렌더링/멈춤 유발 가능성 차단
-  }, []);
+  
+  // 디버깅 오버레이용 상태
+  const [debugLog, setDebugLog] = React.useState('Init...');
 
   React.useEffect(() => {
     if (locationInfo.mapType === 'image') return;
     
-    /**
-     * 카카오맵 SDK가 async로 로드되므로, SDK가 완전히 준비될 때까지
-     * 폴링(polling)으로 기다린 후 지도를 초기화합니다.
-     * 최대 10초간 대기하며, 그 안에 로드되지 않으면 조용히 포기합니다.
-     */
     let attempts = 0;
-    const maxAttempts = 50; // 200ms * 50 = 10초
+    const maxAttempts = 50;
     
     const tryInitMap = () => {
-      // SDK가 아직 로드되지 않았으면 재시도
       if (!window.kakao || !window.kakao.maps) {
         attempts++;
         if (attempts < maxAttempts) {
           setTimeout(tryInitMap, 200);
+        } else {
+          setDebugLog('Timeout: Kakao SDK not loaded');
         }
         return;
       }
@@ -46,10 +39,9 @@ const LocationArea = ({ theme }) => {
               
               const options = {
                 center: coords,
-                level: 4 // 지도의 확대 레벨
+                level: 4
               };
               
-              // 모바일 브라우저 렌더링/Suspense 방어: 컨테이너 크기가 0이면 0.1초마다 체크 후 렌더링
               const checkAndRenderMap = () => {
                 if (!mapContainer.current) return;
                 
@@ -57,45 +49,51 @@ const LocationArea = ({ theme }) => {
                 const height = mapContainer.current.clientHeight;
                 
                 if (width === 0 || height === 0) {
+                  setDebugLog(`Waiting for size... W:${width} H:${height}`);
                   setTimeout(checkAndRenderMap, 100);
                   return;
                 }
                 
-                // 크기가 정상적으로 확보된 후 지도 생성
-                const map = new window.kakao.maps.Map(mapContainer.current, options);
-                
-                new window.kakao.maps.Marker({
-                  map: map,
-                  position: coords
-                });
+                try {
+                  const map = new window.kakao.maps.Map(mapContainer.current, options);
+                  
+                  new window.kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                  });
 
-                map.setDraggable(false);
-                map.setZoomable(false);
+                  map.setDraggable(false);
+                  map.setZoomable(false);
+                  
+                  setDebugLog(`Map OK. Size: ${width}x${height}`);
 
-                // 안전장치: 모바일에서 화면 크기 변경 시 중앙 유지
-                window.addEventListener('resize', () => {
-                  if (map) {
-                    map.relayout();
-                    map.setCenter(coords);
-                  }
-                });
-
-                // 생성 직후 릴레이아웃 (FadeUp 2.8s 대비)
-                [100, 500, 1000, 2000, 3000].forEach(delay => {
-                  setTimeout(() => {
-                    if (map && mapContainer.current && mapContainer.current.clientWidth > 0) {
+                  window.addEventListener('resize', () => {
+                    if (map) {
                       map.relayout();
                       map.setCenter(coords);
                     }
-                  }, delay);
-                });
+                  });
+
+                  [100, 500, 1000, 2000, 3000].forEach(delay => {
+                    setTimeout(() => {
+                      if (map && mapContainer.current && mapContainer.current.clientWidth > 0) {
+                        map.relayout();
+                        map.setCenter(coords);
+                      }
+                    }, delay);
+                  });
+                } catch (err) {
+                  setDebugLog(`Map error: ${err.message}`);
+                }
               };
               
               checkAndRenderMap();
+            } else {
+              setDebugLog(`Geocoder Error: ${status}`);
             }
           });
         } catch (e) {
-          console.warn('카카오맵 초기화 실패 (무시 가능):', e);
+          setDebugLog(`Kakao Error: ${e.message}`);
         }
       });
     };
@@ -141,13 +139,21 @@ const LocationArea = ({ theme }) => {
           <div style={{ 
             width: '100%', height: '240px', backgroundColor: '#eee', marginBottom: '16px', 
             borderRadius: '8px', overflow: 'hidden', position: 'relative',
-            // iOS Safari GPU 가속 및 캔버스 렌더링 버그 방어
             WebkitMaskImage: '-webkit-radial-gradient(white, black)',
             transform: 'translateZ(0)'
           }}>
             <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
-            {/* 스크롤 방해 방지용 투명 오버레이 (지도를 터치해도 페이지가 스크롤되도록 함) */}
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
+            
+            {/* 디버그 오버레이: 카카오맵이 안 그려지는 이유를 폰에서 직접 확인 */}
+            <div style={{ 
+              position: 'absolute', top: 0, left: 0, width: '100%', background: 'rgba(0,0,0,0.7)', 
+              color: '#0f0', padding: '10px', fontSize: '11px', zIndex: 9999, pointerEvents: 'none',
+              fontFamily: 'monospace', wordBreak: 'break-all'
+            }}>
+              [DEBUG INFO]<br/>{debugLog}<br/>
+              UA: {typeof navigator !== 'undefined' ? navigator.userAgent.substring(0, 50) + '...' : ''}
+            </div>
           </div>
         )}
 
