@@ -37,6 +37,15 @@ const LocationArea = ({ theme }) => {
       window.kakao.maps.load(() => {
         if (!mapContainer.current) return;
         
+        // Suspense 로딩 중이거나 화면에 렌더링되지 않아 크기가 0일 때 초기화하면 지도가 깨짐
+        if (mapContainer.current.clientWidth === 0 || mapContainer.current.clientHeight === 0) {
+          attempts++;
+          if (attempts < maxAttempts) {
+            setTimeout(tryInitMap, 200);
+          }
+          return;
+        }
+
         try {
           const geocoder = new window.kakao.maps.services.Geocoder();
           
