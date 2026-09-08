@@ -157,7 +157,12 @@ const LocationArea = ({ theme }) => {
         ) : (
           <div style={{ 
             width: '100%', height: '240px', backgroundColor: '#eee', marginBottom: '16px', 
-            borderRadius: '8px', overflow: 'hidden', position: 'relative'
+            borderRadius: '8px', overflow: 'hidden', position: 'relative',
+            // ★ iOS Safari 필수: overflow:hidden + borderRadius 안에서 카카오맵 캔버스가
+            // 렌더링되려면 GPU 가속(합성 레이어)을 강제로 켜야 함.
+            // 이 2줄이 없으면 모바일 Safari에서 지도 타일이 회색으로 나오는 버그 발생!
+            WebkitMaskImage: '-webkit-radial-gradient(white, black)',
+            transform: 'translateZ(0)'
           }}>
             <div ref={mapContainer} style={{ 
               width: '100%', height: '100%',
