@@ -138,22 +138,10 @@ const LocationArea = ({ theme }) => {
         ) : (
           <div style={{ 
             width: '100%', height: '240px', backgroundColor: '#eee', marginBottom: '16px', 
-            borderRadius: '8px', overflow: 'hidden', position: 'relative',
-            WebkitMaskImage: '-webkit-radial-gradient(white, black)',
-            transform: 'translateZ(0)'
+            borderRadius: '8px', overflow: 'hidden', position: 'relative'
           }}>
             <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10 }} />
-            
-            {/* 디버그 오버레이: 카카오맵이 안 그려지는 이유를 폰에서 직접 확인 */}
-            <div style={{ 
-              position: 'absolute', top: 0, left: 0, width: '100%', background: 'rgba(0,0,0,0.7)', 
-              color: '#0f0', padding: '10px', fontSize: '11px', zIndex: 9999, pointerEvents: 'none',
-              fontFamily: 'monospace', wordBreak: 'break-all'
-            }}>
-              [DEBUG INFO]<br/>{debugLog}<br/>
-              UA: {typeof navigator !== 'undefined' ? navigator.userAgent.substring(0, 50) + '...' : ''}
-            </div>
           </div>
         )}
 
