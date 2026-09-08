@@ -6,6 +6,24 @@ const LocationArea = ({ theme }) => {
   const optionInfo = useBuilderStore(state => state.optionInfo);
   const locationInfo = useBuilderStore(state => state.locationInfo);
   const mapContainer = React.useRef(null);
+  const mapInstance = React.useRef(null);
+  const mapCoords = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!mapContainer.current) return;
+    
+    // 2차 방어: 지도 컨테이너의 크기 변경을 실시간 감지하여 relayout 호출
+    // (FadeUp 애니메이션, 브라우저 주소창 변화 등에 완벽히 대응)
+    const observer = new ResizeObserver(() => {
+      if (mapInstance.current && mapCoords.current) {
+        mapInstance.current.relayout();
+        mapInstance.current.setCenter(mapCoords.current);
+      }
+    });
+    
+    observer.observe(mapContainer.current);
+    return () => observer.disconnect();
+  }, []);
 
   React.useEffect(() => {
     if (locationInfo.mapType === 'image') return;
@@ -44,6 +62,8 @@ const LocationArea = ({ theme }) => {
               };
               
               const map = new window.kakao.maps.Map(mapContainer.current, options);
+              mapInstance.current = map;
+              mapCoords.current = coords;
               
               new window.kakao.maps.Marker({
                 map: map,
@@ -54,8 +74,7 @@ const LocationArea = ({ theme }) => {
               map.setDraggable(false);
               map.setZoomable(false);
 
-              // 모바일 렌더링 지연 및 width 100% 계산 문제 방어 코드
-              // 지도가 초기화된 후, 크기가 잡히면 다시 레이아웃을 계산하고 중앙으로 이동시킵니다.
+              // 1차 방어: 타이머를 이용한 relayout
               setTimeout(() => {
                 if (map) {
                   map.relayout();
