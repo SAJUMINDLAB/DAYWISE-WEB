@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useBuilderStore } from '../../../store/useBuilderStore';
 import { Music, PlayCircle, Upload, CheckCircle2, X } from 'lucide-react';
 import { supabase } from '../../../api/supabaseClient';
+import { STORAGE_CACHE_SECONDS } from '../../../api/storageConfig';
 
 const Step11Bgm = () => {
   const bgmInfo = useBuilderStore(state => state.bgmInfo);
@@ -31,7 +32,8 @@ const Step11Bgm = () => {
         const { error: uploadError } = await supabase.storage
           .from('audio')
           .upload(filePath, file, {
-            cacheControl: '3600',
+            // 고유 파일명이라 내용 불변 → 1년 캐시 (Egress 절감)
+            cacheControl: STORAGE_CACHE_SECONDS,
             upsert: false
           });
 

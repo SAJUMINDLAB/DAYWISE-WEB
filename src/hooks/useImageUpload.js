@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { compressImage, dataURLtoBlob } from '../utils/imageUtils';
 import { supabase } from '../api/supabaseClient';
+import { STORAGE_CACHE_SECONDS } from '../api/storageConfig';
 
 export const useImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
@@ -27,7 +28,9 @@ export const useImageUpload = () => {
         .from('images')
         .upload(filePath, blob, {
           contentType: 'image/jpeg',
-          cacheControl: '3600',
+          // 파일명이 업로드마다 고유(랜덤+타임스탬프)라 내용이 절대 바뀌지 않음 → 1년 캐시해도 안전.
+          // 1시간(3600)이면 하객이 재방문할 때마다 다시 다운로드되어 Supabase Egress 한도를 초과함.
+          cacheControl: STORAGE_CACHE_SECONDS,
           upsert: false
         });
 

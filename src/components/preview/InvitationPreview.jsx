@@ -358,6 +358,8 @@ const InvitationPreview = () => {
             ref={audioRef} 
             src={bgmInfo.selectedTrack === 'custom' ? bgmInfo.customTrackUrl : (audioTracks[bgmInfo.selectedTrack] || audioTracks['track1'])} 
             loop 
+            // 재생 버튼을 누르기 전엔 음원을 받지 않음 → 듣지 않는 하객의 불필요한 다운로드(Egress) 차단
+            preload="none"
           />
           <div style={{ position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: '480px', height: '100%', pointerEvents: 'none', zIndex: 100 }}>
             <div 
